@@ -1,0 +1,13 @@
+# SEC Case LLM Evaluation Requirements
+
+# PDF Processing
+pdfplumber>=0.10.0
+PyPDF2>=3.0.0
+
+# HTTP Requests
+requests>=2.28.0
+
+# Optional: LLM Providers
+# openai>=1.0.0      # Uncomment for OpenAI support
+# anthropic>=0.18.0  # Uncomment for Anthropic support
+

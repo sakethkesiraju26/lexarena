@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+.env
+
+# Large data files (use Git LFS or store separately)
+sec-cases.json
+litigation-cases.json
+data/processed/
+data/raw/
+
+# Results and generated files
+*.log
+evaluation_log.txt
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

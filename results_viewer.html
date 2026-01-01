@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEC Case Evaluation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fafafa;
+            --bg-card: #ffffff;
+            --border: #e5e5e5;
+            --border-hover: #d4d4d4;
+            --text: #171717;
+            --text-secondary: #525252;
+            --text-muted: #a3a3a3;
+            --accent-green: #16a34a;
+            --accent-green-bg: #dcfce7;
+            --accent-orange: #ea580c;
+            --accent-orange-bg: #ffedd5;
+            --accent-blue: #2563eb;
+            --accent-blue-bg: #dbeafe;
+            --accent-purple: #7c3aed;
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+        
+        .container { max-width: 1100px; margin: 0 auto; padding: 2rem; }
+        
+        /* Header */
+        header { margin-bottom: 2rem; }
+        
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Metrics Row */
+        .metrics-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+        
+        .metric-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            min-width: 100px;
+            flex: 1;
+        }
+        
+        .metric-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
+        }
+        
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .metric-value.high { color: var(--accent-green); }
+        .metric-value.medium { color: var(--accent-orange); }
+        .metric-value.low { color: #dc2626; }
+        
+        /* Summary Stats */
+        .summary-stats {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .summary-stats span { font-weight: 600; color: var(--text); }
+        
+        /* Table */
+        .cases-table {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .table-header {
+            display: grid;
+            grid-template-columns: 2.5fr 0.8fr 0.8fr 0.6fr 130px;
+            gap: 1rem;
+            padding: 0.75rem 1.25rem;
+            background: #f5f5f5;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .case-row {
+            display: grid;
+            grid-template-columns: 2.5fr 0.8fr 0.8fr 0.6fr 130px;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border);
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        
+        .case-row:last-child { border-bottom: none; }
+        .case-row:hover { background: #fafafa; }
+        
+        .case-info { }
+        
+        .case-title {
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.2rem;
+            font-size: 0.95rem;
+        }
+        
+        .case-context {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.2rem;
+        }
+        
+        .case-id {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        .case-filed {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .status-badge.settled {
+            background: var(--accent-green-bg);
+            color: var(--accent-green);
+        }
+        
+        .status-badge.litigated {
+            background: var(--accent-orange-bg);
+            color: var(--accent-orange);
+        }
+        
+        .accuracy-cell {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .accuracy-cell.good { color: var(--accent-green); }
+        .accuracy-cell.partial { color: var(--accent-orange); }
+        .accuracy-cell.poor { color: #dc2626; }
+        
+        .source-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 0.25rem 0.4rem;
+            border-radius: 4px;
+            transition: background 0.15s;
+        }
+        
+        .source-link:hover { background: var(--accent-blue-bg); }
+        
+        .source-links {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        /* Expandable Detail */
+        .case-detail {
+            display: none;
+            grid-column: 1 / -1;
+            padding: 1.5rem;
+            background: #fafafa;
+            border-top: 1px solid var(--border);
+        }
+        
+        .case-row.expanded + .case-detail { display: block; }
+        
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        .detail-section h3 {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .detail-section.predicted h3 { border-color: var(--accent-blue); color: var(--accent-blue); }
+        .detail-section.actual h3 { border-color: var(--accent-green); color: var(--accent-green); }
+        
+        .field-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .field-row:last-child { border-bottom: none; }
+        
+        .field-name { color: var(--text-secondary); }
+        .field-value { font-weight: 500; }
+        .field-value.match { color: var(--accent-green); }
+        .field-value.mismatch { color: #dc2626; }
+        
+        .reasoning-box {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-purple);
+        }
+        
+        .reasoning-box h4 {
+            font-size: 0.8rem;
+            color: var(--accent-purple);
+            margin-bottom: 0.5rem;
+        }
+        
+        .reasoning-box p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+        
+        .reasoning-box p:last-child { margin-bottom: 0; }
+        .reasoning-box strong { color: var(--text); }
+        
+        .errors-box {
+            margin-top: 1rem;
+            padding: 0.75rem 1rem;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 6px;
+        }
+        
+        .errors-box h4 {
+            font-size: 0.75rem;
+            color: #dc2626;
+            margin-bottom: 0.4rem;
+        }
+        
+        .error-item {
+            font-size: 0.8rem;
+            color: #991b1b;
+        }
+        
+        @media (max-width: 900px) {
+            .table-header, .case-row {
+                grid-template-columns: 1fr 1fr 80px;
+            }
+            .table-header > *:nth-child(2),
+            .case-row > *:nth-child(2) { display: none; }
+            .table-header > *:nth-child(4),
+            .case-row > *:nth-child(4) { display: none; }
+            .detail-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>SEC Case Evaluation Results</h1>
+            <p class="subtitle">LLM predictions compared against actual case outcomes</p>
+        </header>
+        
+        <div class="metrics-row" id="metrics-row"></div>
+        
+        <div class="summary-stats" id="summary-stats"></div>
+        
+        <div class="cases-table">
+            <div class="table-header">
+                <div>Matter</div>
+                <div>Filed</div>
+                <div>Status</div>
+                <div>Score</div>
+                <div>Sources</div>
+            </div>
+            <div id="cases-container"></div>
+        </div>
+    </div>
+    
+    <script>
+        const resultsData = RESULTS_DATA_PLACEHOLDER;
+        
+        function getScoreClass(score) {
+            if (score >= 70) return 'high';
+            if (score >= 40) return 'medium';
+            return 'low';
+        }
+        
+        function getAccuracyClass(correct, total) {
+            const pct = (correct / total) * 100;
+            if (pct >= 80) return 'good';
+            if (pct >= 50) return 'partial';
+            return 'poor';
+        }
+        
+        function formatMoney(amount) {
+            if (amount === null || amount === undefined) return '—';
+            return '$' + amount.toLocaleString();
+        }
+        
+        function formatBoolean(val) {
+            if (val === null || val === undefined) return '—';
+            return val ? 'Yes' : 'No';
+        }
+        
+        function formatDate(dateStr) {
+            if (!dateStr) return '—';
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+        }
+        
+        function renderMetrics() {
+            const container = document.getElementById('metrics-row');
+            const scores = resultsData.score.individual_scores;
+            
+            const metrics = [
+                { label: 'Resolution', value: scores.resolution_type },
+                { label: 'Disgorgement', value: scores.disgorgement },
+                { label: 'Penalty', value: scores.penalty },
+                { label: 'Interest', value: scores.prejudgment_interest },
+                { label: 'Injunction', value: scores.has_injunction },
+                { label: 'Officer Bar', value: scores.has_officer_director_bar },
+                { label: 'Conduct', value: scores.has_conduct_restriction }
+            ];
+            
+            container.innerHTML = metrics.map(m => `
+                <div class="metric-card">
+                    <div class="metric-label">${m.label}</div>
+                    <div class="metric-value ${getScoreClass(m.value)}">${m.value.toFixed(0)}%</div>
+                </div>
+            `).join('');
+        }
+        
+        function renderSummary() {
+            const container = document.getElementById('summary-stats');
+            const predictions = resultsData.predictions.filter(p => p.success);
+            const correctCount = predictions.filter(p => !p.comparison.errors || p.comparison.errors.length === 0).length;
+            
+            container.innerHTML = `
+                <div><span>${predictions.length}</span> cases evaluated</div>
+                <div><span>${correctCount}</span> fully correct</div>
+                <div><span>${resultsData.duration_seconds.toFixed(0)}s</span> duration</div>
+                <div>Model: <span>${resultsData.model_name}</span></div>
+            `;
+        }
+        
+        function renderCases() {
+            const container = document.getElementById('cases-container');
+            const predictions = resultsData.predictions.filter(p => p.success);
+            
+            let html = '';
+            
+            predictions.forEach((pred, idx) => {
+                const comp = pred.comparison;
+                const meta = pred.metadata || {};
+                const gt = pred.ground_truth;
+                const hasErrors = comp.errors && comp.errors.length > 0;
+                
+                const fields = [
+                    { name: 'Resolution', pred: pred.predicted.resolution_type, actual: gt.resolution_type, correct: comp.resolution_type_correct },
+                    { name: 'Disgorgement', pred: formatMoney(pred.predicted.disgorgement_amount), actual: formatMoney(gt.disgorgement_amount), correct: comp.disgorgement_correct },
+                    { name: 'Penalty', pred: formatMoney(pred.predicted.penalty_amount), actual: formatMoney(gt.penalty_amount), correct: comp.penalty_correct },
+                    { name: 'Interest', pred: formatMoney(pred.predicted.prejudgment_interest), actual: formatMoney(gt.prejudgment_interest), correct: comp.interest_correct },
+                    { name: 'Injunction', pred: formatBoolean(pred.predicted.has_injunction), actual: formatBoolean(gt.has_injunction), correct: comp.injunction_correct },
+                    { name: 'Officer Bar', pred: formatBoolean(pred.predicted.has_officer_director_bar), actual: formatBoolean(gt.has_officer_director_bar), correct: comp.officer_bar_correct },
+                    { name: 'Conduct Restr.', pred: formatBoolean(pred.predicted.has_conduct_restriction), actual: formatBoolean(gt.has_conduct_restriction), correct: comp.conduct_restriction_correct }
+                ];
+                
+                const correctFields = fields.filter(f => f.correct === true).length;
+                const totalFields = fields.filter(f => f.correct !== null).length;
+                const resolutionType = gt.resolution_type || 'unknown';
+                const title = meta.title ? `SEC v. ${meta.title}` : pred.case_id;
+                const charges = meta.charges || '';
+                
+                html += `
+                    <div class="case-row" id="row-${idx}" onclick="toggleCase(${idx})">
+                        <div class="case-info">
+                            <div class="case-title">${title}</div>
+                            <div class="case-context">${charges}</div>
+                            <div class="case-id">${pred.case_id}</div>
+                        </div>
+                        <div class="case-filed">${formatDate(meta.release_date)}</div>
+                        <div><span class="status-badge ${resolutionType}">${resolutionType}</span></div>
+                        <div class="accuracy-cell ${getAccuracyClass(correctFields, totalFields)}">${correctFields}/${totalFields}</div>
+                        <div class="source-links">
+                            ${meta.complaint_url ? `<a href="${meta.complaint_url}" target="_blank" class="source-link" onclick="event.stopPropagation()">PDF</a>` : ''}
+                            ${meta.case_url ? `<a href="${meta.case_url}" target="_blank" class="source-link" onclick="event.stopPropagation()">SEC</a>` : ''}
+                        </div>
+                    </div>
+                    <div class="case-detail" id="detail-${idx}">
+                        <div class="detail-grid">
+                            <div class="detail-section predicted">
+                                <h3>🤖 Predicted</h3>
+                                ${fields.map(f => `
+                                    <div class="field-row">
+                                        <span class="field-name">${f.name}</span>
+                                        <span class="field-value ${f.correct === false ? 'mismatch' : ''}">${f.pred}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div class="detail-section actual">
+                                <h3>✓ Actual</h3>
+                                ${fields.map(f => `
+                                    <div class="field-row">
+                                        <span class="field-name">${f.name}</span>
+                                        <span class="field-value ${f.correct === true ? 'match' : ''}">${f.actual}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        
+                        ${pred.predicted.reasoning ? `
+                            <div class="reasoning-box">
+                                <h4>💭 Model Reasoning</h4>
+                                <p><strong>Resolution:</strong> ${pred.predicted.reasoning.resolution_type || '—'}</p>
+                                <p><strong>Monetary:</strong> ${pred.predicted.reasoning.monetary || '—'}</p>
+                                <p><strong>Remedial:</strong> ${pred.predicted.reasoning.remedial_measures || '—'}</p>
+                            </div>
+                        ` : ''}
+                        
+                        ${hasErrors ? `
+                            <div class="errors-box">
+                                <h4>⚠️ Errors</h4>
+                                ${comp.errors.map(e => `<div class="error-item">• ${e}</div>`).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        function toggleCase(idx) {
+            const row = document.getElementById(`row-${idx}`);
+            row.classList.toggle('expanded');
+        }
+        
+        renderMetrics();
+        renderSummary();
+        renderCases();
+    </script>
+</body>
+</html>
