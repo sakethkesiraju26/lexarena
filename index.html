@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewLex — SEC Case Outcome Prediction</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0b;
+            --bg-card: #111113;
+            --bg-card-hover: #18181b;
+            --border: #27272a;
+            --border-subtle: #1e1e21;
+            --text: #fafafa;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --accent: #22c55e;
+            --accent-dim: #16a34a;
+            --accent-bg: rgba(34, 197, 94, 0.1);
+            --orange: #f97316;
+            --orange-bg: rgba(249, 115, 22, 0.1);
+            --blue: #3b82f6;
+            --blue-bg: rgba(59, 130, 246, 0.1);
+            --purple: #a855f7;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Sora', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(10, 10, 11, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .nav-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--blue) 100%);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--text); }
+
+        .nav-cta {
+            background: var(--text);
+            color: var(--bg);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .nav-cta:hover { opacity: 0.9; }
+
+        /* Hero */
+        .hero {
+            padding: 10rem 0 6rem;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--accent-bg);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(180deg, #fff 0%, #a1a1aa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 640px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.7;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: var(--text);
+            color: var(--bg);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-secondary);
+            padding: 0.75rem 1.5rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--text-muted);
+            color: var(--text);
+        }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 4rem 0;
+        }
+
+        .stat {
+            background: var(--bg-card);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* Leaderboard */
+        .section {
+            padding: 4rem 0;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .section-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            transition: color 0.2s;
+        }
+
+        .section-link:hover { color: var(--text); }
+
+        .leaderboard {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .leaderboard-header {
+            display: grid;
+            grid-template-columns: 60px 2fr repeat(5, 1fr);
+            gap: 1rem;
+            padding: 0.75rem 1.25rem;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .leaderboard-row {
+            display: grid;
+            grid-template-columns: 60px 2fr repeat(5, 1fr);
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border-subtle);
+            align-items: center;
+            transition: background 0.15s;
+        }
+
+        .leaderboard-row:last-child { border-bottom: none; }
+        .leaderboard-row:hover { background: var(--bg-card-hover); }
+
+        .rank {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .rank-1 { color: #fbbf24; }
+        .rank-2 { color: #94a3b8; }
+        .rank-3 { color: #d97706; }
+
+        .model-name {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .best-badge {
+            font-size: 0.65rem;
+            background: var(--accent-bg);
+            color: var(--accent);
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .score {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        .score.good { color: var(--accent); }
+        .score.medium { color: var(--orange); }
+
+        /* Cases */
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .case-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: border-color 0.2s, transform 0.2s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .case-card:hover {
+            border-color: var(--text-muted);
+            transform: translateY(-2px);
+        }
+
+        .case-header {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .case-tag {
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .case-tag.active {
+            background: var(--accent-bg);
+            color: var(--accent);
+        }
+
+        .case-tag.sec {
+            background: var(--blue-bg);
+            color: var(--blue);
+        }
+
+        .case-tag.settled {
+            background: var(--accent-bg);
+            color: var(--accent);
+        }
+
+        .case-tag.litigated {
+            background: var(--orange-bg);
+            color: var(--orange);
+        }
+
+        .case-title {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .case-meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+        }
+
+        .case-description {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .case-footer {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Methodology */
+        .methodology {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 4rem 0;
+        }
+
+        .methodology p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .methodology-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .footer-brand p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            max-width: 300px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 3rem;
+        }
+
+        .footer-col h4 {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-col a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .footer-col a:hover { color: var(--text); }
+
+        .footer-bottom {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-subtle);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.25rem; }
+            .stats { grid-template-columns: repeat(2, 1fr); }
+            .cases-grid { grid-template-columns: 1fr; }
+            .leaderboard-header, .leaderboard-row {
+                grid-template-columns: 40px 1.5fr repeat(3, 1fr);
+            }
+            .leaderboard-header > *:nth-child(5),
+            .leaderboard-header > *:nth-child(6),
+            .leaderboard-row > *:nth-child(5),
+            .leaderboard-row > *:nth-child(6) { display: none; }
+            .footer-inner { flex-direction: column; gap: 2rem; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-inner">
+            <a href="#" class="logo">
+                <span class="logo-icon">⚖</span>
+                NewLex
+            </a>
+            <ul class="nav-links">
+                <li><a href="#leaderboard">Leaderboard</a></li>
+                <li><a href="#cases">Cases</a></li>
+                <li><a href="#methodology">Methodology</a></li>
+                <li><a href="https://github.com/sakethkesiraju26/newlex" target="_blank">GitHub</a></li>
+            </ul>
+            <a href="data/processed/results_viewer.html" class="nav-cta">View Results →</a>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-badge">Live Benchmark</div>
+                <h1>NewLex</h1>
+                <p class="hero-subtitle">
+                    A benchmark for predicting SEC enforcement outcomes. We evaluate whether AI systems can correctly forecast case resolutions, monetary penalties, and remedial measures from complaint text alone.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#leaderboard" class="btn-primary">View Leaderboard</a>
+                    <a href="#methodology" class="btn-secondary">See Methodology</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="container">
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value">1,590</div>
+                    <div class="stat-label">Resolved cases</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">2,509</div>
+                    <div class="stat-label">Ongoing predictions</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">7</div>
+                    <div class="stat-label">Outcome metrics</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">SEC</div>
+                    <div class="stat-label">Domain</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container section" id="leaderboard">
+            <div class="section-header">
+                <h2 class="section-title">Model Leaderboard</h2>
+                <a href="data/processed/results_viewer.html" class="section-link">Full results →</a>
+            </div>
+            <div class="leaderboard">
+                <div class="leaderboard-header">
+                    <div>Rank</div>
+                    <div>Model</div>
+                    <div>Overall</div>
+                    <div>Resolution</div>
+                    <div>Monetary</div>
+                    <div>Injunction</div>
+                    <div>Officer Bar</div>
+                </div>
+                <div class="leaderboard-row">
+                    <div class="rank rank-1">#1</div>
+                    <div class="model-name">GPT-4o <span class="best-badge">Best</span></div>
+                    <div class="score good">74.4%</div>
+                    <div class="score good">100%</div>
+                    <div class="score medium">22.2%</div>
+                    <div class="score good">100%</div>
+                    <div class="score good">87.5%</div>
+                </div>
+                <div class="leaderboard-row">
+                    <div class="rank rank-2">#2</div>
+                    <div class="model-name">Claude 3.5 Sonnet</div>
+                    <div class="score">—</div>
+                    <div class="score">—</div>
+                    <div class="score">—</div>
+                    <div class="score">—</div>
+                    <div class="score">—</div>
+                </div>
+                <div class="leaderboard-row">
+                    <div class="rank rank-3">#3</div>
+                    <div class="model-name">Gemini 2.0 Pro</div>
+                    <div class="score">—</div>
+                    <div class="score">—</div>
+                    <div class="score">—</div>
+                    <div class="score">—</div>
+                    <div class="score">—</div>
+                </div>
+            </div>
+            <p style="text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem;">
+                Higher score = better. Rankings based on accuracy predicting real SEC enforcement outcomes.
+            </p>
+        </section>
+
+        <section class="container section" id="cases">
+            <div class="section-header">
+                <h2 class="section-title">Recent Cases</h2>
+                <a href="data/processed/results_viewer.html" class="section-link">All cases →</a>
+            </div>
+            <div class="cases-grid">
+                <a href="#" class="case-card">
+                    <div class="case-header">
+                        <span class="case-tag settled">Settled</span>
+                        <span class="case-tag sec">SEC</span>
+                    </div>
+                    <div class="case-title">SEC v. Artur Khachatryan</div>
+                    <div class="case-meta">Filed Dec 2025 • Section 10(b), 17(a)</div>
+                    <div class="case-description">
+                        Securities fraud involving manipulation and false statements. Disgorgement of $373,885 ordered.
+                    </div>
+                    <div class="case-footer">7 metrics predicted</div>
+                </a>
+                <a href="#" class="case-card">
+                    <div class="case-header">
+                        <span class="case-tag settled">Settled</span>
+                        <span class="case-tag sec">SEC</span>
+                    </div>
+                    <div class="case-title">SEC v. James O Ward, Jr.</div>
+                    <div class="case-meta">Filed Dec 2025 • Section 10(b), 17(a)</div>
+                    <div class="case-description">
+                        Fraud allegations involving misrepresentation to investors. Civil penalty imposed.
+                    </div>
+                    <div class="case-footer">7 metrics predicted</div>
+                </a>
+                <a href="#" class="case-card">
+                    <div class="case-header">
+                        <span class="case-tag settled">Settled</span>
+                        <span class="case-tag sec">SEC</span>
+                    </div>
+                    <div class="case-title">SEC v. Irfan Mohammed</div>
+                    <div class="case-meta">Filed Dec 2025 • Securities Act</div>
+                    <div class="case-description">
+                        Offering fraud targeting community investors. Settled action with full disgorgement.
+                    </div>
+                    <div class="case-footer">7 metrics predicted</div>
+                </a>
+            </div>
+        </section>
+
+        <section class="container" id="methodology">
+            <div class="methodology">
+                <h2 class="section-title" style="margin-bottom: 1rem;">Methodology</h2>
+                <p>
+                    We extract complaint text from SEC litigation releases and predict 7 outcome metrics: 
+                    <strong>resolution type</strong> (settled vs litigated), <strong>disgorgement amount</strong>, 
+                    <strong>civil penalty</strong>, <strong>prejudgment interest</strong>, <strong>injunction</strong>, 
+                    <strong>officer/director bar</strong>, and <strong>conduct restrictions</strong>.
+                </p>
+                <p>
+                    Ground truth is extracted from SEC release text after cases resolve. Models see only the original 
+                    complaint—no outcome information. Monetary predictions use 10% tolerance; categorical use exact match.
+                </p>
+                <div class="methodology-links">
+                    <a href="https://github.com/sakethkesiraju26/newlex" class="btn-secondary" target="_blank">View on GitHub →</a>
+                    <a href="data/processed/results_viewer.html" class="btn-secondary">Detailed Results →</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <span class="logo-icon">⚖</span>
+                        NewLex
+                    </a>
+                    <p>A benchmark for predicting SEC enforcement case outcomes using AI.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="#leaderboard">Leaderboard</a></li>
+                            <li><a href="#cases">Cases</a></li>
+                            <li><a href="#methodology">Methodology</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Links</h4>
+                        <ul>
+                            <li><a href="https://github.com/sakethkesiraju26/newlex" target="_blank">GitHub</a></li>
+                            <li><a href="data/processed/results_viewer.html">Results Viewer</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                © 2026 NewLex. Open source benchmark for legal AI.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+
