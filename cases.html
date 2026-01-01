@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cases — NewLex</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0b;
+            --bg-card: #111113;
+            --bg-card-hover: #18181b;
+            --bg-detail: #0d0d0f;
+            --border: #27272a;
+            --border-subtle: #1e1e21;
+            --text: #fafafa;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --accent: #22c55e;
+            --accent-bg: rgba(34, 197, 94, 0.1);
+            --orange: #f97316;
+            --orange-bg: rgba(249, 115, 22, 0.1);
+            --blue: #3b82f6;
+            --blue-bg: rgba(59, 130, 246, 0.1);
+            --purple: #a855f7;
+            --red: #ef4444;
+            --red-bg: rgba(239, 68, 68, 0.1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Sora', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(10, 10, 11, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .nav-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--blue) 100%);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover, .nav-links a.active { color: var(--text); }
+
+        /* Page Header */
+        .page-header {
+            padding: 7rem 0 3rem;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        /* Metrics Row */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .metric-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .metric-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .metric-value.high { color: var(--accent); }
+        .metric-value.medium { color: var(--orange); }
+        .metric-value.low { color: var(--red); }
+
+        /* Summary Stats */
+        .summary-stats {
+            display: flex;
+            gap: 2rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .summary-stats span { font-weight: 600; color: var(--text); }
+
+        /* Cases Table */
+        .cases-table {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 4rem;
+        }
+
+        .cases-header {
+            display: grid;
+            grid-template-columns: 2.5fr 0.8fr 0.8fr 0.6fr 130px;
+            gap: 1rem;
+            padding: 0.75rem 1.25rem;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .case-row {
+            display: grid;
+            grid-template-columns: 2.5fr 0.8fr 0.8fr 0.6fr 130px;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border-subtle);
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .case-row:hover { background: var(--bg-card-hover); }
+
+        .case-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .case-charges {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.2rem;
+        }
+
+        .case-id {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .case-filed {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-badge.settled {
+            background: var(--accent-bg);
+            color: var(--accent);
+        }
+
+        .status-badge.litigated {
+            background: var(--orange-bg);
+            color: var(--orange);
+        }
+
+        .accuracy-cell {
+            font-size: 0.9rem;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .accuracy-cell.good { color: var(--accent); }
+        .accuracy-cell.partial { color: var(--orange); }
+        .accuracy-cell.poor { color: var(--red); }
+
+        .source-links {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .source-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--blue);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            transition: background 0.15s;
+        }
+
+        .source-link:hover { background: var(--blue-bg); }
+
+        /* Expandable Detail */
+        .case-detail {
+            display: none;
+            padding: 1.5rem;
+            background: var(--bg-detail);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .case-row.expanded + .case-detail { display: block; }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .detail-section h3 {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .detail-section.predicted h3 { border-color: var(--blue); color: var(--blue); }
+        .detail-section.actual h3 { border-color: var(--accent); color: var(--accent); }
+
+        .field-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            font-size: 0.85rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .field-row:last-child { border-bottom: none; }
+
+        .field-name { color: var(--text-secondary); }
+        .field-value { font-weight: 500; font-family: 'JetBrains Mono', monospace; }
+        .field-value.match { color: var(--accent); }
+        .field-value.mismatch { color: var(--red); }
+
+        .reasoning-box {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            border-left: 3px solid var(--purple);
+        }
+
+        .reasoning-box h4 {
+            font-size: 0.8rem;
+            color: var(--purple);
+            margin-bottom: 0.75rem;
+        }
+
+        .reasoning-box p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+
+        .reasoning-box p:last-child { margin-bottom: 0; }
+        .reasoning-box strong { color: var(--text); }
+
+        .errors-box {
+            margin-top: 1rem;
+            padding: 0.75rem 1rem;
+            background: var(--red-bg);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 6px;
+        }
+
+        .errors-box h4 {
+            font-size: 0.75rem;
+            color: var(--red);
+            margin-bottom: 0.4rem;
+        }
+
+        .error-item {
+            font-size: 0.8rem;
+            color: var(--red);
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2rem 0;
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-inner a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+
+        .footer-inner a:hover { color: var(--text); }
+
+        @media (max-width: 900px) {
+            .metrics-grid { grid-template-columns: repeat(4, 1fr); }
+            .cases-header, .case-row {
+                grid-template-columns: 1fr 1fr 80px;
+            }
+            .cases-header > *:nth-child(2),
+            .case-row > *:nth-child(2),
+            .cases-header > *:nth-child(4),
+            .case-row > *:nth-child(4) { display: none; }
+            .detail-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+        }
+
+        @media (max-width: 600px) {
+            .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-inner">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">⚖</span>
+                NewLex
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html#leaderboard">Leaderboard</a></li>
+                <li><a href="cases.html" class="active">Cases</a></li>
+                <li><a href="index.html#methodology">Methodology</a></li>
+                <li><a href="https://github.com/sakethkesiraju26/newlex" target="_blank">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="page-header">
+            <h1>Evaluated Cases</h1>
+            <p>GPT-4o predictions compared against actual SEC enforcement outcomes</p>
+        </div>
+
+        <div class="metrics-grid" id="metrics-grid"></div>
+
+        <div class="summary-stats" id="summary-stats"></div>
+
+        <div class="cases-table">
+            <div class="cases-header">
+                <div>Matter</div>
+                <div>Filed</div>
+                <div>Status</div>
+                <div>Score</div>
+                <div>Sources</div>
+            </div>
+            <div id="cases-container"></div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <a href="index.html">← Back to Home</a>
+                <span style="color: var(--text-muted); font-size: 0.8rem;">© 2026 NewLex</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const resultsData = {
+            "model_name": "OpenAI/gpt-4o",
+            "score": {
+                "overall_score": 74.44,
+                "individual_scores": {
+                    "resolution_type": 100.0,
+                    "disgorgement": 66.67,
+                    "penalty": 0.0,
+                    "prejudgment_interest": 0.0,
+                    "has_injunction": 100.0,
+                    "has_officer_director_bar": 87.5,
+                    "has_conduct_restriction": 62.5
+                }
+            },
+            "duration_seconds": 145.77,
+            "predictions": [
+                {
+                    "case_id": "LR-26445",
+                    "success": true,
+                    "metadata": {
+                        "release_date": "2025-12-16",
+                        "title": "Artur Khachatryan",
+                        "complaint_url": "https://www.sec.gov/files/litigation/complaints/2025/comp26445.pdf",
+                        "case_url": "https://www.sec.gov/enforcement-litigation/litigation-releases/lr-26445",
+                        "charges": "fraud, Section 17(a), Section 10(b), Section 9(a)"
+                    },
+                    "predicted": {
+                        "resolution_type": "settled",
+                        "disgorgement_amount": 373885,
+                        "penalty_amount": 150000,
+                        "prejudgment_interest": 20000,
+                        "has_injunction": true,
+                        "has_officer_director_bar": false,
+                        "has_conduct_restriction": true,
+                        "reasoning": {
+                            "resolution_type": "Given the detailed evidence of wrongdoing, the defendant will likely settle.",
+                            "monetary": "SEC will seek full disgorgement of $373,885 plus prejudgment interest and civil penalty.",
+                            "remedial_measures": "Injunction and conduct restriction likely. Officer/director bar unlikely."
+                        }
+                    },
+                    "ground_truth": {
+                        "resolution_type": "settled",
+                        "disgorgement_amount": 373885.0,
+                        "penalty_amount": 112165.0,
+                        "prejudgment_interest": 22629.34,
+                        "has_injunction": true,
+                        "has_officer_director_bar": false,
+                        "has_conduct_restriction": true
+                    },
+                    "comparison": {
+                        "resolution_type_correct": true,
+                        "disgorgement_correct": true,
+                        "penalty_correct": false,
+                        "interest_correct": false,
+                        "injunction_correct": true,
+                        "officer_bar_correct": true,
+                        "conduct_restriction_correct": true,
+                        "errors": ["Penalty: predicted $150,000, actual $112,165", "Interest: predicted $20,000, actual $22,629"]
+                    }
+                },
+                {
+                    "case_id": "LR-26444",
+                    "success": true,
+                    "metadata": {
+                        "release_date": "2025-12-16",
+                        "title": "James O Ward, Jr.",
+                        "complaint_url": "https://www.sec.gov/files/litigation/complaints/2024/comp26102.pdf",
+                        "case_url": "https://www.sec.gov/enforcement-litigation/litigation-releases/lr-26444",
+                        "charges": "Fraud, Section 17(a), Section 10(b)"
+                    },
+                    "predicted": {
+                        "resolution_type": "settled",
+                        "disgorgement_amount": 852000,
+                        "penalty_amount": 200000,
+                        "prejudgment_interest": 50000,
+                        "has_injunction": true,
+                        "has_officer_director_bar": true,
+                        "has_conduct_restriction": true,
+                        "reasoning": {
+                            "resolution_type": "Strong fraud evidence and prior Ponzi involvement suggest settlement.",
+                            "monetary": "Disgorgement of $852,000 raised from investors likely.",
+                            "remedial_measures": "All remedial measures likely due to severity."
+                        }
+                    },
+                    "ground_truth": {
+                        "resolution_type": "settled",
+                        "disgorgement_amount": null,
+                        "penalty_amount": 85000.0,
+                        "prejudgment_interest": null,
+                        "has_injunction": true,
+                        "has_officer_director_bar": false,
+                        "has_conduct_restriction": false
+                    },
+                    "comparison": {
+                        "resolution_type_correct": true,
+                        "disgorgement_correct": null,
+                        "penalty_correct": false,
+                        "interest_correct": null,
+                        "injunction_correct": true,
+                        "officer_bar_correct": false,
+                        "conduct_restriction_correct": false,
+                        "errors": ["Penalty: predicted $200,000, actual $85,000", "Officer bar: predicted True, actual False", "Conduct restriction: predicted True, actual False"]
+                    }
+                },
+                {
+                    "case_id": "LR-26443",
+                    "success": true,
+                    "metadata": {
+                        "release_date": "2025-12-15",
+                        "title": "Irfan Mohammed",
+                        "complaint_url": "https://www.sec.gov/files/litigation/complaints/2025/comp26443.pdf",
+                        "case_url": "https://www.sec.gov/enforcement-litigation/litigation-releases/lr-26443",
+                        "charges": "Fraud, Section 17(a), Section 10(b)"
+                    },
+                    "predicted": {
+                        "resolution_type": "settled",
+                        "disgorgement_amount": 385220,
+                        "penalty_amount": 100000,
+                        "prejudgment_interest": 20000,
+                        "has_injunction": true,
+                        "has_officer_director_bar": false,
+                        "has_conduct_restriction": true,
+                        "reasoning": {
+                            "resolution_type": "Clear fraud evidence suggests settlement.",
+                            "monetary": "Disgorgement of $385,220 total benefit received.",
+                            "remedial_measures": "Injunction and conduct restriction likely."
+                        }
+                    },
+                    "ground_truth": {
+                        "resolution_type": "settled",
+                        "disgorgement_amount": 385220.0,
+                        "penalty_amount": 70000.0,
+                        "prejudgment_interest": 70640.0,
+                        "has_injunction": true,
+                        "has_officer_director_bar": false,
+                        "has_conduct_restriction": true
+                    },
+                    "comparison": {
+                        "resolution_type_correct": true,
+                        "disgorgement_correct": true,
+                        "penalty_correct": false,
+                        "interest_correct": false,
+                        "injunction_correct": true,
+                        "officer_bar_correct": true,
+                        "conduct_restriction_correct": true,
+                        "errors": ["Penalty: predicted $100,000, actual $70,000", "Interest: predicted $20,000, actual $70,640"]
+                    }
+                },
+                {
+                    "case_id": "LR-26442",
+                    "success": true,
+                    "metadata": {
+                        "release_date": "2025-12-15",
+                        "title": "Charles D. Oliver; David P. Ortiz; DaveGlo Investment Group",
+                        "complaint_url": "https://www.sec.gov/files/litigation/complaints/2025/comp26442.pdf",
+                        "case_url": "https://www.sec.gov/enforcement-litigation/litigation-releases/lr-26442",
+                        "charges": "Section 15(a) violation"
+                    },
+                    "predicted": {
+                        "resolution_type": "settled",
+                        "disgorgement_amount": 816934,
+                        "penalty_amount": 500000,
+                        "prejudgment_interest": 50000,
+                        "has_injunction": true,
+                        "has_officer_director_bar": false,
+                        "has_conduct_restriction": true,
+                        "reasoning": {
+                            "resolution_type": "Prior SEC settlement history suggests settlement.",
+                            "monetary": "Disgorgement of $816,934 compensation received.",
+                            "remedial_measures": "Injunction and conduct restriction likely."
+                        }
+                    },
+                    "ground_truth": {
+                        "resolution_type": "settled",
+                        "disgorgement_amount": null,
+                        "penalty_amount": null,
+                        "prejudgment_interest": null,
+                        "has_injunction": true,
+                        "has_officer_director_bar": false,
+                        "has_conduct_restriction": false
+                    },
+                    "comparison": {
+                        "resolution_type_correct": true,
+                        "disgorgement_correct": null,
+                        "penalty_correct": null,
+                        "interest_correct": null,
+                        "injunction_correct": true,
+                        "officer_bar_correct": true,
+                        "conduct_restriction_correct": false,
+                        "errors": ["Conduct restriction: predicted True, actual False"]
+                    }
+                },
+                {
+                    "case_id": "LR-26441",
+                    "success": true,
+                    "metadata": {
+                        "release_date": "2025-12-13",
+                        "title": "Tiffany Kelly and Curastory Inc.",
+                        "complaint_url": "https://www.sec.gov/files/litigation/complaints/2025/comp26441.pdf",
+                        "case_url": "https://www.sec.gov/enforcement-litigation/litigation-releases/lr-26441",
+                        "charges": "Fraud, Section 17(a), Section 10(b)"
+                    },
+                    "predicted": {
+                        "resolution_type": "settled",
+                        "disgorgement_amount": 2800000,
+                        "penalty_amount": 500000,
+                        "prejudgment_interest": 100000,
+                        "has_injunction": true,
+                        "has_officer_director_bar": true,
+                        "has_conduct_restriction": true,
+                        "reasoning": {
+                            "resolution_type": "Clear fraud evidence suggests settlement.",
+                            "monetary": "Disgorgement of $2.8M raised fraudulently.",
+                            "remedial_measures": "All remedial measures likely due to severity."
+                        }
+                    },
+                    "ground_truth": {
+                        "resolution_type": "settled",
+                        "disgorgement_amount": null,
+                        "penalty_amount": 125000.0,
+                        "prejudgment_interest": null,
+                        "has_injunction": true,
+                        "has_officer_director_bar": true,
+                        "has_conduct_restriction": true
+                    },
+                    "comparison": {
+                        "resolution_type_correct": true,
+                        "disgorgement_correct": null,
+                        "penalty_correct": false,
+                        "interest_correct": null,
+                        "injunction_correct": true,
+                        "officer_bar_correct": true,
+                        "conduct_restriction_correct": true,
+                        "errors": ["Penalty: predicted $500,000, actual $125,000"]
+                    }
+                },
+                {
+                    "case_id": "LR-26437",
+                    "success": true,
+                    "metadata": {
+                        "release_date": "2025-12-12",
+                        "title": "Rapid Therapeutic Science Labs and Donal R. Schmidt, Jr.",
+                        "complaint_url": "https://www.sec.gov/files/litigation/complaints/2025/comp26437.pdf",
+                        "case_url": "https://www.sec.gov/enforcement-litigation/litigation-releases/lr-26437",
+                        "charges": "Fraud, Section 10(b), Section 13(a)"
+                    },
+                    "predicted": {
+                        "resolution_type": "settled",
+                        "disgorgement_amount": 1150000,
+                        "penalty_amount": 500000,
+                        "prejudgment_interest": 100000,
+                        "has_injunction": true,
+                        "has_officer_director_bar": true,
+                        "has_conduct_restriction": true,
+                        "reasoning": {
+                            "resolution_type": "Defendants will likely settle.",
+                            "monetary": "Disgorgement of $1.15M. Penalty ~$500K.",
+                            "remedial_measures": "All remedial measures likely."
+                        }
+                    },
+                    "ground_truth": {
+                        "resolution_type": "settled",
+                        "disgorgement_amount": 686090.0,
+                        "penalty_amount": 236451.0,
+                        "prejudgment_interest": 183528.0,
+                        "has_injunction": true,
+                        "has_officer_director_bar": true,
+                        "has_conduct_restriction": true
+                    },
+                    "comparison": {
+                        "resolution_type_correct": true,
+                        "disgorgement_correct": false,
+                        "penalty_correct": false,
+                        "interest_correct": false,
+                        "injunction_correct": true,
+                        "officer_bar_correct": true,
+                        "conduct_restriction_correct": true,
+                        "errors": ["Disgorgement: predicted $1,150,000, actual $686,090", "Penalty: predicted $500,000, actual $236,451", "Interest: predicted $100,000, actual $183,528"]
+                    }
+                },
+                {
+                    "case_id": "LR-26435",
+                    "success": true,
+                    "metadata": {
+                        "release_date": "2025-12-11",
+                        "title": "Oppenheimer & Co., Inc.",
+                        "complaint_url": "https://www.sec.gov/files/litigation/complaints/2025/comp26435.pdf",
+                        "case_url": "https://www.sec.gov/enforcement-litigation/litigation-releases/lr-26435",
+                        "charges": "Securities violations"
+                    },
+                    "predicted": {
+                        "resolution_type": "settled",
+                        "disgorgement_amount": 1938580,
+                        "penalty_amount": 500000,
+                        "prejudgment_interest": 100000,
+                        "has_injunction": true,
+                        "has_officer_director_bar": false,
+                        "has_conduct_restriction": true,
+                        "reasoning": {
+                            "resolution_type": "Large firm will settle to avoid uncertainties.",
+                            "monetary": "Disgorgement of $1,938,580 in ill-gotten gains.",
+                            "remedial_measures": "Injunction likely. No officer/director bar."
+                        }
+                    },
+                    "ground_truth": {
+                        "resolution_type": "settled",
+                        "disgorgement_amount": null,
+                        "penalty_amount": null,
+                        "prejudgment_interest": null,
+                        "has_injunction": true,
+                        "has_officer_director_bar": false,
+                        "has_conduct_restriction": false
+                    },
+                    "comparison": {
+                        "resolution_type_correct": true,
+                        "disgorgement_correct": null,
+                        "penalty_correct": null,
+                        "interest_correct": null,
+                        "injunction_correct": true,
+                        "officer_bar_correct": true,
+                        "conduct_restriction_correct": false,
+                        "errors": ["Conduct restriction: predicted True, actual False"]
+                    }
+                },
+                {
+                    "case_id": "LR-26436",
+                    "success": true,
+                    "metadata": {
+                        "release_date": "2025-12-11",
+                        "title": "Thomas San Miguel",
+                        "complaint_url": "https://www.sec.gov/files/litigation/complaints/2025/comp26436.pdf",
+                        "case_url": "https://www.sec.gov/enforcement-litigation/litigation-releases/lr-26436",
+                        "charges": "Fraud, Section 10(b)"
+                    },
+                    "predicted": {
+                        "resolution_type": "settled",
+                        "disgorgement_amount": 21300000,
+                        "penalty_amount": 500000,
+                        "prejudgment_interest": 2000000,
+                        "has_injunction": true,
+                        "has_officer_director_bar": true,
+                        "has_conduct_restriction": true,
+                        "reasoning": {
+                            "resolution_type": "Clear fraud evidence suggests settlement.",
+                            "monetary": "Fraudulent scheme involved $21.3M.",
+                            "remedial_measures": "All remedial measures sought."
+                        }
+                    },
+                    "ground_truth": {
+                        "resolution_type": "settled",
+                        "disgorgement_amount": null,
+                        "penalty_amount": null,
+                        "prejudgment_interest": null,
+                        "has_injunction": true,
+                        "has_officer_director_bar": true,
+                        "has_conduct_restriction": true
+                    },
+                    "comparison": {
+                        "resolution_type_correct": true,
+                        "disgorgement_correct": null,
+                        "penalty_correct": null,
+                        "interest_correct": null,
+                        "injunction_correct": true,
+                        "officer_bar_correct": true,
+                        "conduct_restriction_correct": true,
+                        "errors": []
+                    }
+                }
+            ]
+        };
+
+        function getScoreClass(score) {
+            if (score >= 70) return 'high';
+            if (score >= 40) return 'medium';
+            return 'low';
+        }
+
+        function getAccuracyClass(correct, total) {
+            const pct = (correct / total) * 100;
+            if (pct >= 80) return 'good';
+            if (pct >= 50) return 'partial';
+            return 'poor';
+        }
+
+        function formatMoney(amount) {
+            if (amount === null || amount === undefined) return '—';
+            return '$' + amount.toLocaleString();
+        }
+
+        function formatBoolean(val) {
+            if (val === null || val === undefined) return '—';
+            return val ? 'Yes' : 'No';
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '—';
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+        }
+
+        function renderMetrics() {
+            const container = document.getElementById('metrics-grid');
+            const scores = resultsData.score.individual_scores;
+            
+            const metrics = [
+                { label: 'Resolution', value: scores.resolution_type },
+                { label: 'Disgorgement', value: scores.disgorgement },
+                { label: 'Penalty', value: scores.penalty },
+                { label: 'Interest', value: scores.prejudgment_interest },
+                { label: 'Injunction', value: scores.has_injunction },
+                { label: 'Officer Bar', value: scores.has_officer_director_bar },
+                { label: 'Conduct', value: scores.has_conduct_restriction }
+            ];
+            
+            container.innerHTML = metrics.map(m => `
+                <div class="metric-card">
+                    <div class="metric-label">${m.label}</div>
+                    <div class="metric-value ${getScoreClass(m.value)}">${m.value.toFixed(0)}%</div>
+                </div>
+            `).join('');
+        }
+
+        function renderSummary() {
+            const container = document.getElementById('summary-stats');
+            const predictions = resultsData.predictions.filter(p => p.success);
+            const correctCount = predictions.filter(p => !p.comparison.errors || p.comparison.errors.length === 0).length;
+            
+            container.innerHTML = `
+                <div><span>${predictions.length}</span> cases evaluated</div>
+                <div><span>${correctCount}</span> fully correct</div>
+                <div><span>${resultsData.duration_seconds.toFixed(0)}s</span> duration</div>
+                <div>Model: <span>${resultsData.model_name}</span></div>
+            `;
+        }
+
+        function renderCases() {
+            const container = document.getElementById('cases-container');
+            const predictions = resultsData.predictions.filter(p => p.success);
+            
+            let html = '';
+            
+            predictions.forEach((pred, idx) => {
+                const comp = pred.comparison;
+                const meta = pred.metadata || {};
+                const gt = pred.ground_truth;
+                
+                const fields = [
+                    { name: 'Resolution', pred: pred.predicted.resolution_type, actual: gt.resolution_type, correct: comp.resolution_type_correct },
+                    { name: 'Disgorgement', pred: formatMoney(pred.predicted.disgorgement_amount), actual: formatMoney(gt.disgorgement_amount), correct: comp.disgorgement_correct },
+                    { name: 'Penalty', pred: formatMoney(pred.predicted.penalty_amount), actual: formatMoney(gt.penalty_amount), correct: comp.penalty_correct },
+                    { name: 'Interest', pred: formatMoney(pred.predicted.prejudgment_interest), actual: formatMoney(gt.prejudgment_interest), correct: comp.interest_correct },
+                    { name: 'Injunction', pred: formatBoolean(pred.predicted.has_injunction), actual: formatBoolean(gt.has_injunction), correct: comp.injunction_correct },
+                    { name: 'Officer Bar', pred: formatBoolean(pred.predicted.has_officer_director_bar), actual: formatBoolean(gt.has_officer_director_bar), correct: comp.officer_bar_correct },
+                    { name: 'Conduct Restr.', pred: formatBoolean(pred.predicted.has_conduct_restriction), actual: formatBoolean(gt.has_conduct_restriction), correct: comp.conduct_restriction_correct }
+                ];
+                
+                const correctFields = fields.filter(f => f.correct === true).length;
+                const totalFields = fields.filter(f => f.correct !== null).length;
+                const resolutionType = gt.resolution_type || 'unknown';
+                const title = meta.title ? `SEC v. ${meta.title}` : pred.case_id;
+                const charges = meta.charges || '';
+                const hasErrors = comp.errors && comp.errors.length > 0;
+                
+                html += `
+                    <div class="case-row" id="row-${idx}" onclick="toggleCase(${idx})">
+                        <div>
+                            <div class="case-title">${title}</div>
+                            <div class="case-charges">${charges}</div>
+                            <div class="case-id">${pred.case_id}</div>
+                        </div>
+                        <div class="case-filed">${formatDate(meta.release_date)}</div>
+                        <div><span class="status-badge ${resolutionType}">${resolutionType}</span></div>
+                        <div class="accuracy-cell ${getAccuracyClass(correctFields, totalFields)}">${correctFields}/${totalFields}</div>
+                        <div class="source-links">
+                            ${meta.complaint_url ? `<a href="${meta.complaint_url}" target="_blank" class="source-link" onclick="event.stopPropagation()">PDF</a>` : ''}
+                            ${meta.case_url ? `<a href="${meta.case_url}" target="_blank" class="source-link" onclick="event.stopPropagation()">SEC</a>` : ''}
+                        </div>
+                    </div>
+                    <div class="case-detail" id="detail-${idx}">
+                        <div class="detail-grid">
+                            <div class="detail-section predicted">
+                                <h3>🤖 Predicted</h3>
+                                ${fields.map(f => `
+                                    <div class="field-row">
+                                        <span class="field-name">${f.name}</span>
+                                        <span class="field-value ${f.correct === false ? 'mismatch' : ''}">${f.pred}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div class="detail-section actual">
+                                <h3>✓ Actual</h3>
+                                ${fields.map(f => `
+                                    <div class="field-row">
+                                        <span class="field-name">${f.name}</span>
+                                        <span class="field-value ${f.correct === true ? 'match' : ''}">${f.actual}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        
+                        ${pred.predicted.reasoning ? `
+                            <div class="reasoning-box">
+                                <h4>💭 Model Reasoning</h4>
+                                <p><strong>Resolution:</strong> ${pred.predicted.reasoning.resolution_type || '—'}</p>
+                                <p><strong>Monetary:</strong> ${pred.predicted.reasoning.monetary || '—'}</p>
+                                <p><strong>Remedial:</strong> ${pred.predicted.reasoning.remedial_measures || '—'}</p>
+                            </div>
+                        ` : ''}
+                        
+                        ${hasErrors ? `
+                            <div class="errors-box">
+                                <h4>⚠️ Errors</h4>
+                                ${comp.errors.map(e => `<div class="error-item">• ${e}</div>`).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function toggleCase(idx) {
+            document.getElementById(`row-${idx}`).classList.toggle('expanded');
+        }
+
+        renderMetrics();
+        renderSummary();
+        renderCases();
+    </script>
+</body>
+</html>
+
