@@ -65,8 +65,15 @@ def update_cases_html(results_file='data/processed/evaluation_results_openai.jso
     # Create new results JSON
     results_json = json.dumps(results, indent=12)
     
-    # Find and replace the embedded data
-    # Pattern matches: const resultsData = { ... };
+    # Try to find and replace the placeholder first
+    if 'RESULTS_PLACEHOLDER' in html:
+        new_html = html.replace('RESULTS_PLACEHOLDER', results_json)
+        with open(cases_html, 'w') as f:
+            f.write(new_html)
+        print(f"Updated {cases_html} with {len(results.get('predictions', []))} cases (placeholder)")
+        return cases_html
+    
+    # Otherwise try regex pattern for existing data
     pattern = r'const resultsData = \{[\s\S]*?\};'
     match = re.search(pattern, html)
     
@@ -81,7 +88,7 @@ def update_cases_html(results_file='data/processed/evaluation_results_openai.jso
         
         print(f"Updated {cases_html} with {len(results.get('predictions', []))} cases")
     else:
-        print(f"Warning: Could not find resultsData in {cases_html}")
+        print(f"Warning: Could not find resultsData or placeholder in {cases_html}")
     
     return cases_html
 
