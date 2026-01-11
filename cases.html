@@ -29530,25 +29530,25 @@
                         <div class="reasoning-box">
                             <h4>Model Reasoning</h4>
                             <div class="reasoning-tabs">
-                                <button class="reasoning-tab gpt active" onclick="switchReasoning(${idx}, 'gpt')">GPT-4o</button>
-                                <button class="reasoning-tab claude" onclick="switchReasoning(${idx}, 'claude')">Claude</button>
-                                <button class="reasoning-tab gemini" onclick="switchReasoning(${idx}, 'gemini')">Gemini</button>
+                                <button class="reasoning-tab gpt ${activeModel === 'gpt' ? 'active' : ''}" onclick="switchReasoning(${idx}, 'gpt')">GPT-4o</button>
+                                <button class="reasoning-tab claude ${activeModel === 'claude' ? 'active' : ''}" onclick="switchReasoning(${idx}, 'claude')">Claude</button>
+                                <button class="reasoning-tab gemini ${activeModel === 'gemini' ? 'active' : ''}" onclick="switchReasoning(${idx}, 'gemini')">Gemini</button>
                             </div>
-                            <div id="reasoning-gpt-${idx}" class="reasoning-content active">
+                            <div id="reasoning-gpt-${idx}" class="reasoning-content ${activeModel === 'gpt' ? 'active' : ''}">
                                 ${pred.predicted.reasoning ? `
                                     <p><strong>Resolution:</strong> ${pred.predicted.reasoning.resolution_type || '—'}</p>
                                     <p><strong>Monetary:</strong> ${pred.predicted.reasoning.monetary || '—'}</p>
                                     <p><strong>Remedial:</strong> ${pred.predicted.reasoning.remedial_measures || '—'}</p>
                                 ` : '<p class="coming-soon">No reasoning available</p>'}
                             </div>
-                            <div id="reasoning-claude-${idx}" class="reasoning-content">
+                            <div id="reasoning-claude-${idx}" class="reasoning-content ${activeModel === 'claude' ? 'active' : ''}">
                                 ${claudePred && claudePred.predicted.reasoning ? `
                                     <p><strong>Resolution:</strong> ${claudePred.predicted.reasoning.resolution_type || '—'}</p>
                                     <p><strong>Monetary:</strong> ${claudePred.predicted.reasoning.monetary || '—'}</p>
                                     <p><strong>Remedial:</strong> ${claudePred.predicted.reasoning.remedial_measures || '—'}</p>
                                 ` : '<p class="coming-soon">Claude evaluation not available for this case</p>'}
                             </div>
-                            <div id="reasoning-gemini-${idx}" class="reasoning-content">
+                            <div id="reasoning-gemini-${idx}" class="reasoning-content ${activeModel === 'gemini' ? 'active' : ''}">
                                 <p class="coming-soon">Gemini evaluation coming soon</p>
                             </div>
                         </div>
