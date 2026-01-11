@@ -554,35 +554,161 @@
         .case-footer.good { color: var(--green); }
 
         /* Methodology */
-        .methodology {
+        .methodology-section {
+            padding: 64px 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .methodology-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .methodology-header h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .methodology-header p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .methodology-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-bottom: 48px;
+        }
+
+        @media (max-width: 768px) {
+            .methodology-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .methodology-card {
             background: var(--bg-white);
             border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 32px;
-            margin: 48px 0;
+            padding: 28px;
         }
 
-        .methodology h2 {
-            font-size: 18px;
+        .methodology-card.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .methodology-card h3 {
+            font-size: 16px;
             font-weight: 600;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .methodology p {
+        .methodology-card h3 .card-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .methodology-card h3 .card-icon.motivation { background: var(--purple-light); }
+        .methodology-card h3 .card-icon.design { background: var(--blue-light); }
+        .methodology-card h3 .card-icon.metrics { background: var(--green-light); }
+        .methodology-card h3 .card-icon.scoring { background: var(--orange-light); }
+
+        .methodology-card p {
             color: var(--text-secondary);
             font-size: 14px;
-            line-height: 1.8;
-            margin-bottom: 16px;
+            line-height: 1.7;
+            margin-bottom: 12px;
         }
 
-        .methodology p strong {
+        .methodology-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .methodology-card ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .methodology-card li {
+            color: var(--text-secondary);
+            font-size: 13px;
+            line-height: 1.6;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .methodology-card li:last-child {
+            border-bottom: none;
+        }
+
+        .methodology-card li strong {
             color: var(--text);
+            font-weight: 500;
+            min-width: 140px;
+        }
+
+        .methodology-card li span {
+            flex: 1;
+        }
+
+        .metric-badge {
+            font-size: 10px;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .metric-badge.exact { background: var(--purple-light); color: var(--purple); }
+        .metric-badge.tolerance { background: var(--blue-light); color: var(--blue); }
+
+        .pipeline-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .pipeline-step {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .pipeline-arrow {
+            color: var(--text-muted);
+            font-size: 14px;
         }
 
         .methodology-links {
             display: flex;
             gap: 12px;
-            margin-top: 24px;
+            justify-content: center;
+            margin-top: 32px;
         }
 
         /* Footer */
@@ -846,23 +972,105 @@
             </div>
         </section>
 
-        <section class="container" id="methodology">
-            <div class="methodology">
-                <h2>Methodology</h2>
-                <p>
-                    We extract complaint text from SEC litigation releases and predict 6 outcome metrics: 
-                    <strong>resolution type</strong> (settled vs litigated), <strong>disgorgement amount</strong>, 
-                    <strong>civil penalty</strong>, <strong>prejudgment interest</strong>, <strong>injunction</strong>, 
-                    and <strong>officer/director bar</strong>.
-                </p>
-                <p>
-                    Ground truth is extracted from SEC release text after cases resolve. Models see only the original 
-                    complaint—no outcome information. Monetary predictions use 10% tolerance; categorical use exact match.
-                </p>
-                
+        <section class="methodology-section" id="methodology">
+            <div class="container">
+                <div class="methodology-header">
+                    <h2>Methodology</h2>
+                    <p>How LexArena is built and why these predictions matter.</p>
+                </div>
+
+                <div class="methodology-grid">
+                    <!-- Motivation -->
+                    <div class="methodology-card">
+                        <h3><span class="card-icon motivation">💡</span> Motivation</h3>
+                        <p>
+                            Traditional legal datasets test models on historical cases, which modern LLMs can memorize. 
+                            LexArena evaluates on <strong>resolved but unseen</strong> outcomes—ensuring clean testing of 
+                            an AI system's legal reasoning and predictive depth.
+                        </p>
+                        <p>
+                            Every forecast is made on complaint text only. Models never see the resolution, 
+                            eliminating data contamination and retrospective rationalization.
+                        </p>
+                    </div>
+
+                    <!-- Benchmark Design -->
+                    <div class="methodology-card">
+                        <h3><span class="card-icon design">🏗️</span> Benchmark Design</h3>
+                        <p><strong>1. Case Ingestion</strong> — We scrape SEC Litigation Releases and extract complaint PDFs.</p>
+                        <p><strong>2. Synopsis Generation</strong> — GPT-4o creates plain-English summaries from complaint text.</p>
+                        <p><strong>3. Blind Prediction</strong> — Models receive only the synopsis and must forecast 6 outcomes.</p>
+                        <p><strong>4. Ground Truth</strong> — Outcomes are extracted from final SEC release text post-resolution.</p>
+                    </div>
+
+                    <!-- Prediction Metrics -->
+                    <div class="methodology-card full-width">
+                        <h3><span class="card-icon metrics">📊</span> Prediction Metrics</h3>
+                        <ul>
+                            <li>
+                                <strong>Resolution Type</strong>
+                                <span>Did the case settle (defendant agrees) or go to litigation (court decides)?</span>
+                                <span class="metric-badge exact">Exact</span>
+                            </li>
+                            <li>
+                                <strong>Disgorgement</strong>
+                                <span>Amount of ill-gotten gains the defendant must return to harmed investors.</span>
+                                <span class="metric-badge tolerance">±10%</span>
+                            </li>
+                            <li>
+                                <strong>Civil Penalty</strong>
+                                <span>Fine imposed by the SEC as punishment for securities violations.</span>
+                                <span class="metric-badge tolerance">±10%</span>
+                            </li>
+                            <li>
+                                <strong>Prejudgment Interest</strong>
+                                <span>Interest accrued on disgorgement from violation date to judgment.</span>
+                                <span class="metric-badge tolerance">±10%</span>
+                            </li>
+                            <li>
+                                <strong>Injunction</strong>
+                                <span>Court order preventing future violations of securities laws.</span>
+                                <span class="metric-badge exact">Exact</span>
+                            </li>
+                            <li>
+                                <strong>Officer/Director Bar</strong>
+                                <span>Ban from serving as an officer or director of a public company.</span>
+                                <span class="metric-badge exact">Exact</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Scoring -->
+                    <div class="methodology-card full-width">
+                        <h3><span class="card-icon scoring">🎯</span> Scoring</h3>
+                        <p>
+                            <strong>Categorical metrics</strong> (resolution, injunction, officer bar) use exact match scoring—the model must predict the correct category.
+                        </p>
+                        <p>
+                            <strong>Monetary metrics</strong> (disgorgement, penalty, interest) use a 10% tolerance band. 
+                            Predictions within 10% of actual amounts count as correct, accounting for reasonable estimation variance.
+                        </p>
+                        <p>
+                            <strong>Overall accuracy</strong> is the weighted average across all 6 metrics, with categorical (3) and monetary (3) equally weighted.
+                        </p>
+                        
+                        <div class="pipeline-visual">
+                            <span class="pipeline-step">SEC Complaint PDF</span>
+                            <span class="pipeline-arrow">→</span>
+                            <span class="pipeline-step">Text Extraction</span>
+                            <span class="pipeline-arrow">→</span>
+                            <span class="pipeline-step">LLM Prediction</span>
+                            <span class="pipeline-arrow">→</span>
+                            <span class="pipeline-step">Compare to Ground Truth</span>
+                            <span class="pipeline-arrow">→</span>
+                            <span class="pipeline-step">Score & Rank</span>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="methodology-links">
                     <a href="https://github.com/sakethkesiraju26/newlex" class="btn-secondary" target="_blank">View on GitHub →</a>
-                    <a href="cases.html" class="btn-secondary">View All Cases →</a>
+                    <a href="cases.html" class="btn-secondary">Explore All Cases →</a>
                 </div>
             </div>
         </section>
