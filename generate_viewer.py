@@ -18,20 +18,26 @@ def generate_viewer(results_file='data/processed/evaluation_results_openai.json'
     with open(results_file, 'r') as f:
         results = json.load(f)
     
-    # Load dataset to get metadata
-    metadata_lookup = {}
+    # Load dataset to get metadata and reducto_fields
+    case_lookup = {}
     if os.path.exists(dataset_file):
         with open(dataset_file, 'r') as f:
             dataset = json.load(f)
         for case in dataset.get('cases', []):
-            metadata_lookup[case['case_id']] = case.get('metadata', {})
+            case_lookup[case['case_id']] = {
+                'metadata': case.get('metadata', {}),
+                'reducto_fields': case.get('reducto_fields', {}),
+                'complaint_text': case.get('complaint_text', '')[:500]  # First 500 chars
+            }
     
-    # Enrich predictions with metadata if not already present
+    # Enrich predictions with metadata and reducto_fields
     for pred in results.get('predictions', []):
-        if 'metadata' not in pred or not pred['metadata']:
-            case_id = pred.get('case_id')
-            if case_id in metadata_lookup:
-                pred['metadata'] = metadata_lookup[case_id]
+        case_id = pred.get('case_id')
+        if case_id in case_lookup:
+            if 'metadata' not in pred or not pred['metadata']:
+                pred['metadata'] = case_lookup[case_id]['metadata']
+            pred['reducto_fields'] = case_lookup[case_id]['reducto_fields']
+            pred['complaint_excerpt'] = case_lookup[case_id]['complaint_text']
     
     # Load template
     with open(template_file, 'r') as f:

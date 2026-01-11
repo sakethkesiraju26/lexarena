@@ -87,7 +87,8 @@ class ReductoExtractor:
     
     def extract_from_url(self, pdf_url: str, timeout: int = 120) -> Dict[str, Any]:
         """
-        Download PDF from URL and extract structured data.
+        Extract structured data by sending URL directly to Reducto API.
+        Reducto's servers fetch the PDF (may bypass SEC blocking).
         
         Args:
             pdf_url: URL to the PDF file
@@ -96,33 +97,67 @@ class ReductoExtractor:
         Returns:
             Dict with 'success', 'data' (ReductoExtraction), 'usage', 'job_id'
         """
-        # Download PDF to temp file with browser headers
         try:
-            with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as tmp:
-                response = requests.get(
-                    pdf_url, 
-                    timeout=timeout, 
-                    verify=True,
-                    headers=self.HEADERS
+            # Send URL directly to Reducto - let their servers fetch it
+            result = self.client.pipeline.run(
+                input=pdf_url,
+                pipeline_id=self.PIPELINE_ID
+            )
+            
+            # Parse result
+            if result.result and len(result.result) > 0:
+                raw_data = result.result[0]
+                
+                # Convert to typed dataclass
+                extraction = ReductoExtraction(
+                    case_synopsis=raw_data.get("case_synopsis", ""),
+                    defendant_names=raw_data.get("defendant_names", ""),
+                    defendant_type=raw_data.get("defendant_type", "unknown"),
+                    is_repeat_offender=raw_data.get("is_repeat_offender", False),
+                    charges=raw_data.get("charges", ""),
+                    fraud_type=raw_data.get("fraud_type", "other"),
+                    scheme_summary=raw_data.get("scheme_summary", ""),
+                    victim_count=raw_data.get("victim_count"),
+                    amount_raised=raw_data.get("amount_raised"),
+                    defendant_profit=raw_data.get("defendant_profit"),
+                    violation_start_date=raw_data.get("violation_start_date"),
+                    violation_end_date=raw_data.get("violation_end_date"),
+                    seeks_disgorgement=raw_data.get("seeks_disgorgement", False),
+                    seeks_penalty=raw_data.get("seeks_penalty", False),
+                    seeks_injunction=raw_data.get("seeks_injunction", False),
+                    seeks_officer_bar=raw_data.get("seeks_officer_bar", False),
+                    seeks_penny_stock_bar=raw_data.get("seeks_penny_stock_bar", False),
+                    seeks_industry_bar=raw_data.get("seeks_industry_bar", False),
+                    other_relief=raw_data.get("other_relief"),
+                    court=raw_data.get("court", ""),
+                    filing_date=raw_data.get("filing_date", "")
                 )
-                response.raise_for_status()
-                tmp.write(response.content)
-                tmp_path = tmp.name
-        except requests.exceptions.RequestException as e:
+                
+                return {
+                    "success": True,
+                    "data": extraction,
+                    "raw_data": raw_data,
+                    "usage": {
+                        "num_pages": result.usage.num_pages if result.usage else 0,
+                        "num_fields": result.usage.num_fields if result.usage else 0,
+                        "credits": result.usage.credits if result.usage else 0
+                    },
+                    "job_id": result.job_id
+                }
+            else:
+                return {
+                    "success": False,
+                    "error": "No extraction result returned",
+                    "data": None,
+                    "job_id": result.job_id if result else None
+                }
+                
+        except Exception as e:
             return {
                 "success": False,
-                "error": f"Failed to download PDF: {str(e)}",
+                "error": f"Reducto API error: {str(e)}",
                 "data": None
             }
-        
-        try:
-            return self.extract_from_file(tmp_path)
-        finally:
-            # Clean up temp file
-            try:
-                os.unlink(tmp_path)
-            except OSError:
-                pass
     
     def extract_from_file(self, file_path: str) -> Dict[str, Any]:
         """

@@ -1,17 +1,17 @@
 """
 Dataset Builder for SEC Case LLM Evaluation
 
-Uses Reducto AI for structured extraction from complaint PDFs,
-combined with ground truth extraction for evaluation scoring.
+Extracts case content from SEC litigation releases (fullText field).
+No PDF downloads or external APIs required.
 """
 
 import json
 import os
+import re
 from typing import Dict, List, Tuple, Optional, Any
 from dataclasses import dataclass, asdict
 from datetime import datetime
 
-from .reducto_extractor import ReductoExtractor
 from .ground_truth_extractor import GroundTruthExtractor
 
 
@@ -23,6 +23,47 @@ def get_complaint_url(case: Dict) -> Optional[str]:
         if 'complaint' in doc_type:
             return doc.get('url')
     return None
+
+
+def clean_full_text(raw_text: str) -> str:
+    """
+    Clean the fullText by removing SEC navigation boilerplate.
+    Returns the actual litigation release content.
+    """
+    if not raw_text:
+        return ""
+    
+    # Find where the actual content starts
+    markers = [
+        'Litigation Release No',
+        'Securities and Exchange Commission v.',
+        'SEC v.',
+        'In the Matter of',
+    ]
+    
+    start_idx = 0
+    for marker in markers:
+        idx = raw_text.find(marker)
+        if idx != -1:
+            start_idx = idx
+            break
+    
+    # Extract from the marker to the end
+    cleaned = raw_text[start_idx:]
+    
+    # Remove common footer boilerplate
+    footer_markers = [
+        'Related Materials',
+        'See Also:',
+        '\nHome | ',
+        '\nModified:',
+    ]
+    for marker in footer_markers:
+        idx = cleaned.find(marker)
+        if idx != -1:
+            cleaned = cleaned[:idx]
+    
+    return cleaned.strip()
 
 
 @dataclass
