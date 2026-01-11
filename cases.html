@@ -175,6 +175,133 @@
             height: 14px;
         }
 
+        /* Model Comparison */
+        .model-comparison {
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .model-comparison h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text);
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .model-card {
+            background: var(--bg);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .model-card:hover:not(.disabled) {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .model-card.active {
+            border-color: var(--accent);
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(99, 102, 241, 0.02) 100%);
+        }
+
+        .model-card.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .model-card-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .model-card .model-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text);
+        }
+
+        .model-card .model-badge {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .model-card .model-badge.best {
+            background: var(--green-light);
+            color: var(--green);
+        }
+
+        .model-card .model-score {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .model-card .model-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .model-card .model-details {
+            border-top: 1px solid var(--border);
+            padding-top: 12px;
+        }
+
+        .model-card .detail-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            padding: 4px 0;
+        }
+
+        .model-card .detail-row span:first-child {
+            color: var(--text-muted);
+        }
+
+        .model-card .detail-row span:last-child {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .model-card .model-meta {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }
+
+        .comparison-note {
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
         /* Stats Summary */
         .stats-row {
             margin-bottom: 24px;
@@ -910,6 +1037,50 @@
         </div>
 
         <div class="stats-row" id="stats-row"></div>
+
+        <!-- Model Comparison Section -->
+        <div class="model-comparison" id="model-comparison">
+            <h3>Model Performance Comparison</h3>
+            <div class="comparison-grid">
+                <div class="model-card gpt active" onclick="selectModel('gpt')">
+                    <div class="model-card-header">
+                        <span class="model-name">GPT-4o</span>
+                        <span class="model-badge best">Best</span>
+                    </div>
+                    <div class="model-score">64.9%</div>
+                    <div class="model-label">Overall Accuracy</div>
+                    <div class="model-details">
+                        <div class="detail-row"><span>Resolution</span><span>38.6%</span></div>
+                        <div class="detail-row"><span>Monetary</span><span>53.0%</span></div>
+                        <div class="detail-row"><span>Injunction</span><span>78.8%</span></div>
+                        <div class="detail-row"><span>Officer Bar</span><span>89.2%</span></div>
+                    </div>
+                    <div class="model-meta">500 cases evaluated</div>
+                </div>
+                <div class="model-card claude" onclick="selectModel('claude')">
+                    <div class="model-card-header">
+                        <span class="model-name">Claude 3.5 Haiku</span>
+                    </div>
+                    <div class="model-score">55.3%</div>
+                    <div class="model-label">Overall Accuracy</div>
+                    <div class="model-details">
+                        <div class="detail-row"><span>Resolution</span><span>34.0%</span></div>
+                        <div class="detail-row"><span>Monetary</span><span>51.2%</span></div>
+                        <div class="detail-row"><span>Injunction</span><span>72.0%</span></div>
+                        <div class="detail-row"><span>Officer Bar</span><span>64.0%</span></div>
+                    </div>
+                    <div class="model-meta">50 cases evaluated</div>
+                </div>
+                <div class="model-card gemini disabled">
+                    <div class="model-card-header">
+                        <span class="model-name">Gemini 2.0</span>
+                    </div>
+                    <div class="model-score">—</div>
+                    <div class="model-label">Coming Soon</div>
+                </div>
+            </div>
+            <p class="comparison-note">Click a model to view its predictions below. Currently showing <strong id="active-model-name">GPT-4o</strong> results.</p>
+        </div>
 
         <div class="search-box">
             <div class="search-input-wrapper">
@@ -26914,6 +27085,28 @@
             document.getElementById(`reasoning-${model}-${caseIdx}`).classList.add('active');
         }
 
+        // Model selection
+        let activeModel = 'gpt';
+        
+        function selectModel(model) {
+            if (model === 'gemini') return; // Disabled
+            
+            activeModel = model;
+            
+            // Update card states
+            document.querySelectorAll('.model-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.querySelector(`.model-card.${model}`).classList.add('active');
+            
+            // Update label
+            const modelNames = { gpt: 'GPT-4o', claude: 'Claude 3.5 Haiku', gemini: 'Gemini 2.0' };
+            document.getElementById('active-model-name').textContent = modelNames[model];
+            
+            // Re-render cases (for future: load different model's results)
+            renderCases(document.getElementById('search-input').value);
+        }
+        
         renderStats();
         renderCases();
         

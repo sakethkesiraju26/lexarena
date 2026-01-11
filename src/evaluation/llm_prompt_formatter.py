@@ -80,17 +80,17 @@ def format_prompt(
     short_format: bool = False,
     max_text_length: int = None
 ) -> str:
-    """
+        """
     Format a prompt for LLM evaluation.
-    
-    Args:
+        
+        Args:
         complaint_text: The complaint text extracted from PDF
         short_format: Use shorter prompt template
         max_text_length: Truncate complaint text if longer
-        
-    Returns:
-        Formatted prompt string
-    """
+            
+        Returns:
+            Formatted prompt string
+        """
     text = complaint_text
     
     if max_text_length and len(text) > max_text_length:

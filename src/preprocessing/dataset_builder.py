@@ -223,7 +223,7 @@ class DatasetBuilder:
         total_credits = 0
         
         for i, case in enumerate(cases):
-            if verbose:
+    if verbose:
                 print(f"  [{i + 1}/{total}] Processing {case.get('releaseNumber', 'unknown')}...")
             
             processed, skipped = self.process_case(case)
@@ -239,14 +239,14 @@ class DatasetBuilder:
                 skipped_cases.append(skipped)
                 if verbose:
                     print(f"    ✗ Skipped: {skipped.reason}")
-        
+    
         # Split into resolved (for evaluation) and ongoing (for prediction)
         resolved_cases = [c for c in processed_cases 
                          if c.ground_truth.get('resolution_type') in ('settled', 'litigated')]
         ongoing_cases = [c for c in processed_cases 
                         if c.ground_truth.get('resolution_type') == 'ongoing']
-        
-        if verbose:
+    
+    if verbose:
             print(f"\nExtraction complete:")
             print(f"  Successful: {len(processed_cases)}")
             print(f"    - Resolved (for evaluation): {len(resolved_cases)}")
@@ -256,9 +256,9 @@ class DatasetBuilder:
         
         # Calculate statistics for resolved cases
         stats = self._calculate_stats(resolved_cases)
-        
+    
         # Create output directory
-        os.makedirs(output_dir, exist_ok=True)
+    os.makedirs(output_dir, exist_ok=True)
         
         # Save evaluation dataset (resolved cases only - settled/litigated)
         evaluation_dataset = {
@@ -276,7 +276,7 @@ class DatasetBuilder:
             'cases': [c.to_dict() for c in resolved_cases]
         }
         
-        with open(os.path.join(output_dir, 'evaluation_dataset.json'), 'w') as f:
+    with open(os.path.join(output_dir, 'evaluation_dataset.json'), 'w') as f:
             json.dump(evaluation_dataset, f, indent=2)
         
         # Save prediction dataset (ongoing cases - no ground truth scoring)
@@ -302,15 +302,15 @@ class DatasetBuilder:
             'cases': [s.to_dict() for s in skipped_cases]
         }
         
-        with open(os.path.join(output_dir, 'skipped_cases.json'), 'w') as f:
+    with open(os.path.join(output_dir, 'skipped_cases.json'), 'w') as f:
             json.dump(skipped_data, f, indent=2)
-        
-        if verbose:
+    
+    if verbose:
             print(f"\nFiles saved to {output_dir}:")
             print(f"  - evaluation_dataset.json ({len(resolved_cases)} resolved cases)")
             print(f"  - prediction_dataset.json ({len(ongoing_cases)} ongoing cases)")
             print(f"  - skipped_cases.json ({len(skipped_cases)} cases)")
-        
+    
         return {
             'total_processed': total,
             'resolved': len(resolved_cases),
