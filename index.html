@@ -153,12 +153,119 @@
             color: var(--text);
         }
 
+        .hero-badge {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent);
+            background: var(--accent-light);
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            letter-spacing: 0.3px;
+        }
+
         .hero-subtitle {
             font-size: 18px;
             color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto 32px;
+            max-width: 560px;
+            margin: 0 auto 40px;
             line-height: 1.7;
+        }
+
+        .hero-leaderboard {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .hero-model {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px 20px;
+            min-width: 200px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .hero-model:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .hero-model.gold {
+            border-color: #fbbf24;
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+        }
+
+        .hero-model.silver {
+            border-color: #d1d5db;
+            background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+        }
+
+        .hero-model.bronze {
+            border-color: #d97706;
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            opacity: 0.6;
+        }
+
+        .hero-rank {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .hero-model.gold .hero-rank {
+            background: #fbbf24;
+            color: #78350f;
+        }
+
+        .hero-model.silver .hero-rank {
+            background: #9ca3af;
+            color: white;
+        }
+
+        .hero-model.bronze .hero-rank {
+            background: #d97706;
+            color: white;
+        }
+
+        .hero-model-info {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .hero-model-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text);
+        }
+
+        .hero-model-provider {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .hero-model-score {
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--text);
+        }
+
+        .hero-model.bronze .hero-model-score {
+            color: var(--text-muted);
+            font-size: 16px;
         }
 
         .hero-buttons {
@@ -195,36 +302,6 @@
         .btn-secondary:hover {
             border-color: var(--text-muted);
             color: var(--text);
-        }
-
-        /* Stats */
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1px;
-            background: var(--border);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            overflow: hidden;
-            margin: 48px 0;
-        }
-
-        .stat {
-            background: var(--bg-white);
-            padding: 32px 24px;
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 36px;
-            font-weight: 700;
-            color: var(--text);
-        }
-
-        .stat-label {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-top: 4px;
         }
 
         /* Section */
@@ -566,7 +643,8 @@
 
         @media (max-width: 768px) {
             h1 { font-size: 32px; }
-            .stats { grid-template-columns: repeat(2, 1fr); }
+            .hero-leaderboard { flex-direction: column; align-items: center; }
+            .hero-model { width: 100%; max-width: 280px; }
             .cases-grid { grid-template-columns: 1fr; }
             .leaderboard-header, .leaderboard-row {
                 grid-template-columns: 40px 1.5fr repeat(3, 1fr);
@@ -608,38 +686,47 @@
 
     <section class="hero">
         <div class="container">
+            <div class="hero-badge">SEC Enforcement • 500 Cases • 6 Metrics</div>
             <h1>LexArena</h1>
             <p class="hero-subtitle">
-                A live benchmark for forecasting legal cases. LexArena evaluates whether AI systems can correctly predict real SEC enforcement outcomes before they happen.
+                Can AI predict legal outcomes? We benchmark frontier models on real SEC enforcement cases—before they resolve.
             </p>
+            
+            <div class="hero-leaderboard">
+                <div class="hero-model gold">
+                    <div class="hero-rank">1</div>
+                    <div class="hero-model-info">
+                        <span class="hero-model-name">GPT-4o</span>
+                        <span class="hero-model-provider">OpenAI</span>
+                    </div>
+                    <div class="hero-model-score">64.9%</div>
+                </div>
+                <div class="hero-model silver">
+                    <div class="hero-rank">2</div>
+                    <div class="hero-model-info">
+                        <span class="hero-model-name">Claude Opus 4</span>
+                        <span class="hero-model-provider">Anthropic</span>
+                    </div>
+                    <div class="hero-model-score">46.8%</div>
+                </div>
+                <div class="hero-model bronze">
+                    <div class="hero-rank">3</div>
+                    <div class="hero-model-info">
+                        <span class="hero-model-name">Gemini 2.0</span>
+                        <span class="hero-model-provider">Google</span>
+                    </div>
+                    <div class="hero-model-score">—</div>
+                </div>
+            </div>
+            
             <div class="hero-buttons">
-                <a href="cases.html" class="btn-primary">View Leaderboard</a>
-                <a href="#methodology" class="btn-secondary">See Methodology</a>
+                <a href="cases.html" class="btn-primary">Explore Cases →</a>
+                <a href="#methodology" class="btn-secondary">How It Works</a>
             </div>
         </div>
     </section>
 
     <main>
-        <section class="container">
-            <div class="stats">
-                <div class="stat">
-                    <div class="stat-value">500</div>
-                    <div class="stat-label">Cases Evaluated</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">64.9%</div>
-                    <div class="stat-label">GPT-4o Accuracy</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">6</div>
-                    <div class="stat-label">Outcome Metrics</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">SEC</div>
-                    <div class="stat-label">Domain</div>
-                </div>
-            </div>
-        </section>
 
         <section class="container section" id="leaderboard">
             <div class="section-header">
