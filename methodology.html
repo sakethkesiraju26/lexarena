@@ -130,7 +130,7 @@
         .hero-subtitle {
             font-size: 16px;
             color: var(--text-secondary);
-            max-width: 500px;
+            max-width: 560px;
             margin: 0 auto;
             line-height: 1.7;
         }
@@ -157,10 +157,6 @@
             gap: 10px;
         }
 
-        .section h2 .icon {
-            font-size: 18px;
-        }
-
         .section p {
             color: var(--text-secondary);
             font-size: 15px;
@@ -176,6 +172,22 @@
             color: var(--text);
         }
 
+        .section ul {
+            margin: 16px 0;
+            padding-left: 24px;
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .section ul li {
+            margin-bottom: 8px;
+        }
+
+        .section ul li strong {
+            color: var(--text);
+        }
+
         .card {
             background: var(--bg-white);
             border: 1px solid var(--border);
@@ -186,6 +198,41 @@
 
         .card:last-child {
             margin-bottom: 0;
+        }
+
+        /* Use Cases Grid */
+        .use-cases-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .use-cases-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .use-case {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .use-case h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        .use-case p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin: 0;
+            line-height: 1.6;
         }
 
         .steps {
@@ -441,44 +488,114 @@
                 <li><a href="methodology.html" class="active">Methodology</a></li>
                 <li><a href="https://github.com/sakethkesiraju26/newlex" target="_blank">GitHub</a></li>
             </ul>
-            <a href="cases.html" class="nav-cta">View Cases →</a>
+            <a href="cases.html" class="nav-cta">View Cases</a>
         </div>
     </nav>
 
     <section class="hero">
         <div class="container">
-            <h1>Methodology</h1>
-            <p class="hero-subtitle">How LexArena is built and why these predictions actually mean something.</p>
+            <h1>Building Legal AGI Starts Here</h1>
+            <p class="hero-subtitle">
+                The future of legal AI depends on verified outcome data. 
+                We're creating the foundational dataset for models that reason about legal consequences.
+            </p>
         </div>
     </section>
 
     <main>
         <div class="container">
-            <!-- Motivation -->
+            <!-- Why Outcomes Matter -->
             <section class="section">
-                <h2>Motivation</h2>
+                <h2>Why Outcomes Matter</h2>
                 <div class="card">
                     <p>
-                        Traditional legal datasets test models on historical cases, which modern LLMs can memorize. 
-                        LexArena evaluates on <strong>resolved but unseen</strong> outcomes—ensuring clean, out-of-sample 
-                        testing of an AI system's legal reasoning, uncertainty handling, and predictive depth.
+                        <strong>Today's LLMs can read legal documents. Tomorrow's will make legal decisions.</strong>
                     </p>
                     <p>
-                        Every forecast is made on complaint text only. Models never see the resolution, eliminating 
-                        data contamination and retrospective rationalization. No model can have memorized the answer 
-                        from training data.
+                        The path to Legal AGI isn't more training data—it's <em>the right</em> training data. 
+                        Models need verified ground truth: what was predicted, what actually happened, 
+                        and why. That feedback loop doesn't exist at scale.
                     </p>
                     <p>
-                        This matters because legal prediction requires both <strong>factual extraction</strong> (understanding 
-                        the allegations) and <strong>probabilistic reasoning</strong> (estimating likely outcomes based on 
-                        precedent, severity, and regulatory patterns).
+                        LexArena is building it. We collect SEC enforcement actions with documented outcomes—
+                        not just the complaint, but the resolution: monetary penalties, disgorgement, 
+                        bars, settlements. Every case becomes a training signal.
+                    </p>
+                    <p>
+                        This isn't just a benchmark. It's the dataset that future legal reasoning models 
+                        will learn from.
                     </p>
                 </div>
             </section>
 
-            <!-- Benchmark Design -->
+            <!-- Who Needs This -->
             <section class="section">
-                <h2>Benchmark Design</h2>
+                <h2>Who Needs Legal Outcome Data</h2>
+                <div class="card">
+                    <p>
+                        AI-driven legal prediction is transforming industries that depend on 
+                        accurate risk assessment from unstructured legal documents.
+                    </p>
+                    <div class="use-cases-grid">
+                        <div class="use-case">
+                            <h4>Insurance Underwriting</h4>
+                            <p>
+                                D&O and E&O pricing depends on predicting regulatory outcomes. 
+                                Structured outcome data lets insurers train models that actually 
+                                improve loss ratios—not just parse documents faster.
+                            </p>
+                        </div>
+                        <div class="use-case">
+                            <h4>Litigation Finance</h4>
+                            <p>
+                                Case funders need probability distributions on outcomes, not summaries. 
+                                Training on real resolution data creates the edge.
+                            </p>
+                        </div>
+                        <div class="use-case">
+                            <h4>Foundation Model Labs</h4>
+                            <p>
+                                Legal reasoning is a key capability for AGI. Labs building next-gen 
+                                models need high-quality, outcome-verified legal datasets 
+                                for fine-tuning and RLHF.
+                            </p>
+                        </div>
+                        <div class="use-case">
+                            <h4>Legal AI Startups</h4>
+                            <p>
+                                Building a legal AI product without outcome data is guessing. 
+                                LexArena provides the ground truth to train and validate your models.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- The Dataset -->
+            <section class="section">
+                <h2>The Dataset</h2>
+                <div class="card">
+                    <p>
+                        Each case in LexArena contains structured data paired with verified outcomes:
+                    </p>
+                    <ul>
+                        <li><strong>Structured complaint data</strong> — extracted via Reducto's document AI</li>
+                        <li><strong>AI-generated synopsis</strong> — case summary from GPT-4o</li>
+                        <li><strong>Verified outcomes</strong> — monetary penalties, disgorgement, bars, restrictions</li>
+                        <li><strong>Model predictions</strong> — what GPT-4o and Claude predicted vs. reality</li>
+                        <li><strong>Prediction accuracy</strong> — scored across 6 outcome metrics</li>
+                    </ul>
+                    <p>
+                        Every resolved case adds signal. Every prediction adds calibration data. 
+                        This is how you build a model that <em>reasons</em> about legal outcomes, 
+                        not just retrieves precedent.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Pipeline -->
+            <section class="section">
+                <h2>How We Build It</h2>
                 <div class="card">
                     <p>
                         LexArena follows a four-stage pipeline that ensures clean separation between input data and ground truth outcomes.
@@ -527,32 +644,32 @@
                         <tbody>
                             <tr>
                                 <td>Resolution Type</td>
-                                <td>Did the case settle (defendant agrees without trial) or go to litigation (court decides)?</td>
+                                <td>Did the case settle or go to litigation?</td>
                                 <td><span class="metric-badge exact">Exact Match</span></td>
                             </tr>
                             <tr>
                                 <td>Disgorgement</td>
-                                <td>Amount of ill-gotten gains the defendant must return to harmed investors.</td>
+                                <td>Amount of ill-gotten gains returned to investors.</td>
                                 <td><span class="metric-badge tolerance">±10% Tolerance</span></td>
                             </tr>
                             <tr>
                                 <td>Civil Penalty</td>
-                                <td>Fine imposed by the SEC as punishment for securities law violations.</td>
+                                <td>Fine imposed by the SEC as punishment.</td>
                                 <td><span class="metric-badge tolerance">±10% Tolerance</span></td>
                             </tr>
                             <tr>
                                 <td>Prejudgment Interest</td>
-                                <td>Interest accrued on disgorgement amount from violation date to judgment.</td>
+                                <td>Interest accrued on disgorgement amount.</td>
                                 <td><span class="metric-badge tolerance">±10% Tolerance</span></td>
                             </tr>
                             <tr>
                                 <td>Injunction</td>
-                                <td>Court order preventing future violations of securities laws.</td>
+                                <td>Court order preventing future violations.</td>
                                 <td><span class="metric-badge exact">Exact Match</span></td>
                             </tr>
                             <tr>
                                 <td>Officer/Director Bar</td>
-                                <td>Ban from serving as an officer or director of a public company.</td>
+                                <td>Ban from serving at public companies.</td>
                                 <td><span class="metric-badge exact">Exact Match</span></td>
                             </tr>
                         </tbody>
@@ -565,46 +682,41 @@
                 <h2>Scoring</h2>
                 <div class="card">
                     <p>
-                        We use different scoring methods depending on the metric type to account for the 
-                        nature of each prediction.
+                        Different metric types require different scoring approaches.
                     </p>
                     <div class="scoring-grid">
                         <div class="scoring-card">
                             <h4>Categorical Metrics</h4>
-                            <p>Resolution, injunction, and officer bar use exact match—the model must predict the correct category.</p>
+                            <p>Resolution, injunction, and officer bar use exact match.</p>
                         </div>
                         <div class="scoring-card">
                             <h4>Monetary Metrics</h4>
-                            <p>Disgorgement, penalty, and interest use a 10% tolerance band to account for reasonable estimation variance.</p>
+                            <p>Disgorgement, penalty, and interest use 10% tolerance bands.</p>
                         </div>
                         <div class="scoring-card">
                             <h4>Overall Accuracy</h4>
-                            <p>Weighted average across all 6 metrics, with categorical and monetary equally weighted.</p>
+                            <p>Weighted average across all 6 metrics.</p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Pipeline Visual -->
+            <!-- The Vision -->
             <section class="section">
-                <h2>Pipeline</h2>
+                <h2>The Vision</h2>
                 <div class="card">
                     <p>
-                        The complete evaluation flow from raw SEC filings to leaderboard rankings.
+                        Legal AGI will need to predict outcomes, not just summarize documents. 
+                        It will need to weigh evidence, assess regulatory risk, and reason about 
+                        consequences. That capability requires training on verified outcomes at scale.
                     </p>
-                    <div class="pipeline">
-                        <span class="pipeline-step">SEC Complaint PDF</span>
-                        <span class="pipeline-arrow">→</span>
-                        <span class="pipeline-step">Text Extraction</span>
-                        <span class="pipeline-arrow">→</span>
-                        <span class="pipeline-step">Synopsis Generation</span>
-                        <span class="pipeline-arrow">→</span>
-                        <span class="pipeline-step">LLM Prediction</span>
-                        <span class="pipeline-arrow">→</span>
-                        <span class="pipeline-step">Ground Truth Comparison</span>
-                        <span class="pipeline-arrow">→</span>
-                        <span class="pipeline-step">Score & Rank</span>
-                    </div>
+                    <p>
+                        LexArena is the beginning. We're starting with SEC enforcement—500+ cases 
+                        with complete outcome resolution. Next: FINRA, DOJ, state AGs, civil litigation.
+                    </p>
+                    <p>
+                        <strong>The model that masters legal prediction will have trained on datasets like this one.</strong>
+                    </p>
                 </div>
             </section>
 
@@ -614,11 +726,10 @@
                 <div class="card">
                     <p>
                         <strong>No contamination.</strong> Every evaluated case is resolved <em>after</em> the complaint 
-                        was filed—meaning no model could have seen the outcome in training data.
+                        was filed—no model could have seen the outcome in training data.
                     </p>
                     <p>
-                        <strong>Consistent prompting.</strong> All models receive identical prompts and case summaries, 
-                        ensuring fair comparison across providers.
+                        <strong>Consistent prompting.</strong> All models receive identical prompts and case summaries.
                     </p>
                     <p>
                         <strong>Reproducible results.</strong> The full scoring code, evaluation prompts, and dataset 
@@ -632,7 +743,7 @@
                 <h3>Want to add your model?</h3>
                 <p>Submit your model's predictions and see how it ranks on the leaderboard.</p>
                 <div class="cta-buttons">
-                    <a href="cases.html" class="btn-primary">Explore Cases →</a>
+                    <a href="cases.html" class="btn-primary">Explore Cases</a>
                     <a href="https://github.com/sakethkesiraju26/newlex" class="btn-secondary" target="_blank">View on GitHub</a>
                 </div>
             </div>
