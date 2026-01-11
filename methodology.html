@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Methodology — LexArena</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fafafa;
+            --bg-white: #ffffff;
+            --bg-hover: #f5f5f5;
+            --border: #e5e5e5;
+            --border-light: #f0f0f0;
+            --text: #1a1a1a;
+            --text-secondary: #666666;
+            --text-muted: #999999;
+            --accent: #6366f1;
+            --accent-light: #eef2ff;
+            --green: #10b981;
+            --green-light: #d1fae5;
+            --orange: #f59e0b;
+            --orange-light: #fef3c7;
+            --red: #ef4444;
+            --red-light: #fee2e2;
+            --purple: #8b5cf6;
+            --purple-light: #ede9fe;
+            --blue: #3b82f6;
+            --blue-light: #dbeafe;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 56px;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            width: 24px;
+            height: 24px;
+            background: var(--accent);
+            border-radius: 6px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.15s;
+        }
+
+        .nav-links a:hover { color: var(--text); }
+        .nav-links a.active { color: var(--text); }
+
+        .nav-cta {
+            background: var(--accent);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: opacity 0.15s;
+        }
+
+        .nav-cta:hover { opacity: 0.9; }
+
+        /* Hero */
+        .hero {
+            padding: 64px 0 48px;
+            text-align: center;
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero h1 {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+        }
+
+        .hero-subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* Content */
+        main {
+            padding: 48px 0 80px;
+        }
+
+        .section {
+            margin-bottom: 48px;
+        }
+
+        .section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section h2 .icon {
+            font-size: 18px;
+        }
+
+        .section p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        .section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .section p strong {
+            color: var(--text);
+        }
+
+        .card {
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .card:last-child {
+            margin-bottom: 0;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .steps {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .step {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .step-number {
+            width: 28px;
+            height: 28px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .step h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .step p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* Metrics Table */
+        .metrics-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+
+        .metrics-table th,
+        .metrics-table td {
+            text-align: left;
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border-light);
+            font-size: 14px;
+        }
+
+        .metrics-table th {
+            font-weight: 600;
+            color: var(--text-muted);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: var(--bg);
+        }
+
+        .metrics-table td {
+            color: var(--text-secondary);
+        }
+
+        .metrics-table td:first-child {
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .metrics-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .metric-badge {
+            font-size: 10px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .metric-badge.exact { background: var(--purple-light); color: var(--purple); }
+        .metric-badge.tolerance { background: var(--blue-light); color: var(--blue); }
+
+        /* Pipeline */
+        .pipeline {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 24px;
+            padding: 24px;
+            background: var(--bg);
+            border-radius: 10px;
+        }
+
+        .pipeline-step {
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .pipeline-arrow {
+            color: var(--text-muted);
+            font-size: 16px;
+        }
+
+        /* Scoring Cards */
+        .scoring-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 700px) {
+            .scoring-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .scoring-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .scoring-card h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .scoring-card p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* CTA */
+        .cta-section {
+            text-align: center;
+            margin-top: 64px;
+            padding-top: 48px;
+            border-top: 1px solid var(--border);
+        }
+
+        .cta-section h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .cta-section p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: var(--text);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: opacity 0.15s;
+        }
+
+        .btn-primary:hover { opacity: 0.85; }
+
+        .btn-secondary {
+            background: var(--bg-white);
+            color: var(--text-secondary);
+            padding: 12px 24px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.15s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--text-muted);
+            color: var(--text);
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 32px 0;
+            background: var(--bg-white);
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .footer-inner a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .footer-inner a:hover {
+            color: var(--text);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-inner">
+            <a href="index.html" class="logo">
+                <div class="logo-icon"></div>
+                LexArena
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html#leaderboard">Leaderboard</a></li>
+                <li><a href="cases.html">Cases</a></li>
+                <li><a href="methodology.html" class="active">Methodology</a></li>
+                <li><a href="https://github.com/sakethkesiraju26/newlex" target="_blank">GitHub</a></li>
+            </ul>
+            <a href="cases.html" class="nav-cta">View Cases →</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Methodology</h1>
+            <p class="hero-subtitle">How LexArena is built and why these predictions actually mean something.</p>
+        </div>
+    </section>
+
+    <main>
+        <div class="container">
+            <!-- Motivation -->
+            <section class="section">
+                <h2><span class="icon">💡</span> Motivation</h2>
+                <div class="card">
+                    <p>
+                        Traditional legal datasets test models on historical cases, which modern LLMs can memorize. 
+                        LexArena evaluates on <strong>resolved but unseen</strong> outcomes—ensuring clean, out-of-sample 
+                        testing of an AI system's legal reasoning, uncertainty handling, and predictive depth.
+                    </p>
+                    <p>
+                        Every forecast is made on complaint text only. Models never see the resolution, eliminating 
+                        data contamination and retrospective rationalization. No model can have memorized the answer 
+                        from training data.
+                    </p>
+                    <p>
+                        This matters because legal prediction requires both <strong>factual extraction</strong> (understanding 
+                        the allegations) and <strong>probabilistic reasoning</strong> (estimating likely outcomes based on 
+                        precedent, severity, and regulatory patterns).
+                    </p>
+                </div>
+            </section>
+
+            <!-- Benchmark Design -->
+            <section class="section">
+                <h2><span class="icon">🏗️</span> Benchmark Design</h2>
+                <div class="card">
+                    <p>
+                        LexArena follows a four-stage pipeline that ensures clean separation between input data and ground truth outcomes.
+                    </p>
+                    <div class="steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <h4>Case Ingestion</h4>
+                            <p>We scrape SEC Litigation Releases and extract complaint PDFs as they're filed.</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <h4>Synopsis Generation</h4>
+                            <p>GPT-4o creates plain-English case summaries from raw complaint text.</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <h4>Blind Prediction</h4>
+                            <p>Models receive only the synopsis and must forecast 6 outcome metrics.</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <h4>Ground Truth Extraction</h4>
+                            <p>Outcomes are extracted from final SEC release text after case resolution.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Prediction Metrics -->
+            <section class="section">
+                <h2><span class="icon">📊</span> Prediction Metrics</h2>
+                <div class="card">
+                    <p>
+                        Models predict 6 outcome metrics for each SEC enforcement case. These cover both the 
+                        nature of resolution and the specific penalties imposed.
+                    </p>
+                    <table class="metrics-table">
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th>Description</th>
+                                <th>Scoring</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Resolution Type</td>
+                                <td>Did the case settle (defendant agrees without trial) or go to litigation (court decides)?</td>
+                                <td><span class="metric-badge exact">Exact Match</span></td>
+                            </tr>
+                            <tr>
+                                <td>Disgorgement</td>
+                                <td>Amount of ill-gotten gains the defendant must return to harmed investors.</td>
+                                <td><span class="metric-badge tolerance">±10% Tolerance</span></td>
+                            </tr>
+                            <tr>
+                                <td>Civil Penalty</td>
+                                <td>Fine imposed by the SEC as punishment for securities law violations.</td>
+                                <td><span class="metric-badge tolerance">±10% Tolerance</span></td>
+                            </tr>
+                            <tr>
+                                <td>Prejudgment Interest</td>
+                                <td>Interest accrued on disgorgement amount from violation date to judgment.</td>
+                                <td><span class="metric-badge tolerance">±10% Tolerance</span></td>
+                            </tr>
+                            <tr>
+                                <td>Injunction</td>
+                                <td>Court order preventing future violations of securities laws.</td>
+                                <td><span class="metric-badge exact">Exact Match</span></td>
+                            </tr>
+                            <tr>
+                                <td>Officer/Director Bar</td>
+                                <td>Ban from serving as an officer or director of a public company.</td>
+                                <td><span class="metric-badge exact">Exact Match</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Scoring -->
+            <section class="section">
+                <h2><span class="icon">🎯</span> Scoring</h2>
+                <div class="card">
+                    <p>
+                        We use different scoring methods depending on the metric type to account for the 
+                        nature of each prediction.
+                    </p>
+                    <div class="scoring-grid">
+                        <div class="scoring-card">
+                            <h4>Categorical Metrics</h4>
+                            <p>Resolution, injunction, and officer bar use exact match—the model must predict the correct category.</p>
+                        </div>
+                        <div class="scoring-card">
+                            <h4>Monetary Metrics</h4>
+                            <p>Disgorgement, penalty, and interest use a 10% tolerance band to account for reasonable estimation variance.</p>
+                        </div>
+                        <div class="scoring-card">
+                            <h4>Overall Accuracy</h4>
+                            <p>Weighted average across all 6 metrics, with categorical and monetary equally weighted.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pipeline Visual -->
+            <section class="section">
+                <h2><span class="icon">⚙️</span> Pipeline</h2>
+                <div class="card">
+                    <p>
+                        The complete evaluation flow from raw SEC filings to leaderboard rankings.
+                    </p>
+                    <div class="pipeline">
+                        <span class="pipeline-step">SEC Complaint PDF</span>
+                        <span class="pipeline-arrow">→</span>
+                        <span class="pipeline-step">Text Extraction</span>
+                        <span class="pipeline-arrow">→</span>
+                        <span class="pipeline-step">Synopsis Generation</span>
+                        <span class="pipeline-arrow">→</span>
+                        <span class="pipeline-step">LLM Prediction</span>
+                        <span class="pipeline-arrow">→</span>
+                        <span class="pipeline-step">Ground Truth Comparison</span>
+                        <span class="pipeline-arrow">→</span>
+                        <span class="pipeline-step">Score & Rank</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Data Integrity -->
+            <section class="section">
+                <h2><span class="icon">🔒</span> Data Integrity</h2>
+                <div class="card">
+                    <p>
+                        <strong>No contamination.</strong> Every evaluated case is resolved <em>after</em> the complaint 
+                        was filed—meaning no model could have seen the outcome in training data.
+                    </p>
+                    <p>
+                        <strong>Consistent prompting.</strong> All models receive identical prompts and case summaries, 
+                        ensuring fair comparison across providers.
+                    </p>
+                    <p>
+                        <strong>Reproducible results.</strong> The full scoring code, evaluation prompts, and dataset 
+                        are open source on GitHub.
+                    </p>
+                </div>
+            </section>
+
+            <!-- CTA -->
+            <div class="cta-section">
+                <h3>Want to add your model?</h3>
+                <p>Submit your model's predictions and see how it ranks on the leaderboard.</p>
+                <div class="cta-buttons">
+                    <a href="cases.html" class="btn-primary">Explore Cases →</a>
+                    <a href="https://github.com/sakethkesiraju26/newlex" class="btn-secondary" target="_blank">View on GitHub</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <span>© 2026 LexArena. Open source benchmark for legal AI.</span>
+                <a href="https://github.com/sakethkesiraju26/newlex" target="_blank">GitHub</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
