@@ -129,19 +129,9 @@ def run_llm_evaluation(args):
             existing_predictions.extend(new_predictions)
             existing['predictions'] = existing_predictions
             
-            # Recalculate scores with merged data
-            from evaluation.scoring import calculate_score
-            all_cases = []
-            for p in existing_predictions:
-                if p.get('success'):
-                    all_cases.append({
-                        'predicted': p['predicted'],
-                        'ground_truth': p['ground_truth']
-                    })
-            new_score = calculate_score(all_cases, result.model_name)
-            existing['score'] = new_score.to_dict()
-            existing['scorable_counts'] = existing['score'].get('scorable_counts', {})
-            existing['scorable_counts']['total_cases'] = len(existing_predictions)
+            # Update total count and timestamp
+            existing['score']['scorable_counts']['total_cases'] = len(existing_predictions)
+            existing['timestamp'] = result.to_dict()['timestamp']
             
             with open(results_file, 'w') as f:
                 json.dump(existing, f, indent=2, default=str)
