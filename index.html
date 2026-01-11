@@ -759,6 +759,34 @@
             </div>
         </section>
 
+        <section class="container" id="findings">
+            <div class="methodology" style="background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%); border-color: #86efac;">
+                <h2>Key Findings</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 24px;">
+                    <div style="background: white; padding: 20px; border-radius: 8px; border: 1px solid #d1fae5;">
+                        <div style="font-size: 14px; color: #059669; font-weight: 600; margin-bottom: 8px;">GPT-4o Leads Overall</div>
+                        <div style="font-size: 24px; font-weight: 700; color: #065f46;">64.9% vs 46.8%</div>
+                        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">GPT-4o outperforms Claude Opus 4 by 18 percentage points overall</div>
+                    </div>
+                    <div style="background: white; padding: 20px; border-radius: 8px; border: 1px solid #d1fae5;">
+                        <div style="font-size: 14px; color: #059669; font-weight: 600; margin-bottom: 8px;">Claude Excels at Officer Bar</div>
+                        <div style="font-size: 24px; font-weight: 700; color: #065f46;">92.0% vs 89.2%</div>
+                        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">Claude Opus 4 beats GPT-4o on predicting officer/director bars</div>
+                    </div>
+                    <div style="background: white; padding: 20px; border-radius: 8px; border: 1px solid #d1fae5;">
+                        <div style="font-size: 14px; color: #059669; font-weight: 600; margin-bottom: 8px;">Monetary Predictions Hardest</div>
+                        <div style="font-size: 24px; font-weight: 700; color: #065f46;">53% vs 23.5%</div>
+                        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">Both models struggle with exact dollar amounts; GPT-4o significantly better</div>
+                    </div>
+                    <div style="background: white; padding: 20px; border-radius: 8px; border: 1px solid #d1fae5;">
+                        <div style="font-size: 14px; color: #059669; font-weight: 600; margin-bottom: 8px;">Same Resolution Accuracy</div>
+                        <div style="font-size: 24px; font-weight: 700; color: #065f46;">38.6% = 38.6%</div>
+                        <div style="font-size: 13px; color: #6b7280; margin-top: 4px;">Both models equally struggle to predict settled vs litigated outcomes</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section class="container" id="methodology">
             <div class="methodology">
                 <h2>Methodology</h2>
@@ -772,6 +800,32 @@
                     Ground truth is extracted from SEC release text after cases resolve. Models see only the original 
                     complaint—no outcome information. Monetary predictions use 10% tolerance; categorical use exact match.
                 </p>
+                
+                <h3 style="font-size: 16px; font-weight: 600; margin: 24px 0 12px;">System Prompt</h3>
+                <p style="margin-bottom: 12px;">Both models receive the identical prompt to ensure fair comparison:</p>
+                <div style="background: #1e293b; color: #e2e8f0; padding: 20px; border-radius: 8px; font-family: 'SF Mono', Monaco, monospace; font-size: 12px; line-height: 1.6; overflow-x: auto; white-space: pre-wrap;">You are a legal analyst evaluating SEC enforcement cases.
+
+Read the following SEC complaint and predict the likely outcome:
+
+---
+COMPLAINT:
+{complaint_text}
+---
+
+Predict the following outcomes for this case:
+
+1. Resolution Type: Choose one of:
+   - settled (defendant will agree to terms)
+   - litigated (case will go to trial/judgment)
+
+2. Disgorgement Amount: The amount in dollars the defendant must return.
+3. Civil Penalty Amount: The civil penalty in dollars.
+4. Prejudgment Interest: Interest on disgorgement in dollars.
+5. Has Injunction: Will there be injunctive relief? (yes/no)
+6. Has Officer/Director Bar: Will the defendant be barred? (yes/no)
+
+Respond in JSON format with reasoning.</div>
+                
                 <div class="methodology-links">
                     <a href="https://github.com/sakethkesiraju26/newlex" class="btn-secondary" target="_blank">View on GitHub →</a>
                     <a href="cases.html" class="btn-secondary">View All Cases →</a>
