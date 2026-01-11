@@ -13,6 +13,11 @@ def main():
     with open('cases.html', 'r') as f:
         html = f.read()
     
+    # First, remove any existing claudeData blocks
+    # Pattern matches from "// Claude evaluation data" to before "function formatMoney"
+    pattern = r'        // Claude evaluation data\n        const claudeData = \{[\s\S]*?\};\s*\n\s*// Create lookup map for Claude predictions by case_id\n        const claudePredictions = \{\};\n        claudeData\.predictions\.forEach\(p => \{\n            claudePredictions\[p\.case_id\] = p;\n        \}\);\n\n'
+    html = re.sub(pattern, '', html)
+    
     # Serialize Claude data
     claude_json = json.dumps(claude_data, indent=4, ensure_ascii=False)
     
