@@ -35,7 +35,7 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg);
             color: var(--text);
-            line-height: 1.5;
+            line-height: 1.6;
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
         }
@@ -120,19 +120,39 @@
             border-bottom: 1px solid var(--border);
         }
 
-        .hero h1 {
-            font-size: 36px;
-            font-weight: 700;
-            letter-spacing: -0.02em;
+        .hero-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
             margin-bottom: 12px;
         }
 
-        .hero-subtitle {
-            font-size: 16px;
+        .hero h1 {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-intro {
+            font-size: 15px;
             color: var(--text-secondary);
-            max-width: 560px;
+            max-width: 640px;
             margin: 0 auto;
-            line-height: 1.7;
+            line-height: 1.8;
+        }
+
+        .hero-intro p {
+            margin-bottom: 16px;
+        }
+
+        .hero-intro p:last-child {
+            margin-bottom: 0;
         }
 
         /* Content */
@@ -141,7 +161,7 @@
         }
 
         .section {
-            margin-bottom: 48px;
+            margin-bottom: 56px;
         }
 
         .section:last-child {
@@ -151,10 +171,7 @@
         .section h2 {
             font-size: 20px;
             font-weight: 600;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            margin-bottom: 20px;
         }
 
         .section p {
@@ -172,6 +189,10 @@
             color: var(--text);
         }
 
+        .section p em {
+            font-style: italic;
+        }
+
         .section ul {
             margin: 16px 0;
             padding-left: 24px;
@@ -184,6 +205,10 @@
             margin-bottom: 8px;
         }
 
+        .section ul li:last-child {
+            margin-bottom: 0;
+        }
+
         .section ul li strong {
             color: var(--text);
         }
@@ -192,12 +217,25 @@
             background: var(--bg-white);
             border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 24px;
+            padding: 28px;
             margin-bottom: 24px;
         }
 
         .card:last-child {
             margin-bottom: 0;
+        }
+
+        .highlight-text {
+            font-size: 16px;
+            color: var(--text);
+            font-weight: 500;
+            line-height: 1.7;
+        }
+
+        .muted-note {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-style: italic;
         }
 
         /* Use Cases Grid */
@@ -235,50 +273,59 @@
             line-height: 1.6;
         }
 
-        .steps {
+        /* Data Model */
+        .data-model-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 16px;
             margin-top: 20px;
         }
 
-        @media (max-width: 600px) {
-            .steps {
+        @media (max-width: 700px) {
+            .data-model-grid {
                 grid-template-columns: 1fr;
             }
         }
 
-        .step {
+        .data-model-item {
             background: var(--bg);
             border: 1px solid var(--border);
             border-radius: 10px;
             padding: 20px;
         }
 
-        .step-number {
-            width: 28px;
-            height: 28px;
-            background: var(--accent);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .data-model-item h4 {
             font-size: 13px;
             font-weight: 600;
             margin-bottom: 12px;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
 
-        .step h4 {
-            font-size: 14px;
-            font-weight: 600;
+        .data-model-item ul {
+            margin: 0;
+            padding-left: 16px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .data-model-item li {
             margin-bottom: 6px;
         }
 
-        .step p {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin: 0;
+        .data-model-item li:last-child {
+            margin-bottom: 0;
+        }
+
+        .signal-note {
+            margin-top: 24px;
+            padding: 16px 20px;
+            background: var(--accent-light);
+            border-radius: 8px;
+            font-size: 14px;
+            color: var(--text);
             line-height: 1.6;
         }
 
@@ -331,93 +378,150 @@
         .metric-badge.exact { background: var(--purple-light); color: var(--purple); }
         .metric-badge.tolerance { background: var(--blue-light); color: var(--blue); }
 
-        /* Pipeline */
-        .pipeline {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-top: 24px;
-            padding: 24px;
-            background: var(--bg);
-            border-radius: 10px;
-        }
-
-        .pipeline-step {
-            background: var(--bg-white);
-            border: 1px solid var(--border);
-            padding: 12px 18px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--text);
-        }
-
-        .pipeline-arrow {
-            color: var(--text-muted);
-            font-size: 16px;
-        }
-
-        /* Scoring Cards */
-        .scoring-grid {
+        /* Evolution Grid */
+        .evolution-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap: 16px;
             margin-top: 20px;
         }
 
-        @media (max-width: 700px) {
-            .scoring-grid {
+        @media (max-width: 600px) {
+            .evolution-grid {
                 grid-template-columns: 1fr;
             }
         }
 
-        .scoring-card {
+        .evolution-item {
             background: var(--bg);
             border: 1px solid var(--border);
             border-radius: 10px;
             padding: 20px;
-            text-align: center;
         }
 
-        .scoring-card h4 {
+        .evolution-item h4 {
             font-size: 14px;
             font-weight: 600;
             margin-bottom: 8px;
+            color: var(--text);
         }
 
-        .scoring-card p {
+        .evolution-item p {
             font-size: 13px;
             color: var(--text-muted);
             margin: 0;
-            line-height: 1.5;
+            line-height: 1.6;
+        }
+
+        /* Integrity List */
+        .integrity-list {
+            margin-top: 16px;
+        }
+
+        .integrity-item {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+            align-items: flex-start;
+        }
+
+        .integrity-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .integrity-check {
+            width: 20px;
+            height: 20px;
+            background: var(--green-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .integrity-check::after {
+            content: "✓";
+            font-size: 11px;
+            color: var(--green);
+            font-weight: 600;
+        }
+
+        .integrity-text strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .integrity-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Vision */
+        .vision-list {
+            margin: 20px 0;
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .vision-list li {
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 12px;
+            font-size: 15px;
+            color: var(--text-secondary);
+        }
+
+        .vision-list li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        .vision-statement {
+            font-size: 16px;
+            color: var(--text);
+            font-weight: 500;
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-light);
         }
 
         /* CTA */
         .cta-section {
             text-align: center;
             margin-top: 64px;
-            padding-top: 48px;
-            border-top: 1px solid var(--border);
+            padding: 48px;
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            border-radius: 16px;
         }
 
         .cta-section h3 {
-            font-size: 18px;
-            font-weight: 600;
+            font-size: 22px;
+            font-weight: 700;
             margin-bottom: 8px;
         }
 
-        .cta-section p {
+        .cta-tagline {
             color: var(--text-secondary);
-            font-size: 14px;
-            margin-bottom: 20px;
+            font-size: 15px;
+            margin-bottom: 28px;
+            line-height: 1.6;
         }
 
         .cta-buttons {
             display: flex;
             gap: 12px;
             justify-content: center;
+            flex-wrap: wrap;
         }
 
         .btn-primary {
@@ -448,6 +552,12 @@
         .btn-secondary:hover {
             border-color: var(--text-muted);
             color: var(--text);
+        }
+
+        .cta-footer {
+            margin-top: 24px;
+            font-size: 13px;
+            color: var(--text-muted);
         }
 
         /* Footer */
@@ -494,11 +604,19 @@
 
     <section class="hero">
         <div class="container">
-            <h1>Building Legal AGI Starts Here</h1>
-            <p class="hero-subtitle">
-                The future of legal AI depends on verified outcome data. 
-                We're creating the foundational dataset for models that reason about legal consequences.
-            </p>
+            <div class="hero-label">Methodology</div>
+            <h1>LexArena: An Open-Ended Environment for Legal Outcome Prediction</h1>
+            <div class="hero-intro">
+                <p>
+                    LexArena is a continuously evolving evaluation environment for legal AI systems that reason about real-world legal consequences.
+                </p>
+                <p>
+                    The future of legal AI is not document understanding — it is outcome prediction. Models must learn to forecast what happens next: enforcement decisions, penalties, remedies, and downstream consequences. That capability requires verified ground truth, revealed over time, under shifting regulatory regimes.
+                </p>
+                <p>
+                    LexArena is designed to provide exactly that.
+                </p>
+            </div>
         </div>
     </section>
 
@@ -509,129 +627,131 @@
                 <h2>Why Outcomes Matter</h2>
                 <div class="card">
                     <p>
-                        <strong>Today's LLMs can read legal documents. Tomorrow's will make legal decisions.</strong>
+                        Today's language models can summarize legal documents.
                     </p>
                     <p>
-                        The path to Legal AGI isn't more training data—it's <em>the right</em> training data. 
-                        Models need verified ground truth: what was predicted, what actually happened, 
-                        and why. That feedback loop doesn't exist at scale.
+                        Tomorrow's models will make decisions that depend on legal outcomes.
                     </p>
                     <p>
-                        LexArena is building it. We collect SEC enforcement actions with documented outcomes—
-                        not just the complaint, but the resolution: monetary penalties, disgorgement, 
-                        bars, settlements. Every case becomes a training signal.
+                        The path to Legal AGI is not more text — it is verified feedback:
+                    </p>
+                    <ul>
+                        <li>What was predicted</li>
+                        <li>What actually happened</li>
+                        <li>Under what regulatory conditions</li>
+                        <li>And how those patterns change over time</li>
+                    </ul>
+                    <p>
+                        That feedback loop does not exist at scale in law. LexArena is building it.
                     </p>
                     <p>
-                        This isn't just a benchmark. It's the dataset that future legal reasoning models 
-                        will learn from.
+                        We structure legal enforcement as a prediction problem where ground truth is revealed only after decisions are made — mirroring real-world uncertainty faced by insurers, investors, regulators, and operators.
                     </p>
                 </div>
             </section>
 
-            <!-- Who Needs This -->
+            <!-- From Dataset to Environment -->
             <section class="section">
-                <h2>Who Needs Legal Outcome Data</h2>
+                <h2>From Dataset to Environment</h2>
+                <div class="card">
+                    <p class="highlight-text">
+                        LexArena is not a static dataset.
+                    </p>
+                    <p>
+                        It is an open-ended prediction environment where:
+                    </p>
+                    <ul>
+                        <li>New cases continuously enter the system</li>
+                        <li>New questions are introduced as enforcement priorities evolve</li>
+                        <li>Outcome distributions shift over time</li>
+                        <li>Models are evaluated on robustness, not memorization</li>
+                    </ul>
+                    <p>
+                        This design prevents overfitting and forces models to generalize across regulatory regimes.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Who Uses Legal Outcome Environments -->
+            <section class="section">
+                <h2>Who Uses Legal Outcome Environments</h2>
                 <div class="card">
                     <p>
-                        AI-driven legal prediction is transforming industries that depend on 
-                        accurate risk assessment from unstructured legal documents.
+                        LexArena supports any system that needs probabilistic reasoning over legal risk.
                     </p>
                     <div class="use-cases-grid">
                         <div class="use-case">
                             <h4>Insurance Underwriting</h4>
                             <p>
-                                D&O and E&O pricing depends on predicting regulatory outcomes. 
-                                Structured outcome data lets insurers train models that actually 
-                                improve loss ratios—not just parse documents faster.
+                                Management liability, D&O, and E&O pricing depend on predicting regulatory outcomes under uncertainty. LexArena enables models that improve loss ratios by learning from real enforcement resolutions — not proxy features.
                             </p>
                         </div>
                         <div class="use-case">
                             <h4>Litigation Finance</h4>
                             <p>
-                                Case funders need probability distributions on outcomes, not summaries. 
-                                Training on real resolution data creates the edge.
+                                Case funders require calibrated probability distributions over outcomes, not summaries. LexArena provides the ground truth needed to price legal risk as an asset.
                             </p>
                         </div>
                         <div class="use-case">
                             <h4>Foundation Model Labs</h4>
                             <p>
-                                Legal reasoning is a key capability for AGI. Labs building next-gen 
-                                models need high-quality, outcome-verified legal datasets 
-                                for fine-tuning and RLHF.
+                                Legal reasoning is a core AGI capability. Labs training next-generation models need outcome-verified environments for fine-tuning, evaluation, and reinforcement learning.
                             </p>
                         </div>
                         <div class="use-case">
-                            <h4>Legal AI Startups</h4>
+                            <h4>Legal AI Builders</h4>
                             <p>
-                                Building a legal AI product without outcome data is guessing. 
-                                LexArena provides the ground truth to train and validate your models.
+                                Without outcome feedback, legal AI products are guessing. LexArena provides the calibration layer required to validate whether models actually reason correctly about consequences.
                             </p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- The Dataset -->
+            <!-- The Data Model -->
             <section class="section">
-                <h2>The Dataset</h2>
+                <h2>The Data Model</h2>
                 <div class="card">
                     <p>
-                        Each case in LexArena contains structured data paired with verified outcomes:
+                        Each case in LexArena is represented as a sequence of information states over time.
                     </p>
-                    <ul>
-                        <li><strong>Structured complaint data</strong> — extracted via Reducto's document AI</li>
-                        <li><strong>AI-generated synopsis</strong> — case summary from GPT-4o</li>
-                        <li><strong>Verified outcomes</strong> — monetary penalties, disgorgement, bars, restrictions</li>
-                        <li><strong>Model predictions</strong> — what GPT-4o and Claude predicted vs. reality</li>
-                        <li><strong>Prediction accuracy</strong> — scored across 6 outcome metrics</li>
-                    </ul>
-                    <p>
-                        Every resolved case adds signal. Every prediction adds calibration data. 
-                        This is how you build a model that <em>reasons</em> about legal outcomes, 
-                        not just retrieves precedent.
-                    </p>
-                </div>
-            </section>
-
-            <!-- Pipeline -->
-            <section class="section">
-                <h2>How We Build It</h2>
-                <div class="card">
-                    <p>
-                        LexArena follows a four-stage pipeline that ensures clean separation between input data and ground truth outcomes.
-                    </p>
-                    <div class="steps">
-                        <div class="step">
-                            <div class="step-number">1</div>
-                            <h4>Case Ingestion</h4>
-                            <p>We scrape SEC Litigation Releases and extract complaint PDFs as they're filed.</p>
+                    <div class="data-model-grid">
+                        <div class="data-model-item">
+                            <h4>Input State</h4>
+                            <ul>
+                                <li>Structured complaint data (extracted from SEC filings)</li>
+                                <li>Plain-English case synopsis generated from raw filings</li>
+                            </ul>
                         </div>
-                        <div class="step">
-                            <div class="step-number">2</div>
-                            <h4>Synopsis Generation</h4>
-                            <p>GPT-4o creates plain-English case summaries from raw complaint text.</p>
+                        <div class="data-model-item">
+                            <h4>Prediction Layer</h4>
+                            <ul>
+                                <li>Blind model forecasts across multiple outcome dimensions</li>
+                                <li>No access to future information or resolution text</li>
+                            </ul>
                         </div>
-                        <div class="step">
-                            <div class="step-number">3</div>
-                            <h4>Blind Prediction</h4>
-                            <p>Models receive only the synopsis and must forecast 6 outcome metrics.</p>
+                        <div class="data-model-item">
+                            <h4>Revealed Outcome</h4>
+                            <ul>
+                                <li>Final enforcement resolution</li>
+                                <li>Monetary and non-monetary penalties</li>
+                                <li>Structural remedies and restrictions</li>
+                            </ul>
                         </div>
-                        <div class="step">
-                            <div class="step-number">4</div>
-                            <h4>Ground Truth Extraction</h4>
-                            <p>Outcomes are extracted from final SEC release text after case resolution.</p>
-                        </div>
+                    </div>
+                    <div class="signal-note">
+                        Every resolved case adds signal. Every prediction adds calibration data.<br>
+                        This is how models learn to reason about outcomes — not just retrieve precedent.
                     </div>
                 </div>
             </section>
 
-            <!-- Prediction Metrics -->
+            <!-- Prediction Tasks -->
             <section class="section">
-                <h2>Prediction Metrics</h2>
+                <h2>Prediction Tasks</h2>
                 <div class="card">
                     <p>
-                        Models predict 6 outcome metrics for each SEC enforcement case. These cover both the 
-                        nature of resolution and the specific penalties imposed.
+                        Models are evaluated across multiple outcome dimensions that reflect real regulatory consequences.
                     </p>
                     <table class="metrics-table">
                         <thead>
@@ -644,108 +764,157 @@
                         <tbody>
                             <tr>
                                 <td>Resolution Type</td>
-                                <td>Did the case settle or go to litigation?</td>
+                                <td>Settlement vs. litigation</td>
                                 <td><span class="metric-badge exact">Exact Match</span></td>
                             </tr>
                             <tr>
                                 <td>Disgorgement</td>
-                                <td>Amount of ill-gotten gains returned to investors.</td>
+                                <td>Return of ill-gotten gains</td>
                                 <td><span class="metric-badge tolerance">±10% Tolerance</span></td>
                             </tr>
                             <tr>
                                 <td>Civil Penalty</td>
-                                <td>Fine imposed by the SEC as punishment.</td>
+                                <td>Punitive fine imposed</td>
                                 <td><span class="metric-badge tolerance">±10% Tolerance</span></td>
                             </tr>
                             <tr>
                                 <td>Prejudgment Interest</td>
-                                <td>Interest accrued on disgorgement amount.</td>
+                                <td>Interest on disgorgement</td>
                                 <td><span class="metric-badge tolerance">±10% Tolerance</span></td>
                             </tr>
                             <tr>
                                 <td>Injunction</td>
-                                <td>Court order preventing future violations.</td>
+                                <td>Court-ordered prohibitions</td>
                                 <td><span class="metric-badge exact">Exact Match</span></td>
                             </tr>
                             <tr>
                                 <td>Officer/Director Bar</td>
-                                <td>Ban from serving at public companies.</td>
+                                <td>Management prohibitions</td>
                                 <td><span class="metric-badge exact">Exact Match</span></td>
                             </tr>
                         </tbody>
                     </table>
+                    <p class="muted-note" style="margin-top: 16px;">
+                        Scores are aggregated using a weighted accuracy metric that balances categorical and monetary outcomes.
+                    </p>
                 </div>
             </section>
 
-            <!-- Scoring -->
+            <!-- How the System Evolves -->
             <section class="section">
-                <h2>Scoring</h2>
+                <h2>How the System Evolves</h2>
                 <div class="card">
                     <p>
-                        Different metric types require different scoring approaches.
+                        LexArena is explicitly designed to expand.
                     </p>
-                    <div class="scoring-grid">
-                        <div class="scoring-card">
-                            <h4>Categorical Metrics</h4>
-                            <p>Resolution, injunction, and officer bar use exact match.</p>
+                    <div class="evolution-grid">
+                        <div class="evolution-item">
+                            <h4>Continuous Case Ingestion</h4>
+                            <p>
+                                New enforcement actions are added as they are filed. Outcomes are revealed only after resolution, preserving causal integrity.
+                            </p>
                         </div>
-                        <div class="scoring-card">
-                            <h4>Monetary Metrics</h4>
-                            <p>Disgorgement, penalty, and interest use 10% tolerance bands.</p>
+                        <div class="evolution-item">
+                            <h4>Expanding Question Space</h4>
+                            <p>
+                                As regulatory priorities change, new prediction tasks are introduced without altering historical data — forcing models to adapt to novel reasoning challenges.
+                            </p>
                         </div>
-                        <div class="scoring-card">
-                            <h4>Overall Accuracy</h4>
-                            <p>Weighted average across all 6 metrics.</p>
+                        <div class="evolution-item">
+                            <h4>Distribution Shift Preservation</h4>
+                            <p>
+                                Changes in enforcement intensity, remedy structure, and disclosure requirements are preserved rather than normalized away.
+                            </p>
+                        </div>
+                        <div class="evolution-item">
+                            <h4>Human-in-the-Loop Curation</h4>
+                            <p>
+                                New enforcement theories, disclosure structures, and case patterns are reviewed and annotated to introduce reasoning challenges models have not previously encountered.
+                            </p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- The Vision -->
+            <!-- Evaluation Integrity -->
             <section class="section">
-                <h2>The Vision</h2>
+                <h2>Evaluation Integrity</h2>
                 <div class="card">
                     <p>
-                        Legal AGI will need to predict outcomes, not just summarize documents. 
-                        It will need to weigh evidence, assess regulatory risk, and reason about 
-                        consequences. That capability requires training on verified outcomes at scale.
+                        LexArena enforces strict separation between inputs and ground truth.
                     </p>
-                    <p>
-                        LexArena is the beginning. We're starting with SEC enforcement—500+ cases 
-                        with complete outcome resolution. Next: FINRA, DOJ, state AGs, civil litigation.
-                    </p>
-                    <p>
-                        <strong>The model that masters legal prediction will have trained on datasets like this one.</strong>
+                    <div class="integrity-list">
+                        <div class="integrity-item">
+                            <div class="integrity-check"></div>
+                            <div class="integrity-text">
+                                <strong>No outcome contamination:</strong> All evaluated cases resolve after initial filings.
+                            </div>
+                        </div>
+                        <div class="integrity-item">
+                            <div class="integrity-check"></div>
+                            <div class="integrity-text">
+                                <strong>Consistent prompting:</strong> All models receive identical inputs.
+                            </div>
+                        </div>
+                        <div class="integrity-item">
+                            <div class="integrity-check"></div>
+                            <div class="integrity-text">
+                                <strong>Reproducible scoring:</strong> Evaluation code, prompts, and schemas are open source.
+                            </div>
+                        </div>
+                        <div class="integrity-item">
+                            <div class="integrity-check"></div>
+                            <div class="integrity-text">
+                                <strong>Versioned leaderboards:</strong> Results are segmented by time period and enforcement regime.
+                            </div>
+                        </div>
+                    </div>
+                    <p style="margin-top: 20px;">
+                        This ensures results reflect genuine predictive ability, not data leakage.
                     </p>
                 </div>
             </section>
 
-            <!-- Data Integrity -->
+            <!-- The Long-Term Vision -->
             <section class="section">
-                <h2>Data Integrity</h2>
+                <h2>The Long-Term Vision</h2>
                 <div class="card">
                     <p>
-                        <strong>No contamination.</strong> Every evaluated case is resolved <em>after</em> the complaint 
-                        was filed—no model could have seen the outcome in training data.
+                        Legal AGI will require models that:
+                    </p>
+                    <ul class="vision-list">
+                        <li>Predict consequences, not just cite rules</li>
+                        <li>Adapt to regulatory change</li>
+                        <li>Reason under uncertainty</li>
+                        <li>Learn from outcomes revealed through time</li>
+                    </ul>
+                    <p>
+                        LexArena is the training ground for that capability.
                     </p>
                     <p>
-                        <strong>Consistent prompting.</strong> All models receive identical prompts and case summaries.
+                        We are starting with SEC enforcement — hundreds of fully resolved cases. Next: FINRA, DOJ, state attorneys general, and civil litigation.
                     </p>
-                    <p>
-                        <strong>Reproducible results.</strong> The full scoring code, evaluation prompts, and dataset 
-                        are open source on GitHub.
+                    <p class="vision-statement">
+                        The models that master legal reasoning will be trained in environments like this one.
                     </p>
                 </div>
             </section>
 
             <!-- CTA -->
             <div class="cta-section">
-                <h3>Want to add your model?</h3>
-                <p>Submit your model's predictions and see how it ranks on the leaderboard.</p>
+                <h3>Join the Arena</h3>
+                <p class="cta-tagline">
+                    Submit your model. Evaluate your predictions.<br>
+                    See how it performs as the environment evolves.
+                </p>
                 <div class="cta-buttons">
                     <a href="cases.html" class="btn-primary">Explore Cases</a>
-                    <a href="https://github.com/sakethkesiraju26/newlex" class="btn-secondary" target="_blank">View on GitHub</a>
+                    <a href="index.html#leaderboard" class="btn-secondary">View Leaderboard</a>
+                    <a href="https://github.com/sakethkesiraju26/newlex" class="btn-secondary" target="_blank">Contribute on GitHub</a>
                 </div>
+                <p class="cta-footer">
+                    LexArena is open source. The problem it tackles is not bounded.
+                </p>
             </div>
         </div>
     </main>
