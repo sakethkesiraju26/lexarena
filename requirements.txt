@@ -1,0 +1,22 @@
+# SEC Case LLM Evaluation Requirements
+
+# PDF Processing
+pdfplumber>=0.10.0
+PyPDF2>=3.0.0
+
+# HTTP Requests
+requests>=2.28.0
+
+# API Server
+flask>=2.3.0
+flask-cors>=4.0.0
+
+# Optional: LLM Providers
+# Uncomment the providers you want to use for evaluations:
+# openai>=1.0.0      # Required for OpenAI/GPT-4o evaluations and synopsis generation
+# anthropic>=0.18.0  # Required for Anthropic/Claude evaluations
+google-genai>=0.1.0  # Required for Google/Gemini evaluations
+
+# Note: The API server (api_server.py) works without any LLM provider dependencies
+# API keys are only needed when running evaluations (run_evaluation.py) or generating synopses
+

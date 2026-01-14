@@ -1,0 +1,106 @@
+# Environment variables and secrets
+.env
+.env.*
+*.env
+*.key
+*.pem
+*.p12
+*.pfx
+*.secret
+
+# Log files
+*.log
+logs/
+*.log.*
+evaluation_log.txt
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.hypothesis/
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+*.bak
+*.swp
+
+# Large data files (exceed GitHub file size limits)
+# litigation-cases.json is 117MB (exceeds GitHub's 100MB hard limit)
+litigation-cases.json
+# sec-cases.json is 46MB (exceeds GitHub's 50MB warning threshold)
+sec-cases.json
+# Large markdown documentation file
+cursor_sec_cases_data_structure_and_fea.md
+
+# Data files (if containing sensitive information)
+# Uncomment if data/raw or data/pdfs should not be public
+# data/raw/
+# data/pdfs/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json

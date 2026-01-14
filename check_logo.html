@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head><title>Logo Check</title></head>
+<body>
+<h1>Logo Test Page</h1>
+<p>Testing different path formats:</p>
+<hr>
+<h2>Relative path:</h2>
+<img src="lexlogo.png" alt="Relative" style="width: 200px; border: 2px solid blue;" onerror="this.style.border='5px solid red'; this.alt='FAILED TO LOAD'">
+<hr>
+<h2>With query param:</h2>
+<img src="lexlogo.png?v=test" alt="With param" style="width: 200px; border: 2px solid green;" onerror="this.style.border='5px solid red'; this.alt='FAILED TO LOAD'">
+<hr>
+<p>Open browser console (F12) to see any errors.</p>
+</body>
+</html>

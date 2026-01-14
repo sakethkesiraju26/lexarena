@@ -1,0 +1,308 @@
+{
+  "metadata": {
+    "total_skipped": 50,
+    "created_at": "2026-01-01T18:55:55.071633"
+  },
+  "cases": [
+    {
+      "case_id": "LR-26445",
+      "title": "Artur Khachatryan",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26445.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26445.pdf"
+    },
+    {
+      "case_id": "LR-26444",
+      "title": "James O Ward, Jr.",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2024/comp26102.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2024/comp26102.pdf"
+    },
+    {
+      "case_id": "LR-26443",
+      "title": "Irfan Mohammed",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26443.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26443.pdf"
+    },
+    {
+      "case_id": "LR-26442",
+      "title": "Charles D. Oliver; David P. Ortiz; DaveGlo Investment Group, Inc.; Kevin N. Richards",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26442-dortiz.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26442-dortiz.pdf"
+    },
+    {
+      "case_id": "LR-26441",
+      "title": "Tiffany Kelly and Curastory Inc.",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26441.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26441.pdf"
+    },
+    {
+      "case_id": "LR-26440",
+      "title": "Kevin L. Jefferson and Demetrius L. Early",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26440-jefferson.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26440-jefferson.pdf"
+    },
+    {
+      "case_id": "LR-26439",
+      "title": "Nathan Gauvin; Blackridge, LLC; Gray Digital Capital Management USA, LLC; Gray Digital Technologies, LLC",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26439.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26439.pdf"
+    },
+    {
+      "case_id": "LR-26438",
+      "title": "Marshall E. Melton and Integrated Consulting & Management, LLC",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2023/comp25740.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2023/comp25740.pdf"
+    },
+    {
+      "case_id": "LR-26437",
+      "title": "Rapid Therapeutic Science Laboratories, Inc. and Donal R. Schmidt, Jr.",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2023/comp25832.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2023/comp25832.pdf"
+    },
+    {
+      "case_id": "LR-26435",
+      "title": "Oppenheimer & Co., Inc.",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2022/comp-pr2022-161.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2022/comp-pr2022-161.pdf"
+    },
+    {
+      "case_id": "LR-26436",
+      "title": "Thomas San Miguel",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2024/comp26059.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2024/comp26059.pdf"
+    },
+    {
+      "case_id": "LR-26433",
+      "title": "Shahin Ahmed",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26433.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26433.pdf"
+    },
+    {
+      "case_id": "LR-26430",
+      "title": "Yida Gao and Shima Capital Management LLC",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26430.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26430.pdf"
+    },
+    {
+      "case_id": "LR-26429",
+      "title": "Srinivas Koneru",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26429.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26429.pdf"
+    },
+    {
+      "case_id": "LR-26428",
+      "title": "Andrew Scott Corbman",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26428.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26428.pdf"
+    },
+    {
+      "case_id": "LR-26427",
+      "title": "Virtu Financial, Inc.; Virtu Americas LLC",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26427.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26427.pdf"
+    },
+    {
+      "case_id": "LR-26426",
+      "title": "Solomon Lichtenstein",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26426.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26426.pdf"
+    },
+    {
+      "case_id": "LR-26424",
+      "title": "Shiloh Luckey",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26424.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26424.pdf"
+    },
+    {
+      "case_id": "LR-26423",
+      "title": "SolarWinds Corp. and Timothy G. Brown",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26423.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26423.pdf"
+    },
+    {
+      "case_id": "LR-26422",
+      "title": "Michael G. Hull; Christopher J. Nohl; Bluepoint Investment Counsel, LLC; Chrysalis Financial LLC; and Greenpoint Asset Management II LLC",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26422.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26422.pdf"
+    },
+    {
+      "case_id": "LR-26421",
+      "title": "Linh Thuy Le and Trong Hoang Luu",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26421.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26421.pdf"
+    },
+    {
+      "case_id": "LR-26420",
+      "title": "Marco G. Santarelli",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26420.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26420.pdf"
+    },
+    {
+      "case_id": "LR-26419",
+      "title": "Joshua Wander, Steven Pasko, Damien Alfalla, 777 Partners LLC, and 600 Partners LLC",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26419.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26419.pdf"
+    },
+    {
+      "case_id": "LR-26416",
+      "title": "Bluesky Eagle Capital Management Ltd., Supreme Power Capital Management Ltd., AI Financial Education Foundation Ltd., AI Investment Education Foundation Ltd., Invesco Alpha Inc., Adamant Stone Limited",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26416-adamant-stone-limited.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26416-adamant-stone-limited.pdf"
+    },
+    {
+      "case_id": "LR-26414",
+      "title": "Prophecy Asset Management, LP, Jeffrey Spotts, and Brian Kahn",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26414.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26414.pdf"
+    },
+    {
+      "case_id": "LR-26413",
+      "title": "Taino Adrian Lopez, Alexander Farhang Mehr, and Maya Rose Burkenroad",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26413.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26413.pdf"
+    },
+    {
+      "case_id": "LR-26412",
+      "title": "Lixin Azarmehr, JL Real Estate Development Corporation, Nevada Skilled Nursing Lender, LLC, and Nevada Skilled Nursing Development, LLC",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26412.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26412.pdf"
+    },
+    {
+      "case_id": "LR-26411",
+      "title": "Matthew Derrick Hudson",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26411.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26411.pdf"
+    },
+    {
+      "case_id": "LR-26410",
+      "title": "Dmitrii Yevgenyevich Kushnarev",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26410.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26410.pdf"
+    },
+    {
+      "case_id": "LR-26408",
+      "title": "Arthur P. Pizzello. Jr.; Robert Quattrocchi",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26243.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26243.pdf"
+    },
+    {
+      "case_id": "LR-26407",
+      "title": "Aaron O'Brian Freeman",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26407.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26407.pdf"
+    },
+    {
+      "case_id": "LR-26406",
+      "title": "Pathyam Patel",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26406.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26406.pdf"
+    },
+    {
+      "case_id": "LR-26402",
+      "title": "Justin R. Kimbrough and Prosperity Consultants, LLC",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26402.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26402.pdf"
+    },
+    {
+      "case_id": "LR-26401",
+      "title": "Todd O'Gara and Wanu Water, Inc.",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26401.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26401.pdf"
+    },
+    {
+      "case_id": "LR-26398",
+      "title": "Jian Wu",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/briefs/2025/comp26398.pdf",
+      "url": "https://www.sec.gov/files/litigation/briefs/2025/comp26398.pdf"
+    },
+    {
+      "case_id": "LR-26395",
+      "title": "Parker Terrill Austin and Embarcadero Capital Advisors, Inc.",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26395.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26395.pdf"
+    },
+    {
+      "case_id": "LR-26394",
+      "title": "Kin-Hung Peony Yu",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26394.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26394.pdf"
+    },
+    {
+      "case_id": "LR-26393",
+      "title": "Tomislav Vukota; Vukota Capital Management, LLC; VCM Global Asset Management Ltd.",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26393.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26393.pdf"
+    },
+    {
+      "case_id": "LR-26392",
+      "title": "Henry Paul Regan, Jr.",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26392.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26392.pdf"
+    },
+    {
+      "case_id": "LR-26391",
+      "title": "Arsalan Rawjani; Trade with Ayasa, LLC (Texas); Trade with Ayasa, LLC (Wyoming); Trade with Ayasa, LLC (Nevada)",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26391.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26391.pdf"
+    },
+    {
+      "case_id": "LR-26390",
+      "title": "Calvin Guess; Marcus Ligon; 5 Fruits Enterprises LLC",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26390.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26390.pdf"
+    },
+    {
+      "case_id": "LR-26389",
+      "title": "Austin D. Ellison-Meade",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26389.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26389.pdf"
+    },
+    {
+      "case_id": "LR-26388",
+      "title": "Ryan Squillante",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26388.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26388.pdf"
+    },
+    {
+      "case_id": "LR-26387",
+      "title": "Daryl F. Heller; Prestige Investment Group, LLC; Paramount Management Group, LLC",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp-pr2025-111.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp-pr2025-111.pdf"
+    },
+    {
+      "case_id": "LR-26386",
+      "title": "Faraz Dar and Horizon Platinum LLC",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26386.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26386.pdf"
+    },
+    {
+      "case_id": "LR-26384",
+      "title": "Robert M. Thompson; The Financial Freedom Foundation d/b/a F3 Mastermind; Brandon K. Stucki",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26384.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26384.pdf"
+    },
+    {
+      "case_id": "LR-26383",
+      "title": "Rouzbeh \u201cRoss\u201d Haghighat; Behrouz \u201cBruce\u201d Haghighat; Kirstyn Pearl; James Roberge; Seyedfarbod \u201cFabio\u201d Sabzevari",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26383.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26383.pdf"
+    },
+    {
+      "case_id": "LR-26382",
+      "title": "Joseph Neal Sanberg",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26382.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26382.pdf"
+    },
+    {
+      "case_id": "LR-26381",
+      "title": "Kenneth Thom",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26381.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26381.pdf"
+    },
+    {
+      "case_id": "LR-26380",
+      "title": "Justin Chen; Jun Zhen",
+      "reason": "Reducto extraction failed: Failed to download PDF: 403 Client Error: Forbidden for url: https://www.sec.gov/files/litigation/complaints/2025/comp26380.pdf",
+      "url": "https://www.sec.gov/files/litigation/complaints/2025/comp26380.pdf"
+    }
+  ]
+}

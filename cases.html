@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cases — LexArena</title>
+    <link rel="icon" type="image/png" href="lexlogo.png">
+    <link rel="apple-touch-icon" href="lexlogo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fafafa;
+            --bg-white: #ffffff;
+            --text: #1a1a1a;
+            --text-secondary: #666666;
+            --text-muted: #999999;
+            --border: #e5e5e5;
+            --accent: #3b82f6;
+            --green: #10b981;
+            --blue: #3b82f6;
+            --orange: #f97316;
+            --red: #ef4444;
+            --purple: #8b5cf6;
+            /* Light variants for badges */
+            --green-light: #d1fae5;
+            --blue-light: #dbeafe;
+            --orange-light: #fed7aa;
+            --red-light: #fee2e2;
+            --purple-light: #e9d5ff;
+            --bg-hover: #f5f5f5;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #ffffff;
+            color: #000000;
+            line-height: 1.6;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.9);
+            border-bottom: 1px solid #e5e5e5;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 20px;
+            color: #000000;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .logo-img {
+            height: 40px;
+            width: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 48px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #000000;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            
+            letter-spacing: 0;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .nav-links a:hover { 
+            border-bottom-color: #000000;
+            color: #000000; 
+        }
+        .nav-links a.active { 
+            border-bottom-color: #000000;
+        }
+
+        .nav-cta {
+            background: var(--text);
+            color: var(--bg-white);
+            padding: 10px 20px;
+            font-size: 12px;
+            font-weight: 600;
+            
+            letter-spacing: 0;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-cta:hover {
+            background: var(--text);
+            transform: translateY(-1px);
+            box-shadow: 0 1px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        
+        /* Page Header */
+        .page-header {
+            padding: 48px 0 16px;
+            background: #ffffff;
+            border-bottom: none;
+            margin: 0;
+            text-align: left;
+        }
+
+        .page-header h1 {
+            font-size: 48px;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+            color: #000000;
+            line-height: 1.2;
+        }
+
+        .page-header p {
+            color: #666666;
+            font-size: 16px;
+            font-weight: 400;
+            max-width: 600px;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* Filters */
+        .filters {
+            display: flex;
+            gap: 12px;
+            margin: 32px 0 24px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666666;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .filter-btn:hover {
+            border-color: #999999;
+            color: #000000;
+        }
+
+        .filter-btn svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* Model Comparison */
+                .model-comparison {
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            padding: 32px;
+            margin: 24px 0 32px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+                .model-comparison h3 {
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 32px;
+            color: #000000;
+            letter-spacing: -0.01em;
+        }
+
+        .model-leaderboard {
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            overflow: visible;
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .model-leaderboard-header {
+            display: grid;
+            grid-template-columns: 80px 2fr repeat(5, 1fr);
+            gap: 24px;
+            padding: 10px 32px;
+            background: #ffffff;
+            border-bottom: 1px solid #e5e5e5;
+            font-size: 11px;
+            font-weight: 500;
+            color: #999999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            overflow: visible;
+            position: relative;
+        }
+
+        .model-leaderboard-row {
+            display: grid;
+            grid-template-columns: 80px 2fr repeat(5, 1fr);
+            gap: 24px;
+            padding: 20px 32px;
+            border-bottom: 1px solid #e5e5e5;
+            align-items: center;
+            transition: background 0.15s ease;
+            cursor: pointer;
+        }
+
+        .model-leaderboard-row:hover {
+            background: #fafafa;
+        }
+
+        .model-leaderboard-row:last-child { 
+            border-bottom: none; 
+        }
+
+        .model-leaderboard-row.active {
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .model-leaderboard-row.gpt.active {
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .model-leaderboard-row.claude.active {
+            background: rgba(249, 115, 22, 0.05);
+        }
+
+        .model-leaderboard-row.gemini.active {
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .model-rank {
+            font-weight: 500;
+            color: #000000;
+            font-size: 16px;
+        }
+
+        .model-rank-1 { color: var(--green); }
+        .model-rank-2 { color: var(--blue); }
+        .model-rank-3 { color: #666666; }
+
+        .model-name-table {
+            font-weight: 500;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            letter-spacing: 0.02em;
+        }
+
+        .model-best-badge {
+            font-size: 9px;
+            background: var(--green);
+            color: var(--bg-white);
+            padding: 4px 8px;
+            border: none;
+            font-weight: 600;
+            letter-spacing: 0;
+            border-radius: 4px;
+        }
+
+        .model-score-table {
+            font-weight: 500;
+            font-size: 18px;
+            color: #000000;
+        }
+
+        .model-score-table.good { color: var(--green); }
+        .model-score-table.medium { color: var(--blue); }
+        .model-score-table.poor { color: #666666; }
+        .model-score-table.muted { color: #666666; }
+
+        .comparison-note {
+            font-size: 14px;
+            color: #666666;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+            font-size: 14px;
+            color: #666666;
+            text-align: center;
+        }
+
+        .eval-prompt-toggle {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+            margin-top: 16px;
+            text-align: center;
+        }
+
+        .eval-prompt-toggle summary {
+            cursor: pointer;
+            font-size: 12px;
+            color: #999999;
+            user-select: none;
+        }
+
+        .eval-prompt-toggle summary:hover {
+            color: #666666;
+        }
+
+        .eval-prompt-content {
+            background: #ffffff;
+            color: #666666;
+            padding: 16px;
+            border-radius: 6px;
+            font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+            font-size: 11px;
+            line-height: 1.6;
+            margin-top: 12px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            border: 1px solid #e5e5e5;
+            text-align: left;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (max-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Stats Summary */
+        .stats-row {
+            margin-bottom: 24px;
+        }
+
+        .stats-summary {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+        }
+
+        .stat-card {
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-card.primary {
+            background: (135deg, var(--accent) 0%, #4f46e5 100%);
+            border: none;
+            color: white;
+        }
+
+        .stat-card.primary .stat-value {
+            color: white;
+        }
+
+        .stat-card.primary .stat-label {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #000000;
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #999999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 768px) {
+            .stats-summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .stat-card:first-child {
+                grid-column: span 2;
+            }
+        }
+
+        /* Search Box */
+        .search-box {
+            margin-bottom: 24px;
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            max-width: 500px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 16px 12px 40px;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            font-size: 14px;
+            background: #ffffff;
+            color: #000000;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .search-input::placeholder {
+            color: #999999;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            color: #999999;
+            pointer-events: none;
+        }
+
+        .search-results-count {
+            margin-top: 8px;
+            font-size: 14px;
+            color: #999999;
+        }
+
+        /* Cases Table */
+        .cases-table {
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            margin: 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .cases-table * {
+            box-sizing: border-box;
+        }
+
+        .cases-header > *,
+        .case-row > * {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .case-row > *:first-child {
+            overflow: visible;
+            min-width: 0;
+        }
+
+        
+
+        .cases-header {
+            display: grid;
+            grid-template-columns: 2fr 0.8fr 0.8fr 0.8fr 0.8fr 0.6fr;
+            gap: 16px;
+            padding: 18px 20px;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e5e5e5;
+            font-size: 11px;
+            font-weight: 600;
+            color: #666666;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+                .case-row {
+            display: grid;
+            grid-template-columns: 2fr 0.8fr 0.8fr 0.8fr 0.8fr 0.6fr;
+            gap: 16px;
+            padding: 18px 20px;
+            background: #ffffff;
+            border-bottom: 1px solid #e5e5e5;
+            cursor: pointer;
+            transition: background 0.15s;
+            align-items: start;
+        }
+        
+                .case-row:hover {
+            background: #fafafa;
+        }
+
+        .case-row:hover { 
+            background: #fafafa;
+            border-left: 3px solid #000000;
+            padding-left: 17px;
+        }
+
+        
+        .case-row:last-child { border-bottom: none; }
+        .case-detail {
+            display: none;
+            background: #ffffff;
+            border-bottom: 1px solid #e5e5e5;
+            padding: 24px;
+            padding: 32px 24px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+                .case-row.expanded {
+            background: #f5f5f5;
+        }
+
+                .case-row.expanded + .case-detail {
+            display: block;
+        }
+        .source-link {
+            font-size: 11px;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            letter-spacing: 0.02em;
+        }
+
+        .source-link.pdf-link {
+            background: #fee2e2;
+            color: #dc2626;
+            border: 1px solid rgba(220, 38, 38, 0.2);
+        }
+
+        .source-link.sec-link {
+            background: #dbeafe;
+            color: #2563eb;
+            border: 1px solid rgba(37, 99, 235, 0.2);
+        }
+
+        .source-link:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .source-link.pdf-link:hover {
+            background: #fecaca;
+            color: #b91c1c;
+        }
+
+        .source-link.sec-link:hover {
+            background: #bfdbfe;
+            color: #1d4ed8;
+        }
+
+        .source-links {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+
+        
+        
+
+        .case-row.expanded { 
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        
+        .case-info {
+            min-width: 0;
+            overflow: hidden;
+        }
+
+        .case-info > * {
+            min-width: 0;
+        }
+
+                .case-title {
+            font-weight: 400;
+            font-size: 16px;
+            color: #000000;
+            margin-bottom: 4px;
+            line-height: 1.5;
+        }
+
+                .case-subtitle {
+            font-size: 14px;
+            font-weight: 400;
+            color: #666666;
+            line-height: 1.6;
+            -webkit-line-clamp: 2;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .case-filed {
+            font-size: 14px;
+            color: #666666;
+            font-weight: 500;
+            white-space: nowrap;
+            text-align: left;
+        }
+
+        .case-status,
+        .case-resolution {
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .case-date {
+            font-size: 13px;
+            color: #666666;
+            font-weight: 500;
+        }
+
+        .case-accuracy {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .case-accuracy.good {
+            color: var(--green);
+        }
+
+        .case-accuracy.medium {
+            color: var(--orange);
+        }
+
+        .case-accuracy.poor {
+            color: #999999;
+        }
+
+        
+        /* Badges - Enhanced with colors */
+        .agency-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+        }
+
+        .agency-badge.sec {
+            background: var(--blue-light);
+            color: var(--blue);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: capitalize;
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+        }
+
+        .status-badge.settled {
+            background: var(--green-light);
+            color: #059669;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .status-badge.litigated {
+            background: var(--orange-light);
+            color: #ea580c;
+            border: 1px solid rgba(249, 115, 22, 0.2);
+        }
+
+        .status-badge.active {
+            background: var(--green-light);
+            color: #059669;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .fraud-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 600;
+            background: var(--purple-light);
+            color: #7c3aed;
+            margin-top: 4px;
+            text-transform: capitalize;
+            letter-spacing: 0.02em;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .defendant-type {
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-transform: capitalize;
+            letter-spacing: 0.02em;
+        }
+
+        .defendant-type.individual {
+            background: var(--blue-light);
+            color: var(--blue);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .defendant-type.company {
+            background: var(--purple-light);
+            color: var(--purple);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .defendant-type.multiple {
+            background: var(--orange-light);
+            color: var(--orange);
+            border: 1px solid rgba(249, 115, 22, 0.2);
+        }
+
+
+        .fraud-type {
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            background: var(--red-light);
+            color: var(--red);
+            font-weight: 500;
+        }
+
+        .scheme-summary {
+            font-size: 14px;
+            color: #666666;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .reducto-fields {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            padding: 12px;
+            background: #ffffff;
+            border-radius: 6px;
+            margin-bottom: 12px;
+        }
+
+        .reducto-field {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .field-label {
+            font-size: 11px;
+            color: #999999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .field-value {
+            font-size: 14px;
+            color: #000000;
+            font-weight: 500;
+        }
+
+        .relief-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .relief-tag {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 3px;
+            background: var(--accent-light);
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+
+                .synopsis-box {
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .synopsis-box h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 12px;
+            letter-spacing: -0.01em;
+        }
+
+        .synopsis-box p {
+            font-size: 14px;
+            color: #666666;
+            line-height: 1.8;
+            letter-spacing: 0.01em;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+
+        .synopsis-meta strong {
+            color: var(--green);
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .comparison-table table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            table-layout: fixed;
+        }
+
+        .comparison-table tbody tr {
+            transition: background 0.15s ease;
+        }
+
+        .comparison-table tbody tr:hover {
+            background: #fafafa;
+        }
+
+        .comparison-table thead {
+            background: #ffffff;
+        }
+
+        .comparison-table th {
+            padding: 14px 16px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 600;
+            color: #999999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .comparison-table th:first-child {
+            width: 140px;
+            text-align: left;
+        }
+
+        .comparison-table th.model-header {
+            text-align: center;
+        }
+
+        .comparison-table th.ground-truth-header {
+            text-align: left;
+            font-weight: 700;
+            color: #000000;
+        }
+
+        .comparison-table th.model-header .model-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .comparison-table th.model-header .model-badge:hover {
+            transform: scale(1.05);
+        }
+
+        .comparison-table th.model-header .model-badge.gpt {
+            background: var(--green-light);
+            color: var(--green);
+        }
+
+        .comparison-table th.model-header .model-badge.gpt.active {
+            background: var(--green);
+            color: white;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+        }
+
+        .comparison-table th.model-header .model-badge.claude {
+            background: var(--orange-light);
+            color: var(--orange);
+        }
+
+        .comparison-table th.model-header .model-badge.claude.active {
+            background: var(--orange);
+            color: white;
+            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+        }
+
+        .comparison-table th.model-header .model-badge.gemini {
+            background: var(--blue-light);
+            color: var(--blue);
+        }
+
+        .comparison-table th.model-header .model-badge.gemini.active {
+            background: var(--blue);
+            color: white;
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+        }
+
+        .comparison-table th.model-header .model-badge.placeholder {
+            background: #fafafa;
+            color: #999999;
+        }
+
+            color: #999999;
+            font-style: italic;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .comparison-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border-light);
+            vertical-align: middle;
+            text-align: left;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table td:first-child {
+            font-weight: 500;
+            color: #666666;
+            text-align: left;
+            padding-left: 16px;
+        }
+
+        .comparison-table td.ground-truth {
+            font-weight: 600;
+            color: #000000;
+            background: #ffffff;
+        }
+
+        .comparison-table td.model-cell {
+            text-align: center;
+            padding-left: 16px;
+            padding-right: 16px;
+        }
+
+        .comparison-table td.ground-truth {
+            text-align: left;
+            padding-left: 16px;
+            padding-right: 16px;
+        }
+
+        .cell-value {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .cell-value.correct {
+            color: var(--green);
+        }
+
+        .cell-value.incorrect {
+            color: var(--red);
+        }
+
+        .cell-value.na {
+            color: #999999;
+        }
+
+        .check-icon { color: var(--green); }
+        .x-icon { color: var(--red); }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .detail-section {
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .detail-section h3 {
+            font-size: 12px;
+            font-weight: 600;
+            color: #999999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .field-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-light);
+            font-size: 14px;
+        }
+
+        .field-row:last-child { border-bottom: none; }
+
+        .field-name {
+            color: #666666;
+        }
+
+        .field-value {
+            font-weight: 500;
+            color: #000000;
+        }
+
+        .field-value.mismatch {
+            color: var(--red);
+            background: var(--red-light);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .field-value.match {
+            color: var(--green);
+        }
+
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-inner">
+            <a href="index.html" class="logo">
+                <img src="lexlogo.png" alt="LexArena" class="logo-img">
+                LexArena
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Leaderboard</a></li>
+                <li><a href="cases.html" class="active">Cases</a></li>
+                <li><a href="methodology.html">Methodology</a></li>
+                <li><a href="https://github.com/sakethkesiraju26/newlex" target="_blank">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container" style="padding-top: 0;">
+        <div class="page-header">
+            <h1>Cases</h1>
+            <p>Browse and compare model predictions across all evaluated SEC enforcement cases.</p>
+        </div>
+
+        <div class="model-comparison">
+            <h3>Select Model</h3>
+            <div class="model-leaderboard">
+                <div class="model-leaderboard-header">
+                    <div>Rank</div>
+                    <div>Model</div>
+                    <div>Overall</div>
+                    <div>Resolution</div>
+                    <div>Monetary</div>
+                    <div>Injunction</div>
+                    <div>Officer Bar</div>
+                </div>
+                <div class="model-leaderboard-row gpt active" onclick="selectModel('gpt')">
+                    <div class="model-rank model-rank-1">#1</div>
+                    <div class="model-name-table">GPT-4o <span class="model-best-badge">Best</span></div>
+                    <div class="model-score-table good">64.9%</div>
+                    <div class="model-score-table medium">38.6%</div>
+                    <div class="model-score-table medium">53.0%</div>
+                    <div class="model-score-table good">78.8%</div>
+                    <div class="model-score-table good">89.2%</div>
+                </div>
+                <div class="model-leaderboard-row gemini" onclick="selectModel('gemini')">
+                    <div class="model-rank model-rank-2">#2</div>
+                    <div class="model-name-table">Gemini 2.0</div>
+                    <div class="model-score-table good">62.8%</div>
+                    <div class="model-score-table medium">38.9%</div>
+                    <div class="model-score-table medium">46.9%</div>
+                    <div class="model-score-table good">79.6%</div>
+                    <div class="model-score-table good">85.7%</div>
+                </div>
+                <div class="model-leaderboard-row claude" onclick="selectModel('claude')">
+                    <div class="model-rank model-rank-3">#3</div>
+                    <div class="model-name-table">Claude Opus 4</div>
+                    <div class="model-score-table medium">46.8%</div>
+                    <div class="model-score-table medium">32.4%</div>
+                    <div class="model-score-table medium">41.2%</div>
+                    <div class="model-score-table good">68.4%</div>
+                    <div class="model-score-table good">75.6%</div>
+                </div>
+            </div>
+            <p class="comparison-note">Showing <strong id="active-model-name">GPT-4o</strong> predictions on <strong id="case-count">500</strong> evaluated cases below.</p>
+        </div>
+
+        <div class="search-box">
+            <div class="search-input-wrapper">
+                <input type="text" id="search-input" class="search-input" placeholder="Search cases...">
+            </div>
+        </div>
+
+        <div class="cases-table" id="cases-container">
+            <div class="cases-header">
+                <div>Matter</div>
+                <div>Agency</div>
+                <div>Status</div>
+                <div>Filed</div>
+                <div>Resolution</div>
+                <div>Accuracy</div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let activeModel = 'gpt';
+        let resultsData = null;
+        const providerMap = { 'gpt': 'openai', 'claude': 'anthropic', 'gemini': 'google' };
+
+        // Load data
+        fetch('data/processed/combined_results.json')
+            .then(res => res.json())
+            .then(data => {
+                resultsData = data;
+                renderCases();
+            })
+            .catch(err => {
+                console.error('Failed to load data:', err);
+                document.getElementById('cases-container').innerHTML = '<div style="padding: 40px; text-align: center; color: #666;">Failed to load case data. Please ensure combined_results.json exists.</div>';
+            });
+
+        function formatMoney(amount) {
+            if (amount === null || amount === undefined) return 'N/A';
+            return '$' + amount.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+        }
+
+        function formatBoolean(val) {
+            if (val === null || val === undefined) return 'N/A';
+            return val ? 'Yes' : 'No';
+        }
+
+        function calculateAccuracy(comp) {
+            const fields = [
+                comp.resolution_type_correct,
+                comp.disgorgement_correct,
+                comp.penalty_correct,
+                comp.interest_correct,
+                comp.injunction_correct,
+                comp.officer_bar_correct
+            ];
+            const correct = fields.filter(f => f === true).length;
+            const total = fields.filter(f => f !== null).length;
+            return total > 0 ? Math.round((correct / total) * 100) : 0;
+        }
+
+        function getPredictionForProvider(caseId, provider) {
+            if (!resultsData.all_providers || !resultsData.all_providers[provider]) return null;
+            return resultsData.all_providers[provider].predictions.find(p => p.case_id === caseId && p.success) || null;
+        }
+
+        function renderCases(searchTerm = '') {
+            if (!resultsData || !resultsData.predictions) return;
+            
+            const container = document.getElementById('cases-container');
+            let predictions = resultsData.predictions.filter(p => p.success);
+            
+            // Filter by search term
+            if (searchTerm) {
+                const term = searchTerm.toLowerCase();
+                predictions = predictions.filter(p => {
+                    const meta = p.metadata || {};
+                    const title = (meta.title || '').toLowerCase();
+                    const caseId = (p.case_id || '').toLowerCase();
+                    return title.includes(term) || caseId.includes(term);
+                });
+            }
+            
+            let html = '<div class="cases-header"><div>Matter</div><div>Agency</div><div>Status</div><div>Filed</div><div>Resolution</div><div>Accuracy</div></div>';
+            
+            predictions.forEach((pred, idx) => {
+                const meta = pred.metadata || {};
+                const comp = pred.comparison || {};
+                const accuracy = calculateAccuracy(comp);
+                const releaseDate = meta.release_date || 'N/A';
+                const resolutionType = (pred.ground_truth?.resolution_type || 'unknown').toUpperCase();
+                const complaintUrl = meta.complaint_url || '';
+                const caseUrl = meta.case_url || '';
+                
+                // Get predictions from all providers
+                const gptPred = getPredictionForProvider(pred.case_id, 'openai');
+                const claudePred = getPredictionForProvider(pred.case_id, 'anthropic');
+                const geminiPred = getPredictionForProvider(pred.case_id, 'google');
+                
+                // Calculate accuracies for each model
+                const gptAccuracy = gptPred ? calculateAccuracy(gptPred.comparison || {}) : null;
+                const claudeAccuracy = claudePred ? calculateAccuracy(claudePred.comparison || {}) : null;
+                const geminiAccuracy = geminiPred ? calculateAccuracy(geminiPred.comparison || {}) : null;
+                
+                html += `
+                    <div class="case-row" id="row-${idx}" onclick="toggleCase(${idx})">
+                        <div class="case-title">${meta.title || pred.case_id || 'Unknown'}</div>
+                        <div class="case-subtitle"><span class="agency-badge sec">SEC</span></div>
+                        <div class="case-status"><span class="status-badge ${resolutionType.toLowerCase().includes('settled') ? 'settled' : resolutionType.toLowerCase().includes('litigated') ? 'litigated' : ''}">${resolutionType}</span></div>
+                        <div class="case-date">${releaseDate}</div>
+                        <div class="case-resolution"><span class="status-badge ${resolutionType.toLowerCase().includes('settled') ? 'settled' : resolutionType.toLowerCase().includes('litigated') ? 'litigated' : ''}">${resolutionType}</span></div>
+                        <div class="case-accuracy ${accuracy >= 80 ? 'good' : accuracy >= 50 ? 'medium' : 'poor'}">${accuracy}%</div>
+                    </div>
+                    <div class="case-detail" id="detail-${idx}">
+                        <div class="synopsis-box">
+                            <h4>Case Synopsis</h4>
+                            <p>${meta.reducto_fields?.case_synopsis || meta.summary || 'No synopsis available.'}</p>
+                            <div class="synopsis-meta" style="margin-top: 16px; display: flex; gap: 12px;">
+                                ${complaintUrl ? `<a href="${complaintUrl}" target="_blank" class="source-link pdf-link" onclick="event.stopPropagation()">PDF</a>` : ''}
+                                ${caseUrl ? `<a href="${caseUrl}" target="_blank" class="source-link sec-link" onclick="event.stopPropagation()">SEC</a>` : ''}
+                            </div>
+                        </div>
+                        <div class="comparison-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Metric</th>
+                                        <th class="ground-truth-header">Ground Truth</th>
+                                        <th class="model-header"><span class="model-badge gpt ${activeModel === 'gpt' ? 'active' : ''}" onclick="event.stopPropagation(); selectModel('gpt')">GPT</span></th>
+                                        <th class="model-header"><span class="model-badge claude ${activeModel === 'claude' ? 'active' : ''}" onclick="event.stopPropagation(); selectModel('claude')">Claude</span></th>
+                                        <th class="model-header"><span class="model-badge gemini ${activeModel === 'gemini' ? 'active' : ''}" onclick="event.stopPropagation(); selectModel('gemini')">Gemini</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Resolution</td>
+                                        <td class="ground-truth">${pred.ground_truth?.resolution_type || '—'}</td>
+                                        <td class="model-cell">${gptPred ? `<span class="cell-value ${gptPred.comparison?.resolution_type_correct === true ? 'correct' : gptPred.comparison?.resolution_type_correct === false ? 'incorrect' : 'na'}">${gptPred.predicted?.resolution_type || '—'}</span>` : '<span class="cell-value na">—</span>'}</td>
+                                        <td class="model-cell">${claudePred ? `<span class="cell-value ${claudePred.comparison?.resolution_type_correct === true ? 'correct' : claudePred.comparison?.resolution_type_correct === false ? 'incorrect' : 'na'}">${claudePred.predicted?.resolution_type || '—'}</span>` : '<span class="cell-value na">—</span>'}</td>
+                                        <td class="model-cell">${geminiPred ? `<span class="cell-value ${geminiPred.comparison?.resolution_type_correct === true ? 'correct' : geminiPred.comparison?.resolution_type_correct === false ? 'incorrect' : 'na'}">${geminiPred.predicted?.resolution_type || '—'}</span>` : '<span class="cell-value na">—</span>'}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Disgorgement</td>
+                                        <td class="ground-truth">${formatMoney(pred.ground_truth?.disgorgement_amount)}</td>
+                                        <td class="model-cell">${gptPred ? `<span class="cell-value ${gptPred.comparison?.disgorgement_correct === true ? 'correct' : gptPred.comparison?.disgorgement_correct === false ? 'incorrect' : 'na'}">${formatMoney(gptPred.predicted?.disgorgement_amount)}</span>` : '<span class="cell-value na">—</span>'}</td>
+                                        <td class="model-cell">${claudePred ? `<span class="cell-value ${claudePred.comparison?.disgorgement_correct === true ? 'correct' : claudePred.comparison?.disgorgement_correct === false ? 'incorrect' : 'na'}">${formatMoney(claudePred.predicted?.disgorgement_amount)}</span>` : '<span class="cell-value na">—</span>'}</td>
+                                        <td class="model-cell">${geminiPred ? `<span class="cell-value ${geminiPred.comparison?.disgorgement_correct === true ? 'correct' : geminiPred.comparison?.disgorgement_correct === false ? 'incorrect' : 'na'}">${formatMoney(geminiPred.predicted?.disgorgement_amount)}</span>` : '<span class="cell-value na">—</span>'}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Penalty</td>
+                                        <td class="ground-truth">${formatMoney(pred.ground_truth?.penalty_amount)}</td>
+                                        <td class="model-cell">${gptPred ? `<span class="cell-value ${gptPred.comparison?.penalty_correct === true ? 'correct' : gptPred.comparison?.penalty_correct === false ? 'incorrect' : 'na'}">${formatMoney(gptPred.predicted?.penalty_amount)}</span>` : '<span class="cell-value na">—</span>'}</td>
+                                        <td class="model-cell">${claudePred ? `<span class="cell-value ${claudePred.comparison?.penalty_correct === true ? 'correct' : claudePred.comparison?.penalty_correct === false ? 'incorrect' : 'na'}">${formatMoney(claudePred.predicted?.penalty_amount)}</span>` : '<span class="cell-value na">—</span>'}</td>
+                                        <td class="model-cell">${geminiPred ? `<span class="cell-value ${geminiPred.comparison?.penalty_correct === true ? 'correct' : geminiPred.comparison?.penalty_correct === false ? 'incorrect' : 'na'}">${formatMoney(geminiPred.predicted?.penalty_amount)}</span>` : '<span class="cell-value na">—</span>'}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Interest</td>
+                                        <td class="ground-truth">${formatMoney(pred.ground_truth?.prejudgment_interest)}</td>
+                                        <td class="model-cell">${gptPred ? `<span class="cell-value ${gptPred.comparison?.interest_correct === true ? 'correct' : gptPred.comparison?.interest_correct === false ? 'incorrect' : 'na'}">${formatMoney(gptPred.predicted?.prejudgment_interest)}</span>` : '<span class="cell-value na">—</span>'}</td>
+                                        <td class="model-cell">${claudePred ? `<span class="cell-value ${claudePred.comparison?.interest_correct === true ? 'correct' : claudePred.comparison?.interest_correct === false ? 'incorrect' : 'na'}">${formatMoney(claudePred.predicted?.prejudgment_interest)}</span>` : '<span class="cell-value na">—</span>'}</td>
+                                        <td class="model-cell">${geminiPred ? `<span class="cell-value ${geminiPred.comparison?.interest_correct === true ? 'correct' : geminiPred.comparison?.interest_correct === false ? 'incorrect' : 'na'}">${formatMoney(geminiPred.predicted?.prejudgment_interest)}</span>` : '<span class="cell-value na">—</span>'}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Injunction</td>
+                                        <td class="ground-truth">${formatBoolean(pred.ground_truth?.has_injunction)}</td>
+                                        <td class="model-cell">${gptPred ? `<span class="cell-value ${gptPred.comparison?.injunction_correct === true ? 'correct' : gptPred.comparison?.injunction_correct === false ? 'incorrect' : 'na'}">${formatBoolean(gptPred.predicted?.has_injunction)}</span>` : '<span class="cell-value na">—</span>'}</td>
+                                        <td class="model-cell">${claudePred ? `<span class="cell-value ${claudePred.comparison?.injunction_correct === true ? 'correct' : claudePred.comparison?.injunction_correct === false ? 'incorrect' : 'na'}">${formatBoolean(claudePred.predicted?.has_injunction)}</span>` : '<span class="cell-value na">—</span>'}</td>
+                                        <td class="model-cell">${geminiPred ? `<span class="cell-value ${geminiPred.comparison?.injunction_correct === true ? 'correct' : geminiPred.comparison?.injunction_correct === false ? 'incorrect' : 'na'}">${formatBoolean(geminiPred.predicted?.has_injunction)}</span>` : '<span class="cell-value na">—</span>'}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Officer Bar</td>
+                                        <td class="ground-truth">${formatBoolean(pred.ground_truth?.has_officer_director_bar)}</td>
+                                        <td class="model-cell">${gptPred ? `<span class="cell-value ${gptPred.comparison?.officer_bar_correct === true ? 'correct' : gptPred.comparison?.officer_bar_correct === false ? 'incorrect' : 'na'}">${formatBoolean(gptPred.predicted?.has_officer_director_bar)}</span>` : '<span class="cell-value na">—</span>'}</td>
+                                        <td class="model-cell">${claudePred ? `<span class="cell-value ${claudePred.comparison?.officer_bar_correct === true ? 'correct' : claudePred.comparison?.officer_bar_correct === false ? 'incorrect' : 'na'}">${formatBoolean(claudePred.predicted?.has_officer_director_bar)}</span>` : '<span class="cell-value na">—</span>'}</td>
+                                        <td class="model-cell">${geminiPred ? `<span class="cell-value ${geminiPred.comparison?.officer_bar_correct === true ? 'correct' : geminiPred.comparison?.officer_bar_correct === false ? 'incorrect' : 'na'}">${formatBoolean(geminiPred.predicted?.has_officer_director_bar)}</span>` : '<span class="cell-value na">—</span>'}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Accuracy</td>
+                                        <td class="ground-truth">—</td>
+                                        <td class="model-cell"><span class="cell-value">${gptAccuracy !== null ? gptAccuracy + '%' : '—'}</span></td>
+                                        <td class="model-cell"><span class="cell-value">${claudeAccuracy !== null ? claudeAccuracy + '%' : '—'}</span></td>
+                                        <td class="model-cell"><span class="cell-value">${geminiAccuracy !== null ? geminiAccuracy + '%' : '—'}</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            if (predictions.length === 0) {
+                html += '<div style="padding: 40px; text-align: center; color: #666;">No cases found.</div>';
+            }
+            
+            container.innerHTML = html;
+        }
+
+        function toggleCase(idx) {
+            const row = document.getElementById(`row-${idx}`);
+            if (row) {
+                row.classList.toggle('expanded');
+            }
+        }
+
+        // Model selection
+        const modelData = {
+            gpt: { name: 'GPT-4o', cases: 500, available: true },
+            claude: { name: 'Claude Opus 4', cases: 500, available: true },
+            gemini: { name: 'Gemini 2.0', cases: 499, available: true }
+        };
+        
+        function selectModel(model) {
+            activeModel = model;
+            const data = modelData[model];
+            
+            // Update table row states
+            document.querySelectorAll('.model-leaderboard-row').forEach(row => {
+                row.classList.remove('active');
+            });
+            const row = document.querySelector(`.model-leaderboard-row.${model}`);
+            if (row) row.classList.add('active');
+            
+            // Update labels
+            const activeModelName = document.getElementById('active-model-name');
+            const caseCount = document.getElementById('case-count');
+            if (activeModelName && data) activeModelName.textContent = data.name;
+            if (caseCount && data) caseCount.textContent = data.cases;
+            
+            // Re-render cases
+            const searchInput = document.getElementById('search-input');
+            if (searchInput) {
+                renderCases(searchInput.value);
+            }
+        }
+        
+        // Search functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            if (searchInput) {
+                searchInput.addEventListener('input', function(e) {
+                    renderCases(e.target.value);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

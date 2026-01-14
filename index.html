@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LexArena — SEC Case Outcome Prediction</title>
+    <link rel="icon" type="image/png" href="lexlogo.png?v=4">
+    <link rel="apple-touch-icon" href="lexlogo.png?v=4">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+                                :root {
+            --bg: #fafafa;
+            --bg-white: #ffffff;
+            --text: #1a1a1a;
+            --text-secondary: #666666;
+            --text-muted: #999999;
+            --border: #e5e5e5;
+            --accent: #3b82f6;
+            --green: #10b981;
+            --blue: #3b82f6;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #ffffff;
+            color: #000000;
+            line-height: 1.6;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.9);
+            border-bottom: 1px solid #e5e5e5;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 20px;
+            color: #000000;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .logo-img {
+            height: 40px;
+            width: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 48px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #000000;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .nav-links a:hover { 
+            border-bottom-color: #000000;
+            color: #000000; 
+        }
+        .nav-links a.active { 
+            border-bottom-color: #000000;
+        }
+
+        .nav-cta {
+            background: var(--text);
+            color: var(--bg-white);
+            padding: 10px 20px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-cta:hover {
+            background: var(--text);
+            transform: translateY(-1px);
+            box-shadow: 0 1px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        
+        /* Hero */
+                        .hero {
+            padding: 120px 0 80px;
+            background: #ffffff;
+            text-align: left;
+            border-bottom: none;
+        }
+
+                h1 {
+            font-size: 48px;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            margin-bottom: 32px;
+            color: #000000;
+            line-height: 1.2;
+        }
+
+                .hero-badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 400;
+            color: #666666;
+            background: transparent;
+            border: 1px solid #e5e5e5;
+            padding: 6px 14px;
+            margin-bottom: 32px;
+            letter-spacing: 0.05em;
+            border-radius: 4px;
+        }
+
+                        .hero-subtitle {
+            font-size: 16px;
+            font-weight: 400;
+            color: #666666;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 0 0 0;
+            text-align: left;
+        }
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        .hero-model-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: #000000;
+        }
+
+        .hero-model-provider {
+            font-size: 11px;
+            color: #666666;
+        }
+
+        .hero-model-score {
+            font-weight: 700;
+            font-size: 18px;
+            color: #000000;
+        }
+
+        .hero-model.bronze .hero-model-score {
+            color: #666666;
+            font-size: 16px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: var(--text);
+            color: var(--bg-white);
+            border: none;
+            padding: 14px 28px;
+            font-size: 13px;
+            font-weight: 600;
+            
+            letter-spacing: 0;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s ease;
+            border-radius: 6px;
+        }
+
+        .btn-primary {
+            background: var(--text);
+            color: white;
+            border: none; color: white;
+            2px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-secondary {
+            background: #ffffff;
+            color: #000000;
+            padding: 14px 28px;
+            border: 1px solid var(--border-dark);
+            font-size: 13px;
+            font-weight: 600;
+            
+            letter-spacing: 0;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s ease;
+            border-radius: 6px;
+        }
+
+        .btn-secondary:hover {
+            background: var(--text);
+            color: var(--bg-white);
+            border-color: #000000;
+            2px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 80px;
+            padding: 0;
+            background: #ffffff;
+        }
+
+        .section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 400;
+            color: #000000;
+            letter-spacing: -0.01em;
+            margin: 0;
+        }
+
+        .section-link {
+            color: #000000;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0;
+        }
+
+        .section-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Leaderboard */
+        .leaderboard {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .leaderboard-card {
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            padding: 32px;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .leaderboard-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-color: #d0d0d0;
+        }
+
+        .leaderboard-card.highlighted {
+            border: 2px solid var(--blue);
+        }
+
+        .leaderboard-header {
+            display: none;
+        }
+
+        /* Tooltip styles */
+        .tooltip-header {
+            overflow: visible;
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            cursor: help;
+        }
+
+        .tooltip-header .info-icon {
+            width: 16px;
+            height: 16px;
+            background: var(--text);
+            color: var(--bg-white);
+            font-size: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-style: normal;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+
+        .tooltip-header:hover .info-icon {
+            background: #333333;
+            transform: scale(1.1);
+        }
+
+        .tooltip-header .tooltip-text {
+            visibility: hidden;
+            opacity: 0;
+            position: absolute;
+            bottom: calc(100% + 12px);
+            left: 0;
+            transform: translateY(-4px);
+            background: #ffffff;
+            color: #000000;
+            padding: 12px 16px;
+            border: 1px solid #e5e5e5;
+            font-size: 13px;
+            font-weight: 400;
+            text-transform: none;
+            letter-spacing: 0;
+            line-height: 1.6;
+            width: 300px;
+            text-align: left;
+            z-index: 100000;
+            pointer-events: none;
+            white-space: normal;
+            word-wrap: break-word;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            border-radius: 8px;
+            display: block;
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s 0.2s;
+        }
+
+        .tooltip-header:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s 0s;
+        }
+
+        .tooltip-header .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 20px;
+            border: 6px solid transparent;
+            border-top-color: #ffffff;
+            margin-top: -1px;
+        }
+
+        .tooltip-header .tooltip-text::before {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 20px;
+            border: 7px solid transparent;
+            border-top-color: #e5e5e5;
+        }
+
+        .card-model-name {
+            font-weight: 600;
+            font-size: 18px;
+            color: #000000;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 0.02em;
+        }
+
+        .card-best-badge {
+            font-size: 9px;
+            background: var(--green);
+            color: var(--bg-white);
+            padding: 4px 8px;
+            border: none;
+            font-weight: 600;
+            letter-spacing: 0;
+            border-radius: 4px;
+        }
+
+        .card-overall {
+            margin: 24px 0;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .card-overall-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: #999999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .card-overall-value {
+            font-weight: 700;
+            font-size: 32px;
+            color: #000000;
+            line-height: 1.2;
+        }
+
+        .card-metrics {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .card-metric {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .card-metric-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: #666666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card-metric-value {
+            font-weight: 600;
+            font-size: 20px;
+            color: #000000;
+        }
+
+        .card-metric-value.good { color: var(--green); }
+        .card-metric-value.medium { color: var(--blue); }
+        .card-metric-value.poor { color: #666666; }
+
+        .leaderboard-note {
+            text-align: left;
+            color: #666666;
+            font-size: 13px;
+            font-weight: 400;
+            margin-top: 24px;
+            letter-spacing: 0;
+        }
+
+        @media (max-width: 768px) {
+            .leaderboard {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Cases Preview */
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .case-card {
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            padding: 32px;
+            text-decoration: none;
+            color: inherit;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .case-card:hover {
+            2px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+            border-color: var(--border-dark);
+        }
+
+        .case-badges {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .case-badge {
+            font-size: 9px;
+            padding: 4px 10px;
+            border: 1px solid #e5e5e5;
+            font-weight: 600;
+            
+            letter-spacing: 0;
+            border-radius: 4px;
+            background: #ffffff;
+        }
+
+        .case-badge.settled {
+            background: var(--text-secondary);
+            color: var(--bg-white);
+            border-color: #000000;
+        }
+
+        .case-badge.sec {
+            background: var(--blue);
+            color: var(--bg-white);
+            border-color: #000000;
+        }
+
+        .case-title {
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #000000;
+            
+            letter-spacing: 0.02em;
+        }
+
+        .case-meta {
+            font-size: 11px;
+            font-weight: 600;
+            color: #666666;
+            margin-bottom: 16px;
+            
+            letter-spacing: 0;
+        }
+
+        .case-description {
+            font-size: 14px;
+            font-weight: 400;
+            color: #666666;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .case-footer {
+            font-size: 11px;
+            font-weight: 700;
+            color: #666666;
+            
+            letter-spacing: 0;
+        }
+
+        .case-footer.good { color: var(--green); }
+
+        /* Methodology */
+        .methodology {
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .methodology h2 {
+            font-size: 28px;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            margin-bottom: 32px;
+            color: #000000;
+            line-height: 1.2;
+        }
+
+        .methodology-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .methodology-section {
+            padding: 24px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .methodology-section:last-of-type {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .methodology-section h3 {
+            font-size: 13px;
+            font-weight: 700;
+            color: #999999;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 16px;
+        }
+
+        .methodology-section p {
+            color: #000000;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        .methodology-section p strong {
+            color: #000000;
+            font-weight: 600;
+        }
+
+        .methodology-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid #e5e5e5;
+        }
+
+        @media (max-width: 768px) {
+            .methodology {
+                padding: 32px 24px;
+            }
+            .methodology-links {
+                flex-direction: column;
+            }
+        }
+
+        /* Footer */
+        footer {
+            border-top: 4px solid var(--border);
+            padding: 64px 0;
+            margin-top: 64px;
+            background: #ffffff;
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .footer-brand p {
+            color: #666666;
+            font-size: 13px;
+            font-weight: 400;
+            margin-top: 12px;
+            max-width: 320px;
+            line-height: 1.6;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 64px;
+        }
+
+        .footer-col h4 {
+            font-size: 10px;
+            font-weight: 700;
+            color: #000000;
+            
+            letter-spacing: 0.1em;
+            margin-bottom: 16px;
+        }
+
+        .footer-col ul { list-style: none; }
+
+        .footer-col li { margin-bottom: 12px; }
+
+        .footer-col a {
+            color: #666666;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            
+            letter-spacing: 0.02em;
+        }
+
+        .footer-col a:hover { color: #000000; }
+
+        .footer-bottom {
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 2px solid var(--border);
+            font-size: 11px;
+            font-weight: 600;
+            color: #666666;
+            
+            letter-spacing: 0;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 56px; }
+            .hero { padding: 80px 0 60px; }
+            .footer-inner { flex-direction: column; gap: 48px; }
+            .nav-links { display: none; }
+            .container { padding: 0 24px; }
+        }
+    
+        /* Tooltips */
+        [title] {
+            position: relative;
+            cursor: help;
+        }
+        
+        [title]:hover::after {
+            content: attr(title);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 8px 12px;
+            background: #000000;
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 400;
+            white-space: nowrap;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 1;
+        }
+        
+        [title]:hover::before {
+            content: "";
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: #000000;
+            margin-bottom: 3px;
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 1;
+        }
+        
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-inner">
+            <a href="#" class="logo">
+                <img src="lexlogo.png?v=4" alt="LexArena" class="logo-img">
+                LexArena
+            </a>
+            <ul class="nav-links">
+                <li><a href="#leaderboard">Leaderboard</a></li>
+                <li><a href="cases.html">Cases</a></li>
+                <li><a href="methodology.html">Methodology</a></li>
+                <li><a href="https://github.com/sakethkesiraju26/newlex" target="_blank">GitHub</a></li>
+            </ul>
+            <a href="cases.html" class="nav-cta">View Cases →</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <h1>LexArena</h1>
+            <p class="hero-subtitle">
+                Can AI predict legal outcomes? We benchmark frontier models on real SEC enforcement cases—before they resolve.
+            </p>
+        </div>
+    </section>
+
+    <main>
+
+        <section class="container section" id="leaderboard">
+            <div class="section-header">
+                <h2 class="section-title">Top Models</h2>
+                <a href="cases.html" class="section-link">Full leaderboard →</a>
+            </div>
+            <div class="leaderboard">
+                <div class="leaderboard-card">
+                    <div class="card-model-name">
+                        GPT-4o
+                        <span class="card-best-badge">Best</span>
+                    </div>
+                    <div class="card-overall">
+                        <div class="card-overall-label">Overall Accuracy</div>
+                        <div class="card-overall-value">64.9%</div>
+                    </div>
+                    <div class="card-metrics">
+                        <div class="card-metric">
+                            <div class="card-metric-label">Resolution</div>
+                            <div class="card-metric-value medium">38.6%</div>
+                        </div>
+                        <div class="card-metric">
+                            <div class="card-metric-label">Monetary</div>
+                            <div class="card-metric-value medium">53.0%</div>
+                        </div>
+                        <div class="card-metric">
+                            <div class="card-metric-label">Injunction</div>
+                            <div class="card-metric-value good">78.8%</div>
+                        </div>
+                        <div class="card-metric">
+                            <div class="card-metric-label">Officer Bar</div>
+                            <div class="card-metric-value good">89.2%</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="leaderboard-card">
+                    <div class="card-model-name">
+                        Gemini 2.0
+                    </div>
+                    <div class="card-overall">
+                        <div class="card-overall-label">Overall Accuracy</div>
+                        <div class="card-overall-value">62.8%</div>
+                    </div>
+                    <div class="card-metrics">
+                        <div class="card-metric">
+                            <div class="card-metric-label">Resolution</div>
+                            <div class="card-metric-value medium">38.9%</div>
+                        </div>
+                        <div class="card-metric">
+                            <div class="card-metric-label">Monetary</div>
+                            <div class="card-metric-value medium">46.9%</div>
+                        </div>
+                        <div class="card-metric">
+                            <div class="card-metric-label">Injunction</div>
+                            <div class="card-metric-value good">79.6%</div>
+                        </div>
+                        <div class="card-metric">
+                            <div class="card-metric-label">Officer Bar</div>
+                            <div class="card-metric-value good">85.7%</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="leaderboard-card">
+                    <div class="card-model-name">
+                        Claude Opus 4
+                    </div>
+                    <div class="card-overall">
+                        <div class="card-overall-label">Overall Accuracy</div>
+                        <div class="card-overall-value">46.8%</div>
+                    </div>
+                    <div class="card-metrics">
+                        <div class="card-metric">
+                            <div class="card-metric-label">Resolution</div>
+                            <div class="card-metric-value medium">32.4%</div>
+                        </div>
+                        <div class="card-metric">
+                            <div class="card-metric-label">Monetary</div>
+                            <div class="card-metric-value medium">41.2%</div>
+                        </div>
+                        <div class="card-metric">
+                            <div class="card-metric-label">Injunction</div>
+                            <div class="card-metric-value good">68.4%</div>
+                        </div>
+                        <div class="card-metric">
+                            <div class="card-metric-label">Officer Bar</div>
+                            <div class="card-metric-value good">75.6%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="leaderboard-note">
+                Higher score = better. Rankings based on accuracy predicting real SEC enforcement outcomes.
+            </p>
+        </section>
+
+        <section class="container" id="methodology">
+            <div class="methodology">
+                <h2>Methodology</h2>
+                <div class="methodology-content">
+                    <div class="methodology-section">
+                        <h3>Prediction Metrics</h3>
+                        <p>
+                            We predict 6 outcome metrics: <strong>resolution type</strong> (settled vs litigated), 
+                            <strong>disgorgement amount</strong>, <strong>civil penalty</strong>, 
+                            <strong>prejudgment interest</strong>, <strong>injunction</strong>, 
+                            and <strong>officer/director bar</strong>.
+                        </p>
+                    </div>
+                    <div class="methodology-section">
+                        <h3>Evaluation Process</h3>
+                        <p>
+                            Ground truth is extracted from SEC release text after cases resolve. Models see only the original 
+                            complaint—no outcome information. Monetary predictions use 10% tolerance; categorical use exact match.
+                        </p>
+                    </div>
+                </div>
+                <div class="methodology-links">
+                    <a href="methodology.html" class="btn-secondary">Full Methodology →</a>
+                    <a href="https://github.com/sakethkesiraju26/newlex" class="btn-secondary" target="_blank">View on GitHub</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <img src="lexlogo.png?v=4" alt="LexArena" class="logo-img">
+                        LexArena
+                    </a>
+                    <p>A live benchmark for forecasting legal case outcomes using AI.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="#leaderboard">Leaderboard</a></li>
+                            <li><a href="cases.html">Cases</a></li>
+                            <li><a href="methodology.html">Methodology</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Links</h4>
+                        <ul>
+                            <li><a href="https://github.com/sakethkesiraju26/newlex" target="_blank">GitHub</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                © 2026 LexArena. Open source benchmark for legal AI.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

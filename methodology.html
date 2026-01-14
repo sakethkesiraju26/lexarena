@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Methodology — LexArena</title>
+    <link rel="icon" type="image/png" href="lexlogo.png?v=4">
+    <link rel="apple-touch-icon" href="lexlogo.png?v=4">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+                                :root {
+            --bg: #fafafa;
+            --bg-white: #ffffff;
+            --text: #1a1a1a;
+            --text-secondary: #666666;
+            --text-muted: #999999;
+            --border: #e5e5e5;
+            --accent: #3b82f6;
+            --green: #10b981;
+            --blue: #3b82f6;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #ffffff;
+            color: #000000;
+            line-height: 1.6;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.9);
+            border-bottom: 1px solid #e5e5e5;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 20px;
+            color: #000000;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .logo-img {
+            height: 40px;
+            width: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 48px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #000000;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .nav-links a:hover { 
+            border-bottom-color: #000000;
+            color: #000000;
+        }
+        .nav-links a.active { 
+            border-bottom-color: #000000;
+        }
+
+        .nav-cta {
+            background: var(--text);
+            color: var(--bg-white);
+            padding: 10px 20px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-cta:hover {
+            background: var(--text);
+            transform: translateY(-1px);
+            box-shadow: 0 1px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 80px 0 48px;
+            background: #ffffff;
+            border-bottom: none;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            margin-bottom: 32px;
+            color: #000000;
+            line-height: 1.2;
+            text-align: left;
+        }
+
+        .hero-intro {
+            font-size: 16px;
+            font-weight: 400;
+            color: #666666;
+            max-width: 600px;
+            margin: 0;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        /* Content */
+        main {
+            padding: 0 0 80px 0;
+            background: #ffffff;
+        }
+
+                .section {
+            margin-bottom: 40px;
+            padding: 0;
+        }
+
+        .section:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .section h2 {
+            font-size: 32px;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+            margin-bottom: 20px;
+            color: #000000;
+            line-height: 1.2;
+        }
+
+        .section h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 28px;
+            margin-bottom: 14px;
+            color: #000000;
+            letter-spacing: -0.01em;
+        }
+
+        .section p {
+            font-size: 16px;
+            font-weight: 400;
+            color: #000000;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .section p:last-child {
+            margin-bottom: 0;
+        }
+                
+                .section ul {
+            margin: 16px 0;
+            padding-left: 24px;
+        }
+        
+        .section li {
+            font-size: 16px;
+            font-weight: 400;
+            color: #000000;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .section li:last-child {
+            margin-bottom: 0;
+        }
+        
+        .section strong {
+            font-weight: 600;
+            color: #000000;
+        }
+
+        .section code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+            font-size: 14px;
+            color: #000000;
+        }
+
+        /* Metrics Table */
+        .metrics-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+        }
+
+        .metrics-table th,
+        .metrics-table td {
+            text-align: left;
+            padding: 12px 16px;
+            border-bottom: none;
+            font-size: 14px;
+        }
+
+        .metrics-table th {
+            font-weight: 700;
+            color: #000000;
+            font-size: 12px;
+            background: #ffffff;
+        }
+
+        .metrics-table td {
+            color: #666666;
+            font-weight: 400;
+        }
+
+        .metrics-table td:first-child {
+            font-weight: 700;
+            color: #000000;
+        }
+
+        .metric-badge {
+            font-size: 9px;
+            font-weight: 700;
+            padding: 6px 12px;
+            border: 2px solid var(--border);
+            letter-spacing: 0.1em;
+        }
+
+        .metric-badge.exact { background: var(--green); color: var(--bg-white); border-color: var(--border); }
+        .metric-badge.tolerance { background: var(--blue); color: var(--bg-white); border-color: var(--border); }
+
+        /* API Styles */
+        .code-block {
+            background: #1a1a1a;
+            color: #ffffff;
+            padding: 16px 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 14px 0;
+            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .code-block code {
+            background: transparent;
+            padding: 0;
+            color: #ffffff;
+        }
+
+        .endpoint {
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .endpoint-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .method {
+            background: #000000;
+            color: #ffffff;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        .endpoint-path {
+            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+            font-size: 14px;
+            font-weight: 600;
+            color: #000000;
+        }
+
+        .endpoint-description {
+            font-size: 15px;
+            color: #666666;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .param-item {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f5f5f5;
+            font-size: 14px;
+        }
+
+        .param-item:last-child {
+            border-bottom: none;
+        }
+
+        .param-name {
+            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+            font-size: 13px;
+            font-weight: 600;
+            color: #000000;
+        }
+
+        .param-desc {
+            font-size: 14px;
+            color: #666666;
+            line-height: 1.6;
+        }
+
+        .param-type {
+            display: inline-block;
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #666666;
+            margin-left: 8px;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 48px 0;
+            margin-top: 0;
+            background: #ffffff;
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: #666666;
+            letter-spacing: 0;
+        }
+
+        .footer-inner a {
+            color: #666666;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .footer-inner a:hover {
+            color: #000000;
+        }
+    
+        @media (max-width: 768px) {
+            .container { padding: 0 24px; }
+            .nav-links { display: none; }
+            .hero h1 { font-size: 36px; }
+            .param-item {
+                grid-template-columns: 1fr;
+            gap: 8px;
+        }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-inner">
+            <a href="index.html" class="logo">
+                <img src="lexlogo.png?v=4" alt="LexArena" class="logo-img">
+                LexArena
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html#leaderboard">Leaderboard</a></li>
+                <li><a href="cases.html">Cases</a></li>
+                <li><a href="methodology.html" class="active">Methodology</a></li>
+                <li><a href="https://github.com/sakethkesiraju26/newlex" target="_blank">GitHub</a></li>
+            </ul>
+            <a href="cases.html" class="nav-cta">View Cases</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Methodology & API</h1>
+            <div class="hero-intro">
+                <p>How LexArena works and how to access the data programmatically.</p>
+            </div>
+        </div>
+    </section>
+
+    <main>
+        <div class="container">
+            <section class="section">
+                <h2>Overview</h2>
+                <p>LexArena is an open benchmark for predicting SEC enforcement case outcomes. Models receive only initial complaint information and predict resolution type, monetary penalties, and remedial measures before outcomes are known.</p>
+            </section>
+
+            <section class="section">
+                <h2>Evaluation Process</h2>
+                <p>Each case follows three stages: <strong>Case Ingestion</strong> (collect as filed), <strong>Blind Prediction</strong> (models predict from initial info), and <strong>Outcome Reveal</strong> (score against actual results).</p>
+                
+                <h3>Metrics</h3>
+                <p>Models are evaluated on six dimensions:</p>
+                <table class="metrics-table">
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Scoring</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Resolution Type</td>
+                            <td><span class="metric-badge exact">Exact match</span></td>
+                        </tr>
+                        <tr>
+                            <td>Disgorgement</td>
+                            <td><span class="metric-badge tolerance">±10% tolerance</span></td>
+                        </tr>
+                        <tr>
+                            <td>Civil Penalty</td>
+                            <td><span class="metric-badge tolerance">±10% tolerance</span></td>
+                        </tr>
+                        <tr>
+                            <td>Prejudgment Interest</td>
+                            <td><span class="metric-badge tolerance">±10% tolerance</span></td>
+                        </tr>
+                        <tr>
+                            <td>Injunction</td>
+                            <td><span class="metric-badge exact">Exact match</span></td>
+                        </tr>
+                        <tr>
+                            <td>Officer/Director Bar</td>
+                            <td><span class="metric-badge exact">Exact match</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="section">
+                <h2>Data Integrity</h2>
+                <p><strong>No data leakage:</strong> Outcomes occur after inputs are collected. <strong>Consistent inputs:</strong> All models receive the same prompts. <strong>Time-aware:</strong> Results segmented by filing period. <strong>Distribution preserved:</strong> Enforcement behavior changes not normalized.</p>
+            </section>
+
+            <section class="section">
+                <h2>Model Prompt</h2>
+                <p>All models receive the exact same system prompt and instructions. This ensures fairness and allows for direct comparison across providers.</p>
+                <div class="code-block">
+<code>You are a legal analyst evaluating SEC enforcement cases.
+
+Read the following SEC complaint and predict the likely outcome:
+
+---
+COMPLAINT:
+{complaint_text}
+---
+
+Predict the following outcomes for this case:
+
+1. Resolution Type: Choose one of:
+   - settled (defendant will agree to terms - includes consent judgments and settled actions)
+   - litigated (case will go to trial/judgment - court makes final decision)
+
+2. Disgorgement Amount: The amount in dollars the defendant must return (ill-gotten gains). Enter a number or null if none expected.
+
+3. Civil Penalty Amount: The civil penalty in dollars. Enter a number or null if none expected.
+
+4. Prejudgment Interest: Interest on disgorgement in dollars. Enter a number or null if none expected.
+
+5. Has Injunction: Will there be injunctive relief? (yes/no)
+
+6. Has Officer/Director Bar: Will the defendant be barred from serving as an officer or director? (yes/no)
+
+7. Has Conduct Restriction: Will there be conduct-based restrictions (e.g., trading restrictions, industry bar)? (yes/no)
+
+Respond in the following JSON format:
+```json
+{
+  "resolution_type": "settled" or "litigated",
+  "disgorgement_amount": ...,
+  "penalty_amount": ...,
+  "prejudgment_interest": ...,
+  "has_injunction": true/false,
+  "has_officer_director_bar": true/false,
+  "has_conduct_restriction": true/false,
+  "reasoning": {
+    "resolution_type": "Brief explanation...",
+    "monetary": "Brief explanation...",
+    "remedial_measures": "Brief explanation..."
+  }
+}
+```
+
+Provide your prediction based solely on the complaint text provided.</code>
+                </div>
+                <p style="margin-top: 16px; font-size: 14px; color: #666666;">
+                    The prompt template is defined in <code>src/evaluation/llm_prompt_formatter.py</code>. All models receive identical instructions with the complaint text inserted at <code>{complaint_text}</code>.
+                </p>
+            </section>
+
+            <section class="section">
+                <h2>API Access</h2>
+                <p>Access all 11,772 SEC litigation cases programmatically via our REST API.</p>
+
+                <h3>Quick Start</h3>
+                <div class="code-block">
+<code>pip install -r requirements.txt
+python api_server.py
+# Server runs on http://localhost:5000</code>
+                </div>
+
+                <h3>Endpoints</h3>
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method">GET</span>
+                        <span class="endpoint-path">/api/metadata</span>
+                    </div>
+                    <p class="endpoint-description">Get dataset metadata (total cases, scrape date).</p>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method">GET</span>
+                        <span class="endpoint-path">/api/cases</span>
+                    </div>
+                    <p class="endpoint-description">Get all cases with pagination. Parameters: <code>page</code> (int), <code>per_page</code> (int, max 1000), <code>release_date_from</code> (YYYY-MM-DD), <code>release_date_to</code> (YYYY-MM-DD).</p>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method">GET</span>
+                        <span class="endpoint-path">/api/cases/&lt;release_number&gt;</span>
+                    </div>
+                    <p class="endpoint-description">Get a specific case by release number (e.g., "LR-26445").</p>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method">GET</span>
+                        <span class="endpoint-path">/api/cases/search</span>
+                    </div>
+                    <p class="endpoint-description">Search cases. Parameters: <code>q</code> (text search), <code>title</code>, <code>court</code>, <code>charges</code>, <code>has_complaint</code> (boolean), <code>page</code>, <code>per_page</code>.</p>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method">GET</span>
+                        <span class="endpoint-path">/api/health</span>
+                    </div>
+                    <p class="endpoint-description">Health check endpoint.</p>
+                </div>
+
+                <h3>Example</h3>
+                <div class="code-block">
+<code>import requests
+BASE_URL = "http://localhost:5000/api"
+
+# Get metadata
+metadata = requests.get(f"{BASE_URL}/metadata").json()
+
+# Get paginated cases
+cases = requests.get(f"{BASE_URL}/cases", params={"page": 1, "per_page": 100}).json()
+
+# Search
+results = requests.get(f"{BASE_URL}/cases/search", params={"q": "fraud"}).json()</code>
+                </div>
+
+                <p style="margin-top: 16px; font-size: 14px; color: #666666;">
+                    See <code>api_example.py</code> for complete examples. Visit <code>http://localhost:5000/</code> when running for interactive docs.
+                </p>
+            </section>
+
+            <section class="section">
+                <h2>Transparency</h2>
+                <p>All schemas, prompts, and scoring logic are open source. Leaderboards are versioned by time period. Results can be independently reproduced.</p>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <span>© 2026 LexArena. Open source benchmark for legal AI.</span>
+                <a href="https://github.com/sakethkesiraju26/newlex" target="_blank">GitHub</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

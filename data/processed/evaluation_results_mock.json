@@ -1,0 +1,31 @@
+{
+  "model_name": "MockModel",
+  "model_config": {
+    "provider": "mock",
+    "model": "MockModel"
+  },
+  "score": {
+    "model_name": "MockModel",
+    "overall_score": 0,
+    "individual_scores": {
+      "resolution_type": 0,
+      "disgorgement": 0,
+      "penalty": 0,
+      "prejudgment_interest": 0,
+      "monetary_average": 0,
+      "has_injunction": 0,
+      "has_officer_director_bar": 0,
+      "has_conduct_restriction": 0
+    },
+    "scorable_counts": {
+      "total_cases": 0,
+      "resolution_type": 0,
+      "disgorgement": 0,
+      "penalty": 0,
+      "interest": 0
+    }
+  },
+  "timestamp": "2026-01-01T18:55:55.090411",
+  "duration_seconds": 1.0967254638671875e-05,
+  "predictions": []
+}

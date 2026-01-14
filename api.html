@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API — LexArena</title>
+    <link rel="icon" type="image/png" href="lexlogo.png?v=4">
+    <link rel="apple-touch-icon" href="lexlogo.png?v=4">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fafafa;
+            --bg-white: #ffffff;
+            --text: #1a1a1a;
+            --text-secondary: #666666;
+            --text-muted: #999999;
+            --border: #e5e5e5;
+            --accent: #3b82f6;
+            --green: #10b981;
+            --blue: #3b82f6;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #ffffff;
+            color: #000000;
+            line-height: 1.7;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.9);
+            border-bottom: none;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 20px;
+            color: #000000;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .logo-img {
+            height: 40px;
+            width: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 48px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #000000;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .nav-links a:hover { 
+            border-bottom-color: #000000;
+            color: #000000;
+        }
+        .nav-links a.active { 
+            border-bottom-color: #000000;
+        }
+
+        /* Hero */
+        .hero {
+            padding: 80px 0 48px;
+            background: #ffffff;
+            border-bottom: none;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            margin-bottom: 24px;
+            color: #000000;
+            line-height: 1.2;
+        }
+
+        .hero-intro {
+            font-size: 16px;
+            font-weight: 400;
+            color: #666666;
+            max-width: 700px;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* Content */
+        main {
+            padding: 0 0 80px;
+            background: #ffffff;
+        }
+
+        .section {
+            margin-bottom: 64px;
+            padding: 0;
+        }
+
+        .section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section h2 {
+            font-size: 32px;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+            margin-bottom: 24px;
+            color: #000000;
+            line-height: 1.2;
+        }
+
+        .section h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 32px;
+            margin-bottom: 16px;
+            color: #000000;
+            letter-spacing: -0.01em;
+        }
+
+        .section p {
+            font-size: 16px;
+            font-weight: 400;
+            color: #666666;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .section code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+            font-size: 14px;
+            color: #000000;
+        }
+
+        .endpoint {
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .endpoint-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .method {
+            background: #000000;
+            color: #ffffff;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        .endpoint-path {
+            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+            font-size: 14px;
+            font-weight: 600;
+            color: #000000;
+        }
+
+        .endpoint-description {
+            font-size: 15px;
+            color: #666666;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .params {
+            margin-top: 16px;
+        }
+
+        .params h4 {
+            font-size: 13px;
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .param-item {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 16px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .param-item:last-child {
+            border-bottom: none;
+        }
+
+        .param-name {
+            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+            font-size: 13px;
+            font-weight: 600;
+            color: #000000;
+        }
+
+        .param-desc {
+            font-size: 14px;
+            color: #666666;
+            line-height: 1.6;
+        }
+
+        .param-type {
+            display: inline-block;
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #666666;
+            margin-left: 8px;
+        }
+
+        .code-block {
+            background: #1a1a1a;
+            color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .code-block code {
+            background: transparent;
+            padding: 0;
+            color: #ffffff;
+        }
+
+        .example-box {
+            background: #fafafa;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .example-box h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-primary {
+            background: var(--text);
+            color: var(--bg-white);
+            border: none;
+            padding: 12px 24px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s ease;
+            border-radius: 6px;
+            margin-top: 8px;
+        }
+
+        .btn-primary:hover {
+            background: var(--text);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .alert {
+            background: #f5f5f5;
+            border-left: 3px solid #000000;
+            padding: 16px 20px;
+            margin: 24px 0;
+            border-radius: 4px;
+        }
+
+        .alert p {
+            margin: 0;
+            font-size: 14px;
+            color: #666666;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 4px solid var(--border);
+            padding: 64px 0;
+            margin-top: 64px;
+            background: #ffffff;
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-inner span {
+            color: #666666;
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        .footer-inner a {
+            color: #666666;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .footer-inner a:hover {
+            color: #000000;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 24px; }
+            .nav-links { display: none; }
+            .hero h1 { font-size: 36px; }
+            .param-item {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-inner">
+            <a href="index.html" class="logo">
+                <img src="lexlogo.png?v=4" alt="LexArena" class="logo-img">
+                LexArena
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html#leaderboard">Leaderboard</a></li>
+                <li><a href="cases.html">Cases</a></li>
+                <li><a href="methodology.html">Methodology</a></li>
+                <li><a href="api.html" class="active">API</a></li>
+                <li><a href="https://github.com/sakethkesiraju26/newlex" target="_blank">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <h1>API</h1>
+            <p class="hero-intro">
+                Access all 11,772 SEC litigation cases programmatically via our REST API. Perfect for research, analysis, and building applications.
+            </p>
+        </div>
+    </section>
+
+    <main>
+        <div class="container">
+            <section class="section">
+                <h2>Quick Start</h2>
+                <p>
+                    Start the API server locally to access all cases:
+                </p>
+                <div class="code-block">
+<code># Install dependencies
+pip install -r requirements.txt
+
+# Start the server
+python api_server.py
+
+# Server runs on http://localhost:5000</code>
+                </div>
+                <div class="alert">
+                    <p><strong>Note:</strong> The API loads cases from <code>litigation-cases.json</code> on first request and caches them in memory for fast performance.</p>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>Endpoints</h2>
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method">GET</span>
+                        <span class="endpoint-path">/api/metadata</span>
+                    </div>
+                    <p class="endpoint-description">
+                        Get metadata about the dataset, including total case count and scrape date.
+                    </p>
+                    <div class="example-box">
+                        <h4>Example Response</h4>
+                        <div class="code-block">
+<code>{
+  "scrapedAt": "2025-12-18T02:11:23.296Z",
+  "totalCases": 11772,
+  "source": "https://www.sec.gov/..."
+}</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method">GET</span>
+                        <span class="endpoint-path">/api/cases</span>
+                    </div>
+                    <p class="endpoint-description">
+                        Get all cases with pagination and optional date filtering.
+                    </p>
+                    <div class="params">
+                        <h4>Query Parameters</h4>
+                        <div class="param-item">
+                            <div>
+                                <span class="param-name">page</span>
+                                <span class="param-type">int</span>
+                            </div>
+                            <div class="param-desc">Page number (default: 1)</div>
+                        </div>
+                        <div class="param-item">
+                            <div>
+                                <span class="param-name">per_page</span>
+                                <span class="param-type">int</span>
+                            </div>
+                            <div class="param-desc">Items per page (default: 100, max: 1000)</div>
+                        </div>
+                        <div class="param-item">
+                            <div>
+                                <span class="param-name">release_date_from</span>
+                                <span class="param-type">string</span>
+                            </div>
+                            <div class="param-desc">Filter cases from this date (YYYY-MM-DD)</div>
+                        </div>
+                        <div class="param-item">
+                            <div>
+                                <span class="param-name">release_date_to</span>
+                                <span class="param-type">string</span>
+                            </div>
+                            <div class="param-desc">Filter cases to this date (YYYY-MM-DD)</div>
+                        </div>
+                    </div>
+                    <div class="example-box">
+                        <h4>Example Request</h4>
+                        <div class="code-block">
+<code>GET /api/cases?page=1&per_page=100
+GET /api/cases?release_date_from=2024-01-01&release_date_to=2024-12-31</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method">GET</span>
+                        <span class="endpoint-path">/api/cases/&lt;release_number&gt;</span>
+                    </div>
+                    <p class="endpoint-description">
+                        Get a specific case by release number (e.g., "LR-26445" or "26445").
+                    </p>
+                    <div class="example-box">
+                        <h4>Example Request</h4>
+                        <div class="code-block">
+<code>GET /api/cases/LR-26445
+GET /api/cases/26445</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method">GET</span>
+                        <span class="endpoint-path">/api/cases/search</span>
+                    </div>
+                    <p class="endpoint-description">
+                        Search cases by various criteria including text search, court, charges, and complaint availability.
+                    </p>
+                    <div class="params">
+                        <h4>Query Parameters</h4>
+                        <div class="param-item">
+                            <div>
+                                <span class="param-name">q</span>
+                                <span class="param-type">string</span>
+                            </div>
+                            <div class="param-desc">Text search in title and fullText</div>
+                        </div>
+                        <div class="param-item">
+                            <div>
+                                <span class="param-name">title</span>
+                                <span class="param-type">string</span>
+                            </div>
+                            <div class="param-desc">Filter by title (partial match)</div>
+                        </div>
+                        <div class="param-item">
+                            <div>
+                                <span class="param-name">court</span>
+                                <span class="param-type">string</span>
+                            </div>
+                            <div class="param-desc">Filter by court name</div>
+                        </div>
+                        <div class="param-item">
+                            <div>
+                                <span class="param-name">charges</span>
+                                <span class="param-type">string</span>
+                            </div>
+                            <div class="param-desc">Filter by charges (partial match)</div>
+                        </div>
+                        <div class="param-item">
+                            <div>
+                                <span class="param-name">has_complaint</span>
+                                <span class="param-type">boolean</span>
+                            </div>
+                            <div class="param-desc">Filter cases that have complaint PDFs (true/false)</div>
+                        </div>
+                        <div class="param-item">
+                            <div>
+                                <span class="param-name">page</span>
+                                <span class="param-type">int</span>
+                            </div>
+                            <div class="param-desc">Page number (default: 1)</div>
+                        </div>
+                        <div class="param-item">
+                            <div>
+                                <span class="param-name">per_page</span>
+                                <span class="param-type">int</span>
+                            </div>
+                            <div class="param-desc">Items per page (default: 100, max: 1000)</div>
+                        </div>
+                    </div>
+                    <div class="example-box">
+                        <h4>Example Requests</h4>
+                        <div class="code-block">
+<code>GET /api/cases/search?q=fraud&has_complaint=true
+GET /api/cases/search?court=California&page=1
+GET /api/cases/search?q=fraud&charges=Section%2010(b)</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method">GET</span>
+                        <span class="endpoint-path">/api/health</span>
+                    </div>
+                    <p class="endpoint-description">
+                        Health check endpoint to verify the API is running and cases are loaded.
+                    </p>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>Usage Examples</h2>
+
+                <h3>Python</h3>
+                <div class="code-block">
+<code>import requests
+
+BASE_URL = "http://localhost:5000/api"
+
+# Get all cases (paginated)
+response = requests.get(f"{BASE_URL}/cases", params={"page": 1, "per_page": 100})
+data = response.json()
+print(f"Total cases: {data['total']}")
+
+# Get a specific case
+case = requests.get(f"{BASE_URL}/cases/LR-26445").json()
+print(case['title'])
+
+# Search cases
+results = requests.get(
+    f"{BASE_URL}/cases/search",
+    params={"q": "fraud", "has_complaint": "true", "page": 1}
+).json()
+print(f"Found {results['total']} cases")</code>
+                </div>
+
+                <h3>cURL</h3>
+                <div class="code-block">
+<code># Get first page of cases
+curl "http://localhost:5000/api/cases?page=1&per_page=100"
+
+# Get specific case
+curl "http://localhost:5000/api/cases/LR-26445"
+
+# Search for fraud cases
+curl "http://localhost:5000/api/cases/search?q=fraud&has_complaint=true"</code>
+                </div>
+
+                <h3>Download All Cases</h3>
+                <p>
+                    Use the provided example script to download all 11,772 cases:
+                </p>
+                <div class="code-block">
+<code>python api_example.py</code>
+                </div>
+                <p>
+                    Or programmatically:
+                </p>
+                <div class="code-block">
+<code>from api_example import download_all_cases
+download_all_cases("all_cases.json")</code>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>Case Data Structure</h2>
+                <p>
+                    Each case contains the following fields:
+                </p>
+                <div class="code-block">
+<code>{
+  "releaseNumber": "LR-26445",
+  "releaseDate": "2025-12-16",
+  "title": "Case Title",
+  "url": "https://www.sec.gov/...",
+  "features": {
+    "summary": "...",
+    "caseName": "...",
+    "respondents": "...",
+    "charges": "...",
+    "court": "...",
+    "fullText": "...",
+    "originalSummary": "..."
+  },
+  "supportingDocuments": [
+    {
+      "title": "SEC Complaint",
+      "url": "https://www.sec.gov/files/...",
+      "type": "complaint"
+    }
+  ]
+}</code>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>Documentation</h2>
+                <p>
+                    For complete API documentation, see <code>API_README.md</code> in the repository.
+                </p>
+                <a href="https://github.com/sakethkesiraju26/newlex" class="btn-primary" target="_blank">View on GitHub →</a>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <span>© 2026 LexArena. Open source benchmark for legal AI.</span>
+                <a href="https://github.com/sakethkesiraju26/newlex" target="_blank">GitHub</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
