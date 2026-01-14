@@ -568,10 +568,38 @@
             .search-input-wrapper {
                 max-width: 100%;
             }
+            .search-examples {
+                margin-top: 10px;
+            }
+            .search-example {
+                font-size: 11px;
+                padding: 5px 10px;
+            }
             
             /* Detail grid */
             .detail-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            /* Improve case row mobile layout */
+            .case-row {
+                padding: 16px;
+            }
+            .case-title {
+                font-size: 16px;
+            }
+            .case-subtitle {
+                font-size: 14px;
+            }
+            .case-status,
+            .case-date,
+            .case-resolution,
+            .case-accuracy {
+                font-size: 13px;
+                padding: 8px 0;
+            }
+            .case-detail {
+                padding: 16px;
             }
         }
         
@@ -583,13 +611,39 @@
                 padding: 0 16px;
             }
             .case-row {
-                padding: 16px;
+                padding: 14px;
+                margin-bottom: 12px;
             }
             .case-title {
-                font-size: 16px;
+                font-size: 15px;
+                margin-bottom: 6px;
             }
             .case-subtitle {
-                font-size: 14px;
+                font-size: 13px;
+                margin-bottom: 10px;
+            }
+            .case-status,
+            .case-date,
+            .case-resolution,
+            .case-accuracy {
+                font-size: 12px;
+                padding: 6px 0;
+            }
+            .case-status::before,
+            .case-date::before,
+            .case-resolution::before,
+            .case-accuracy::before {
+                font-size: 12px;
+            }
+            .case-detail {
+                padding: 14px;
+            }
+            .search-examples {
+                margin-top: 8px;
+            }
+            .search-example {
+                font-size: 10px;
+                padding: 4px 8px;
             }
             .stats-summary {
                 grid-template-columns: 1fr;
@@ -674,6 +728,39 @@
         .search-input-wrapper {
             position: relative;
             max-width: 500px;
+        }
+
+        .search-examples {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+            align-items: center;
+        }
+
+        .search-examples-label {
+            font-size: 12px;
+            color: #999999;
+            margin-right: 4px;
+        }
+
+        .search-example {
+            display: inline-block;
+            padding: 6px 12px;
+            background: #f5f5f5;
+            border: 1px solid #e5e5e5;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #666666;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .search-example:hover {
+            background: #e5e5e5;
+            border-color: #999999;
+            color: #000000;
         }
 
         .search-input {
@@ -1408,6 +1495,13 @@
             <div class="search-input-wrapper">
                 <div id="searchbox"></div>
             </div>
+            <div class="search-examples">
+                <span class="search-examples-label">Try:</span>
+                <a href="#" class="search-example" data-search="ponzi">ponzi</a>
+                <a href="#" class="search-example" data-search="crypto">crypto</a>
+                <a href="#" class="search-example" data-search="fraud">fraud</a>
+                <a href="#" class="search-example" data-search="insider trading">insider trading</a>
+            </div>
             <div id="search-stats" style="margin-top: 8px; color: #666; font-size: 14px;"></div>
         </div>
 
@@ -1895,6 +1989,11 @@
                 renderCases();
                 console.log('✓ Cases rendered from local data');
                 
+                // Set up example search clicks after a short delay to ensure DOM is ready
+                setTimeout(() => {
+                    setupExampleSearches();
+                }, 200);
+                
                 // Try to initialize Algolia search first
                 setTimeout(() => {
                     if (initAlgoliaSearch()) {
@@ -1999,8 +2098,36 @@
             }
         }
         
+        // Set up example search clicks
+        function setupExampleSearches() {
+            document.querySelectorAll('.search-example').forEach(example => {
+                example.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const searchTerm = this.getAttribute('data-search');
+                    
+                    // Try to set Algolia search box value
+                    const algoliaInput = document.querySelector('#searchbox input[type="search"], #searchbox .ais-SearchBox-input, #searchbox input');
+                    if (algoliaInput) {
+                        algoliaInput.value = searchTerm;
+                        algoliaInput.dispatchEvent(new Event('input', { bubbles: true }));
+                        algoliaInput.focus();
+                    }
+                    
+                    // Also trigger fallback search
+                    const searchInput = document.getElementById('search-input');
+                    if (searchInput) {
+                        searchInput.value = searchTerm;
+                        searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+                        renderCases(searchTerm);
+                    }
+                });
+            });
+        }
+
         // Search functionality (fallback for basic search)
         document.addEventListener('DOMContentLoaded', function() {
+            setupExampleSearches();
+            
             // If Algolia is not configured, set up basic search input
             if (!ALGOLIA_APP_ID || ALGOLIA_APP_ID === 'YOUR_ALGOLIA_APP_ID') {
                 const searchbox = document.getElementById('searchbox');
