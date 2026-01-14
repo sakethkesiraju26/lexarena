@@ -101,6 +101,41 @@
             border-bottom-color: #000000;
         }
 
+        /* Mobile menu toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            flex-direction: column;
+            gap: 4px;
+            width: 44px;
+            height: 44px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: #000000;
+            transition: all 0.3s ease;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
         .nav-cta {
             background: var(--text);
             color: var(--bg-white);
@@ -122,7 +157,7 @@
         
         /* Hero */
                         .hero {
-            padding: 120px 0 80px;
+            padding: 80px 0 60px;
             background: #ffffff;
             text-align: left;
             border-bottom: none;
@@ -132,7 +167,7 @@
             font-size: 48px;
             font-weight: 400;
             letter-spacing: -0.02em;
-            margin-bottom: 32px;
+            margin-bottom: 20px;
             color: #000000;
             line-height: 1.2;
         }
@@ -266,7 +301,7 @@
 
         /* Section */
         .section {
-            margin-bottom: 80px;
+            margin-bottom: 48px;
             padding: 0;
             background: #ffffff;
         }
@@ -279,7 +314,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
         .section-title {
@@ -306,22 +341,72 @@
         .leaderboard {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            margin-bottom: 24px;
+            gap: 20px;
+            margin-bottom: 20px;
         }
 
         .leaderboard-card {
             background: #ffffff;
             border: 1px solid #e5e5e5;
             border-radius: 8px;
-            padding: 32px;
+            padding: 24px;
             position: relative;
             transition: all 0.2s ease;
+            overflow: hidden;
         }
 
-        .leaderboard-card:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            border-color: #d0d0d0;
+        .leaderboard-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .leaderboard-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* GPT-4o - Green pastel overlay */
+        .leaderboard-card.gpt::before {
+            background: rgba(16, 185, 129, 0.05);
+        }
+        .leaderboard-card.gpt:hover::before {
+            opacity: 1;
+        }
+        .leaderboard-card.gpt:hover {
+            border-color: var(--green);
+            border-width: 2px;
+        }
+
+        /* Gemini 2.0 - Blue pastel overlay */
+        .leaderboard-card.gemini::before {
+            background: rgba(59, 130, 246, 0.05);
+        }
+        .leaderboard-card.gemini:hover::before {
+            opacity: 1;
+        }
+        .leaderboard-card.gemini:hover {
+            border-color: var(--blue);
+            border-width: 2px;
+        }
+
+        /* Claude Opus 4 - Orange pastel overlay */
+        .leaderboard-card.claude::before {
+            background: rgba(249, 115, 22, 0.05);
+        }
+        .leaderboard-card.claude:hover::before {
+            opacity: 1;
+        }
+        .leaderboard-card.claude:hover {
+            border-color: #f97316;
+            border-width: 2px;
         }
 
         .leaderboard-card.highlighted {
@@ -439,8 +524,8 @@
         }
 
         .card-overall {
-            margin: 24px 0;
-            padding-bottom: 24px;
+            margin: 16px 0;
+            padding-bottom: 16px;
             border-bottom: 1px solid #e5e5e5;
         }
 
@@ -463,7 +548,7 @@
         .card-metrics {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 12px;
         }
 
         .card-metric {
@@ -495,7 +580,7 @@
             color: #666666;
             font-size: 13px;
             font-weight: 400;
-            margin-top: 24px;
+            margin-top: 16px;
             letter-spacing: 0;
         }
 
@@ -670,8 +755,8 @@
         /* Footer */
         footer {
             border-top: 4px solid var(--border);
-            padding: 64px 0;
-            margin-top: 64px;
+            padding: 48px 0;
+            margin-top: 48px;
             background: #ffffff;
         }
 
@@ -731,11 +816,123 @@
         }
 
         @media (max-width: 768px) {
-            h1 { font-size: 56px; }
-            .hero { padding: 80px 0 60px; }
-            .footer-inner { flex-direction: column; gap: 48px; }
-            .nav-links { display: none; }
-            .container { padding: 0 24px; }
+            h1 { font-size: 36px; line-height: 1.2; }
+            h2 { font-size: 28px; line-height: 1.3; }
+            h3 { font-size: 22px; line-height: 1.4; }
+            .hero { padding: 60px 0 40px; }
+            .hero-subtitle { font-size: 15px; line-height: 1.6; }
+            .footer-inner { flex-direction: column; gap: 32px; }
+            .container { padding: 0 20px; }
+            
+            /* Mobile navigation */
+            .menu-toggle { display: flex; }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: #ffffff;
+                border-bottom: 1px solid #e5e5e5;
+                flex-direction: column;
+                gap: 0;
+                padding: 16px 0;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .nav-links li {
+                width: 100%;
+            }
+            .nav-links a {
+                display: block;
+                padding: 16px 32px;
+                border-bottom: 1px solid #f0f0f0;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                font-size: 15px;
+            }
+            .nav-cta {
+                display: none;
+            }
+            .nav-inner {
+                padding: 0 20px;
+            }
+            
+            /* Leaderboard cards */
+            .leaderboard {
+                gap: 16px;
+            }
+            .leaderboard-card {
+                padding: 24px 20px;
+            }
+            .card-overall-value {
+                font-size: 28px;
+            }
+            .card-metric-value {
+                font-size: 18px;
+            }
+            
+            /* Cases preview */
+            .cases-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            
+            /* Methodology */
+            .methodology {
+                padding: 32px 20px;
+            }
+            .methodology-section {
+                padding: 20px 0;
+            }
+            .methodology-section ul {
+                padding-left: 20px;
+            }
+            .methodology-section li {
+                margin-bottom: 10px;
+                font-size: 15px;
+                line-height: 1.6;
+            }
+            .methodology-section p {
+                font-size: 15px;
+                line-height: 1.7;
+            }
+            
+            /* Section spacing */
+            section {
+                padding: 48px 0;
+            }
+            .section-header {
+                margin-bottom: 32px;
+            }
+            
+            /* Touch targets - ensure minimum 44x44px */
+            .btn-primary,
+            .cases-preview a {
+                min-height: 44px;
+                padding: 12px 24px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 { font-size: 32px; }
+            h2 { font-size: 24px; }
+            h3 { font-size: 20px; }
+            .hero { padding: 40px 0 32px; }
+            .hero-subtitle { font-size: 14px; }
+            .container { padding: 0 16px; }
+            .nav-inner { padding: 0 16px; }
+            .methodology { padding: 24px 16px; }
+            .leaderboard-card { padding: 20px 16px; }
+            .card-overall-value { font-size: 24px; }
+            .card-metric-value { font-size: 16px; }
+            section { padding: 40px 0; }
         }
     
         /* Tooltips */
@@ -786,13 +983,16 @@
                 <img src="lexlogo.png?v=4" alt="LexArena" class="logo-img">
                 LexArena
             </a>
-            <ul class="nav-links">
-                <li><a href="#leaderboard">Leaderboard</a></li>
-                <li><a href="cases.html">Cases</a></li>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="cases.html">Leaderboard</a></li>
                 <li><a href="methodology.html">Methodology</a></li>
-                <li><a href="https://github.com/sakethkesiraju26/newlex" target="_blank">GitHub</a></li>
             </ul>
-            <a href="cases.html" class="nav-cta">View Cases →</a>
+            <a href="cases.html" class="nav-cta">View Leaderboard →</a>
         </div>
     </nav>
 
@@ -802,6 +1002,9 @@
             <p class="hero-subtitle">
                 Can AI predict legal outcomes? We benchmark frontier models on real SEC enforcement cases—before they resolve.
             </p>
+            <div style="margin-top: 24px;">
+                <a href="https://github.com/sakethkesiraju26/newlex" class="btn-primary" target="_blank" style="text-decoration: none;">View on GitHub</a>
+            </div>
         </div>
     </section>
 
@@ -813,7 +1016,7 @@
                 <a href="cases.html" class="section-link">Full leaderboard →</a>
             </div>
             <div class="leaderboard">
-                <div class="leaderboard-card">
+                <div class="leaderboard-card gpt">
                     <div class="card-model-name">
                         GPT-4o
                         <span class="card-best-badge">Best</span>
@@ -841,7 +1044,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="leaderboard-card">
+                <div class="leaderboard-card gemini">
                     <div class="card-model-name">
                         Gemini 2.0
                     </div>
@@ -868,7 +1071,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="leaderboard-card">
+                <div class="leaderboard-card claude">
                     <div class="card-model-name">
                         Claude Opus 4
                     </div>
@@ -899,35 +1102,11 @@
             <p class="leaderboard-note">
                 Higher score = better. Rankings based on accuracy predicting real SEC enforcement outcomes.
             </p>
+            <p style="text-align: center; color: #999999; font-size: 13px; margin-top: 8px; font-weight: 400;">
+                More models coming soon
+            </p>
         </section>
 
-        <section class="container" id="methodology">
-            <div class="methodology">
-                <h2>Methodology</h2>
-                <div class="methodology-content">
-                    <div class="methodology-section">
-                        <h3>Prediction Metrics</h3>
-                        <p>
-                            We predict 6 outcome metrics: <strong>resolution type</strong> (settled vs litigated), 
-                            <strong>disgorgement amount</strong>, <strong>civil penalty</strong>, 
-                            <strong>prejudgment interest</strong>, <strong>injunction</strong>, 
-                            and <strong>officer/director bar</strong>.
-                        </p>
-                    </div>
-                    <div class="methodology-section">
-                        <h3>Evaluation Process</h3>
-                        <p>
-                            Ground truth is extracted from SEC release text after cases resolve. Models see only the original 
-                            complaint—no outcome information. Monetary predictions use 10% tolerance; categorical use exact match.
-                        </p>
-                    </div>
-                </div>
-                <div class="methodology-links">
-                    <a href="methodology.html" class="btn-secondary">Full Methodology →</a>
-                    <a href="https://github.com/sakethkesiraju26/newlex" class="btn-secondary" target="_blank">View on GitHub</a>
-                </div>
-            </div>
-        </section>
     </main>
 
     <footer>
@@ -944,8 +1123,7 @@
                     <div class="footer-col">
                         <h4>Resources</h4>
                         <ul>
-                            <li><a href="#leaderboard">Leaderboard</a></li>
-                            <li><a href="cases.html">Cases</a></li>
+                            <li><a href="cases.html">Leaderboard</a></li>
                             <li><a href="methodology.html">Methodology</a></li>
                         </ul>
                     </div>
@@ -962,5 +1140,26 @@
             </div>
         </div>
     </footer>
+    
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+        
+        if (menuToggle && navLinks) {
+            menuToggle.addEventListener('click', function() {
+                menuToggle.classList.toggle('active');
+                navLinks.classList.toggle('active');
+            });
+            
+            // Close menu when clicking a link
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function() {
+                    menuToggle.classList.remove('active');
+                    navLinks.classList.remove('active');
+                });
+            });
+        }
+    </script>
 </body>
 </html>

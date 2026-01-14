@@ -31,6 +31,10 @@ Thank you for your interest in contributing to LexArena! This document provides 
    export ANTHROPIC_API_KEY=your_key_here
    export GOOGLE_API_KEY=your_key_here
    export REDUCTO_API_KEY=your_key_here
+   
+   # Optional: for Algolia search (see README for setup instructions)
+   export ALGOLIA_APP_ID=your_app_id
+   export ALGOLIA_WRITE_KEY=your_write_key
    ```
 
 4. **Verify the setup**
@@ -38,6 +42,15 @@ Thank you for your interest in contributing to LexArena! This document provides 
    # Test the API server
    python api_server.py
    # Visit http://localhost:5000 to see the API documentation
+   ```
+
+5. **Set up Algolia search (optional)**
+   ```bash
+   # Index cases data to Algolia (requires ALGOLIA_APP_ID and ALGOLIA_WRITE_KEY)
+   python index_algolia.py
+   
+   # Update cases.html with your ALGOLIA_APP_ID and ALGOLIA_SEARCH_KEY
+   # See README.md for detailed instructions
    ```
 
 ## Development Workflow

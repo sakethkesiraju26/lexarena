@@ -101,6 +101,41 @@
             border-bottom-color: #000000;
         }
 
+        /* Mobile menu toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            flex-direction: column;
+            gap: 4px;
+            width: 44px;
+            height: 44px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: #000000;
+            transition: all 0.3s ease;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
         .nav-cta {
             background: var(--text);
             color: var(--bg-white);
@@ -391,12 +426,53 @@
     
         @media (max-width: 768px) {
             .container { padding: 0 24px; }
-            .nav-links { display: none; }
+            .nav-inner { padding: 0 20px; }
+            
+            /* Mobile navigation */
+            .menu-toggle { display: flex; }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: #ffffff;
+                border-bottom: 1px solid #e5e5e5;
+                flex-direction: column;
+                gap: 0;
+                padding: 16px 0;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .nav-links li {
+                width: 100%;
+            }
+            .nav-links a {
+                display: block;
+                padding: 16px 32px;
+                border-bottom: 1px solid #f0f0f0;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                font-size: 15px;
+            }
+            .nav-cta {
+                display: none;
+            }
+            
             .hero h1 { font-size: 36px; }
             .param-item {
                 grid-template-columns: 1fr;
-            gap: 8px;
+                gap: 8px;
+            }
         }
+        
+        @media (max-width: 480px) {
+            .container { padding: 0 16px; }
+            .nav-inner { padding: 0 16px; }
+            .hero h1 { font-size: 32px; }
         }
     </style>
 </head>
@@ -407,13 +483,16 @@
                 <img src="lexlogo.png?v=4" alt="LexArena" class="logo-img">
                 LexArena
             </a>
-            <ul class="nav-links">
-                <li><a href="index.html#leaderboard">Leaderboard</a></li>
-                <li><a href="cases.html">Cases</a></li>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="cases.html">Leaderboard</a></li>
                 <li><a href="methodology.html" class="active">Methodology</a></li>
-                <li><a href="https://github.com/sakethkesiraju26/newlex" target="_blank">GitHub</a></li>
             </ul>
-            <a href="cases.html" class="nav-cta">View Cases</a>
+            <a href="cases.html" class="nav-cta">View Leaderboard →</a>
         </div>
     </nav>
 
@@ -624,5 +703,26 @@ results = requests.get(f"{BASE_URL}/cases/search", params={"q": "fraud"}).json()
             </div>
         </div>
     </footer>
+    
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+        
+        if (menuToggle && navLinks) {
+            menuToggle.addEventListener('click', function() {
+                menuToggle.classList.toggle('active');
+                navLinks.classList.toggle('active');
+            });
+            
+            // Close menu when clicking a link
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function() {
+                    menuToggle.classList.remove('active');
+                    navLinks.classList.remove('active');
+                });
+            });
+        }
+    </script>
 </body>
 </html>

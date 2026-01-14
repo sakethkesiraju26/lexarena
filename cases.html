@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cases — LexArena</title>
+    <title>Leaderboard — LexArena</title>
     <link rel="icon" type="image/png" href="lexlogo.png">
     <link rel="apple-touch-icon" href="lexlogo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Algolia InstantSearch -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.css@8/themes/satellite-min.css">
     <style>
         :root {
             --bg: #fafafa;
@@ -110,6 +112,41 @@
         }
         .nav-links a.active { 
             border-bottom-color: #000000;
+        }
+
+        /* Mobile menu toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            flex-direction: column;
+            gap: 4px;
+            width: 44px;
+            height: 44px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: #000000;
+            transition: all 0.3s ease;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
         }
 
         .nav-cta {
@@ -364,6 +401,212 @@
             .comparison-grid {
                 grid-template-columns: 1fr;
             }
+            
+            /* Mobile navigation */
+            .menu-toggle { display: flex; }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: #ffffff;
+                border-bottom: 1px solid #e5e5e5;
+                flex-direction: column;
+                gap: 0;
+                padding: 16px 0;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .nav-links li {
+                width: 100%;
+            }
+            .nav-links a {
+                display: block;
+                padding: 16px 32px;
+                border-bottom: 1px solid #f0f0f0;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+            }
+            .nav-cta {
+                display: none;
+            }
+            .nav-inner {
+                padding: 0 20px;
+            }
+            .container {
+                padding: 0 20px;
+            }
+            
+            /* Model leaderboard - horizontal scroll */
+            .model-leaderboard {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .model-leaderboard-header,
+            .model-leaderboard-row {
+                min-width: 700px;
+            }
+            
+            /* Model comparison table - horizontal scroll */
+            .comparison-table-wrapper {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                margin: 0 -20px;
+                padding: 0 20px;
+            }
+            .comparison-table {
+                min-width: 600px;
+            }
+            
+            /* Cases table - convert to cards */
+            .cases-header {
+                display: none;
+            }
+            .cases-table {
+                border: none;
+                background: transparent;
+            }
+            .case-row {
+                display: block;
+                padding: 20px;
+                margin-bottom: 16px;
+                border: 1px solid #e5e5e5;
+                border-radius: 8px;
+                background: #ffffff;
+                cursor: pointer;
+            }
+            .case-row:hover {
+                border-left: 3px solid #000000;
+                padding-left: 17px;
+            }
+            .case-row > * {
+                display: block;
+                margin-bottom: 12px;
+            }
+            .case-row > *:last-child {
+                margin-bottom: 0;
+            }
+            .case-title {
+                font-size: 18px;
+                font-weight: 600;
+                margin-bottom: 8px;
+                color: #000000;
+            }
+            .case-subtitle {
+                font-size: 15px;
+                margin-bottom: 12px;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 3;
+                line-clamp: 3;
+                overflow: hidden;
+            }
+            .case-status,
+            .case-date,
+            .case-resolution,
+            .case-accuracy {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px 0;
+                border-bottom: 1px solid #f0f0f0;
+                font-size: 14px;
+            }
+            .case-status:last-child,
+            .case-date:last-child,
+            .case-resolution:last-child,
+            .case-accuracy:last-child {
+                border-bottom: none;
+            }
+            .case-status::before {
+                content: "Status: ";
+                font-size: 13px;
+                color: #666666;
+                font-weight: 500;
+            }
+            .case-date::before {
+                content: "Date: ";
+                font-size: 13px;
+                color: #666666;
+                font-weight: 500;
+            }
+            .case-resolution::before {
+                content: "Resolution: ";
+                font-size: 13px;
+                color: #666666;
+                font-weight: 500;
+            }
+            .case-accuracy::before {
+                content: "Accuracy: ";
+                font-size: 13px;
+                color: #666666;
+                font-weight: 500;
+            }
+            .case-detail {
+                display: none;
+                padding: 20px;
+                margin-top: 16px;
+                border-top: 1px solid #e5e5e5;
+            }
+            .case-row.expanded + .case-detail {
+                display: block;
+            }
+            
+            /* Stats summary */
+            .stats-summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .stat-card:first-child {
+                grid-column: span 2;
+            }
+            
+            /* Search box */
+            .search-input-wrapper {
+                max-width: 100%;
+            }
+            
+            /* Detail grid */
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 16px;
+            }
+            .nav-inner {
+                padding: 0 16px;
+            }
+            .case-row {
+                padding: 16px;
+            }
+            .case-title {
+                font-size: 16px;
+            }
+            .case-subtitle {
+                font-size: 14px;
+            }
+            .stats-summary {
+                grid-template-columns: 1fr;
+            }
+            .stat-card:first-child {
+                grid-column: span 1;
+            }
+            .comparison-table-wrapper {
+                margin: 0 -16px;
+                padding: 0 16px;
+            }
+            .model-comparison {
+                padding: 20px 16px;
+            }
+            h1 { font-size: 28px; }
+            h2 { font-size: 22px; }
+            h3 { font-size: 18px; }
         }
 
         /* Stats Summary */
@@ -487,6 +730,21 @@
             box-sizing: border-box;
         }
 
+        /* Fix Algolia hits widget styling */
+        #cases-container.ais-Hits,
+        #cases-container .ais-Hits-list,
+        #cases-container .ais-Hits-item {
+            display: contents; /* Remove wrapper styling, let grid work */
+        }
+
+        #cases-container .ais-Hits-list {
+            display: contents;
+        }
+
+        #cases-container .ais-Hits-item {
+            display: contents;
+        }
+
         .cases-header > *,
         .case-row > * {
             overflow: hidden;
@@ -540,6 +798,7 @@
         .case-row:last-child { border-bottom: none; }
         .case-detail {
             display: none;
+            grid-column: 1 / -1; /* Span all columns */
             background: #ffffff;
             border-bottom: 1px solid #e5e5e5;
             padding: 24px;
@@ -632,9 +891,10 @@
             font-weight: 400;
             color: #666666;
             line-height: 1.6;
-            -webkit-line-clamp: 2;
             display: -webkit-box;
             -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
             overflow: hidden;
         }
 
@@ -963,12 +1223,6 @@
             color: #999999;
         }
 
-            color: #999999;
-            font-style: italic;
-            padding: 24px;
-            text-align: center;
-        }
-
         .comparison-table td {
             padding: 14px 16px;
             border-bottom: 1px solid var(--border-light);
@@ -1079,6 +1333,9 @@
         }
 
     </style>
+    <!-- Algolia InstantSearch JS -->
+    <script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.23.3/dist/algoliasearch.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.56.0/dist/instantsearch.production.min.js"></script>
 </head>
 <body>
     <nav>
@@ -1087,23 +1344,25 @@
                 <img src="lexlogo.png" alt="LexArena" class="logo-img">
                 LexArena
             </a>
-            <ul class="nav-links">
-                <li><a href="index.html">Leaderboard</a></li>
-                <li><a href="cases.html" class="active">Cases</a></li>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="cases.html" class="active">Leaderboard</a></li>
                 <li><a href="methodology.html">Methodology</a></li>
-                <li><a href="https://github.com/sakethkesiraju26/newlex" target="_blank">GitHub</a></li>
             </ul>
         </div>
     </nav>
 
     <main class="container" style="padding-top: 0;">
         <div class="page-header">
-            <h1>Cases</h1>
+            <h1>Leaderboard</h1>
             <p>Browse and compare model predictions across all evaluated SEC enforcement cases.</p>
         </div>
 
         <div class="model-comparison">
-            <h3>Select Model</h3>
             <div class="model-leaderboard">
                 <div class="model-leaderboard-header">
                     <div>Rank</div>
@@ -1113,7 +1372,7 @@
                     <div>Monetary</div>
                     <div>Injunction</div>
                     <div>Officer Bar</div>
-                </div>
+                    </div>
                 <div class="model-leaderboard-row gpt active" onclick="selectModel('gpt')">
                     <div class="model-rank model-rank-1">#1</div>
                     <div class="model-name-table">GPT-4o <span class="model-best-badge">Best</span></div>
@@ -1122,7 +1381,7 @@
                     <div class="model-score-table medium">53.0%</div>
                     <div class="model-score-table good">78.8%</div>
                     <div class="model-score-table good">89.2%</div>
-                </div>
+                        </div>
                 <div class="model-leaderboard-row gemini" onclick="selectModel('gemini')">
                     <div class="model-rank model-rank-2">#2</div>
                     <div class="model-name-table">Gemini 2.0</div>
@@ -1131,7 +1390,7 @@
                     <div class="model-score-table medium">46.9%</div>
                     <div class="model-score-table good">79.6%</div>
                     <div class="model-score-table good">85.7%</div>
-                </div>
+                        </div>
                 <div class="model-leaderboard-row claude" onclick="selectModel('claude')">
                     <div class="model-rank model-rank-3">#3</div>
                     <div class="model-name-table">Claude Opus 4</div>
@@ -1147,12 +1406,13 @@
 
         <div class="search-box">
             <div class="search-input-wrapper">
-                <input type="text" id="search-input" class="search-input" placeholder="Search cases...">
+                <div id="searchbox"></div>
             </div>
+            <div id="search-stats" style="margin-top: 8px; color: #666; font-size: 14px;"></div>
         </div>
 
-        <div class="cases-table" id="cases-container">
-            <div class="cases-header">
+        <div class="cases-table">
+            <div class="cases-header" id="cases-header">
                 <div>Matter</div>
                 <div>Agency</div>
                 <div>Status</div>
@@ -1160,75 +1420,247 @@
                 <div>Resolution</div>
                 <div>Accuracy</div>
             </div>
+            <div id="cases-container"></div>
         </div>
     </main>
 
     <script>
         let activeModel = 'gpt';
         let resultsData = null;
+        let algoliaSearch = null;
+        let algoliaHits = [];
         const providerMap = { 'gpt': 'openai', 'claude': 'anthropic', 'gemini': 'google' };
 
-        // Load data
-        fetch('data/processed/combined_results.json')
-            .then(res => res.json())
-            .then(data => {
-                resultsData = data;
-                renderCases();
-            })
-            .catch(err => {
-                console.error('Failed to load data:', err);
-                document.getElementById('cases-container').innerHTML = '<div style="padding: 40px; text-align: center; color: #666;">Failed to load case data. Please ensure combined_results.json exists.</div>';
-            });
+        // Algolia configuration
+        const ALGOLIA_APP_ID = '0SQPPI6MIC'; // Your Algolia App ID
+        const ALGOLIA_SEARCH_KEY = 'e84a7024a1546f3687510b5ab5b75735'; // Search-Only API Key (safe for client-side)
+        const ALGOLIA_INDEX_NAME = 'cases';
 
-        function formatMoney(amount) {
-            if (amount === null || amount === undefined) return 'N/A';
-            return '$' + amount.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-        }
+        // Initialize Algolia search
+        function initAlgoliaSearch() {
+            if (!ALGOLIA_APP_ID || !ALGOLIA_SEARCH_KEY || ALGOLIA_APP_ID === 'YOUR_ALGOLIA_APP_ID') {
+                console.warn('Algolia not configured, falling back to basic search');
+                return false;
+            }
 
-        function formatBoolean(val) {
-            if (val === null || val === undefined) return 'N/A';
-            return val ? 'Yes' : 'No';
-        }
-
-        function calculateAccuracy(comp) {
-            const fields = [
-                comp.resolution_type_correct,
-                comp.disgorgement_correct,
-                comp.penalty_correct,
-                comp.interest_correct,
-                comp.injunction_correct,
-                comp.officer_bar_correct
-            ];
-            const correct = fields.filter(f => f === true).length;
-            const total = fields.filter(f => f !== null).length;
-            return total > 0 ? Math.round((correct / total) * 100) : 0;
-        }
-
-        function getPredictionForProvider(caseId, provider) {
-            if (!resultsData.all_providers || !resultsData.all_providers[provider]) return null;
-            return resultsData.all_providers[provider].predictions.find(p => p.case_id === caseId && p.success) || null;
-        }
-
-        function renderCases(searchTerm = '') {
-            if (!resultsData || !resultsData.predictions) return;
-            
-            const container = document.getElementById('cases-container');
-            let predictions = resultsData.predictions.filter(p => p.success);
-            
-            // Filter by search term
-            if (searchTerm) {
-                const term = searchTerm.toLowerCase();
-                predictions = predictions.filter(p => {
-                    const meta = p.metadata || {};
-                    const title = (meta.title || '').toLowerCase();
-                    const caseId = (p.case_id || '').toLowerCase();
-                    return title.includes(term) || caseId.includes(term);
+            try {
+                const searchClient = algoliasearch(ALGOLIA_APP_ID, ALGOLIA_SEARCH_KEY);
+                
+                algoliaSearch = instantsearch({
+                    indexName: ALGOLIA_INDEX_NAME,
+                    searchClient,
+                    routing: false,
                 });
+
+                // Clear searchbox first to avoid duplicates
+                const searchbox = document.getElementById('searchbox');
+                if (searchbox) {
+                    searchbox.innerHTML = '';
+                }
+                
+                // Build widgets array
+                const widgets = [
+                    instantsearch.widgets.searchBox({
+                        container: '#searchbox',
+                        placeholder: 'Search cases by title, synopsis, charges, court...',
+                        showSubmit: false,
+                        showReset: false,
+                    }),
+                    instantsearch.widgets.configure({
+                        hitsPerPage: 500,
+                    }),
+                    instantsearch.widgets.hits({
+                        container: '#cases-container',
+                        templates: {
+                            empty: '<div style="padding: 40px; text-align: center; color: #666;">No cases found.</div>',
+                            item: function(hit) {
+                                if (!resultsData || !resultsData.predictions) {
+                                    return '<div class="case-row"><div>Loading...</div></div>';
+                                }
+                                
+                                // Find local prediction data
+                                const pred = resultsData.predictions.find(p => p.case_id === hit.case_id && p.success);
+                                if (!pred) return '';
+                                
+                                const meta = pred.metadata || {};
+                                const comp = pred.comparison || {};
+                                const accuracy = calculateAccuracy(comp);
+                                const releaseDate = meta.release_date || 'N/A';
+                                const resolutionType = (pred.ground_truth?.resolution_type || 'unknown').toUpperCase();
+                                
+                                const gptPred = getPredictionForProvider(pred.case_id, 'openai');
+                                const claudePred = getPredictionForProvider(pred.case_id, 'anthropic');
+                                const geminiPred = getPredictionForProvider(pred.case_id, 'google');
+                                
+                                const gptAccuracy = gptPred ? calculateAccuracy(gptPred.comparison || {}) : null;
+                                const claudeAccuracy = claudePred ? calculateAccuracy(claudePred.comparison || {}) : null;
+                                const geminiAccuracy = geminiPred ? calculateAccuracy(geminiPred.comparison || {}) : null;
+                                
+                                // Use Algolia highlighting for title
+                                const title = hit._highlightResult?.title?.value || meta.title || pred.case_id || 'Unknown';
+                                
+                                // Use a unique index based on case_id
+                                const idx = resultsData.predictions.findIndex(p => p.case_id === hit.case_id);
+                                
+                                // Return ONLY the case-row, case-detail goes after (Algolia wraps items)
+                                return `
+                                    <div class="case-row" id="row-${idx}" onclick="toggleCase(${idx})">
+                                        <div class="case-title">${title}</div>
+                                        <div class="case-subtitle"><span class="agency-badge sec">SEC</span></div>
+                                        <div class="case-status"><span class="status-badge ${resolutionType.toLowerCase().includes('settled') ? 'settled' : resolutionType.toLowerCase().includes('litigated') ? 'litigated' : ''}">${resolutionType}</span></div>
+                                        <div class="case-date">${releaseDate}</div>
+                                        <div class="case-resolution"><span class="status-badge ${resolutionType.toLowerCase().includes('settled') ? 'settled' : resolutionType.toLowerCase().includes('litigated') ? 'litigated' : ''}">${resolutionType}</span></div>
+                                        <div class="case-accuracy ${accuracy >= 80 ? 'good' : accuracy >= 50 ? 'medium' : 'poor'}">${accuracy}%</div>
+                                    </div>
+                                    <div class="case-detail" id="detail-${idx}">
+                                        ${renderCaseDetail(pred, gptPred, claudePred, geminiPred, gptAccuracy, claudeAccuracy, geminiAccuracy)}
+                                    </div>
+                                `;
+                            }
+                        },
+                        cssClasses: {
+                            list: '', // Remove default list styling
+                            item: ''  // Remove default item styling
+                        }
+                    }),
+                    instantsearch.widgets.stats({
+                        container: '#search-stats',
+                        templates: {
+                            text: '{{#helpers.formatNumber}}{{nbHits}}{{/helpers.formatNumber}} cases found',
+                        }
+                    })
+                ];
+                
+                console.log('Algolia search initialized');
+
+                algoliaSearch.addWidgets(widgets);
+
+                // Connect Algolia search to our renderCases function
+                algoliaSearch.on('render', function() {
+                    // When Algolia renders results, update our display
+                    const searchState = algoliaSearch.getState();
+                    const query = searchState.query || '';
+                    
+                    // If there's a query, let Algolia handle it
+                    // Otherwise, show all cases from local data
+                    if (query) {
+                        // Algolia is handling the search via hits widget
+                        console.log('Algolia searching for:', query);
+                    } else {
+                        // No query, show all cases
+                        renderCases('');
+                    }
+                });
+
+                algoliaSearch.start();
+                return true;
+            } catch (e) {
+                console.error('Error initializing Algolia:', e);
+                return false;
+            }
+        }
+
+        // Find prediction by case ID from resultsData
+        function findPredictionByCaseId(caseId) {
+            if (!resultsData || !resultsData.predictions) return null;
+            return resultsData.predictions.find(p => p.case_id === caseId && p.success) || null;
+        }
+
+        // Render a single case row from Algolia hit (works without resultsData)
+        function renderCaseRowFromHit(hit) {
+            const title = hit._highlightResult?.title?.value || hit.title || hit.case_id || 'Unknown';
+            const releaseDate = hit.release_date || 'N/A';
+            const resolutionType = (hit.resolution_type || 'unknown').toUpperCase();
+            const maxAccuracy = Math.max(
+                hit.accuracy_gpt || 0,
+                hit.accuracy_claude || 0,
+                hit.accuracy_gemini || 0
+            );
+            const accuracy = maxAccuracy > 0 ? maxAccuracy : null;
+            
+            return `
+                <div class="case-row" onclick="toggleCaseDetailFromHit('${hit.case_id}')">
+                    <div class="case-title">${title}</div>
+                    <div class="case-subtitle"><span class="agency-badge sec">SEC</span></div>
+                    <div class="case-status"><span class="status-badge ${resolutionType.toLowerCase().includes('settled') ? 'settled' : resolutionType.toLowerCase().includes('litigated') ? 'litigated' : ''}">${resolutionType}</span></div>
+                    <div class="case-date">${releaseDate}</div>
+                    <div class="case-resolution"><span class="status-badge ${resolutionType.toLowerCase().includes('settled') ? 'settled' : resolutionType.toLowerCase().includes('litigated') ? 'litigated' : ''}">${resolutionType}</span></div>
+                    <div class="case-accuracy ${accuracy >= 80 ? 'good' : accuracy >= 50 ? 'medium' : 'poor'}">${accuracy !== null ? accuracy + '%' : '—'}</div>
+                </div>
+                <div class="case-detail" id="detail-hit-${hit.case_id}" style="display: none;">
+                    ${renderCaseDetailFromHit(hit)}
+                </div>
+            `;
+        }
+
+        // Render case detail from Algolia hit
+        function renderCaseDetailFromHit(hit) {
+            const synopsis = hit.synopsis || 'No synopsis available.';
+            const complaintUrl = hit.complaint_url || '';
+            const caseUrl = hit.case_url || '';
+            
+            return `
+                <div class="synopsis-box">
+                    <h4>Case Synopsis</h4>
+                    <p>${synopsis}</p>
+                    <div class="synopsis-meta" style="margin-top: 16px; display: flex; gap: 12px;">
+                        ${complaintUrl ? `<a href="${complaintUrl}" target="_blank" class="source-link pdf-link" onclick="event.stopPropagation()">PDF</a>` : ''}
+                        ${caseUrl ? `<a href="${caseUrl}" target="_blank" class="source-link sec-link" onclick="event.stopPropagation()">SEC</a>` : ''}
+                    </div>
+                </div>
+                <div class="comparison-table">
+                    <p style="padding: 20px; color: #666;">Full model comparison available after loading detailed data.</p>
+                    </div>
+            `;
+        }
+
+        // Toggle case detail from hit
+        function toggleCaseDetailFromHit(caseId) {
+            const detail = document.getElementById(`detail-hit-${caseId}`);
+            if (detail) {
+                detail.style.display = detail.style.display === 'none' ? 'block' : 'none';
             }
             
-            let html = '<div class="cases-header"><div>Matter</div><div>Agency</div><div>Status</div><div>Filed</div><div>Resolution</div><div>Accuracy</div></div>';
+            // If resultsData is loaded, try to load full details
+            if (resultsData && resultsData.predictions) {
+                const pred = findPredictionByCaseId(caseId);
+                if (pred) {
+                    // Update with full details
+                    updateCaseDetailWithFullData(caseId, pred);
+                }
+            }
+        }
+
+        // Update case detail with full prediction data when available
+        function updateCaseDetailWithFullData(caseId, pred) {
+            const detail = document.getElementById(`detail-hit-${caseId}`);
+            if (!detail) return;
             
-            predictions.forEach((pred, idx) => {
+            const gptPred = getPredictionForProvider(caseId, 'openai');
+            const claudePred = getPredictionForProvider(caseId, 'anthropic');
+            const geminiPred = getPredictionForProvider(caseId, 'google');
+            
+            const gptAccuracy = gptPred ? calculateAccuracy(gptPred.comparison || {}) : null;
+            const claudeAccuracy = claudePred ? calculateAccuracy(claudePred.comparison || {}) : null;
+            const geminiAccuracy = geminiPred ? calculateAccuracy(geminiPred.comparison || {}) : null;
+            
+            detail.innerHTML = `
+                <div class="synopsis-box">
+                    <h4>Case Synopsis</h4>
+                    <p>${pred.metadata?.reducto_fields?.case_synopsis || pred.metadata?.summary || 'No synopsis available.'}</p>
+                    <div class="synopsis-meta" style="margin-top: 16px; display: flex; gap: 12px;">
+                        ${pred.metadata?.complaint_url ? `<a href="${pred.metadata.complaint_url}" target="_blank" class="source-link pdf-link" onclick="event.stopPropagation()">PDF</a>` : ''}
+                        ${pred.metadata?.case_url ? `<a href="${pred.metadata.case_url}" target="_blank" class="source-link sec-link" onclick="event.stopPropagation()">SEC</a>` : ''}
+                        </div>
+                        </div>
+                <div class="comparison-table">
+                    ${renderCaseDetail(pred, gptPred, claudePred, geminiPred, gptAccuracy, claudeAccuracy, geminiAccuracy)}
+                        </div>
+            `;
+        }
+
+        // Render a single case row (for fallback, uses full pred data)
+        function renderCaseRow(pred, hit) {
                 const meta = pred.metadata || {};
                 const comp = pred.comparison || {};
                 const accuracy = calculateAccuracy(comp);
@@ -1242,21 +1674,36 @@
                 const claudePred = getPredictionForProvider(pred.case_id, 'anthropic');
                 const geminiPred = getPredictionForProvider(pred.case_id, 'google');
                 
-                // Calculate accuracies for each model
+            // Calculate accuracies
                 const gptAccuracy = gptPred ? calculateAccuracy(gptPred.comparison || {}) : null;
                 const claudeAccuracy = claudePred ? calculateAccuracy(claudePred.comparison || {}) : null;
                 const geminiAccuracy = geminiPred ? calculateAccuracy(geminiPred.comparison || {}) : null;
                 
-                html += `
-                    <div class="case-row" id="row-${idx}" onclick="toggleCase(${idx})">
-                        <div class="case-title">${meta.title || pred.case_id || 'Unknown'}</div>
+            // Use Algolia highlighting for title if available
+            const title = hit?._highlightResult?.title?.value || meta.title || pred.case_id || 'Unknown';
+            
+            return `
+                <div class="case-row" onclick="toggleCaseDetail('${pred.case_id}')">
+                    <div class="case-title">${title}</div>
                         <div class="case-subtitle"><span class="agency-badge sec">SEC</span></div>
                         <div class="case-status"><span class="status-badge ${resolutionType.toLowerCase().includes('settled') ? 'settled' : resolutionType.toLowerCase().includes('litigated') ? 'litigated' : ''}">${resolutionType}</span></div>
                         <div class="case-date">${releaseDate}</div>
                         <div class="case-resolution"><span class="status-badge ${resolutionType.toLowerCase().includes('settled') ? 'settled' : resolutionType.toLowerCase().includes('litigated') ? 'litigated' : ''}">${resolutionType}</span></div>
                         <div class="case-accuracy ${accuracy >= 80 ? 'good' : accuracy >= 50 ? 'medium' : 'poor'}">${accuracy}%</div>
                     </div>
-                    <div class="case-detail" id="detail-${idx}">
+                <div class="case-detail" id="detail-${pred.case_id}" style="display: none;">
+                    ${renderCaseDetail(pred, gptPred, claudePred, geminiPred, gptAccuracy, claudeAccuracy, geminiAccuracy)}
+                    </div>
+            `;
+        }
+
+        // Render case detail (extracted from renderCases)
+        function renderCaseDetail(pred, gptPred, claudePred, geminiPred, gptAccuracy, claudeAccuracy, geminiAccuracy) {
+            const meta = pred.metadata || {};
+            const complaintUrl = meta.complaint_url || '';
+            const caseUrl = meta.case_url || '';
+            
+            return `
                         <div class="synopsis-box">
                             <h4>Case Synopsis</h4>
                             <p>${meta.reducto_fields?.case_synopsis || meta.summary || 'No synopsis available.'}</p>
@@ -1329,6 +1776,85 @@
                                 </tbody>
                             </table>
                         </div>
+            `;
+        }
+
+        // Toggle case detail
+        function toggleCaseDetail(caseId) {
+            const detail = document.getElementById(`detail-${caseId}`);
+            if (detail) {
+                detail.style.display = detail.style.display === 'none' ? 'block' : 'none';
+            }
+        }
+
+        // Fallback renderCases function (for when Algolia is not configured)
+        function renderCases(searchTerm = '') {
+            if (!resultsData || !resultsData.predictions) {
+                console.warn('renderCases: No resultsData or predictions');
+                return;
+            }
+            
+            const container = document.getElementById('cases-container');
+            if (!container) {
+                console.error('renderCases: cases-container not found');
+                return;
+            }
+            
+            let predictions = resultsData.predictions.filter(p => p.success);
+            console.log('renderCases: Filtered to', predictions.length, 'successful predictions');
+            
+            // Filter by search term
+            if (searchTerm) {
+                const term = searchTerm.toLowerCase().trim();
+                predictions = predictions.filter(p => {
+                    const meta = p.metadata || {};
+                    const title = (meta.title || '').toLowerCase();
+                    const caseId = (p.case_id || '').toLowerCase();
+                    const synopsis = (meta.reducto_fields?.case_synopsis || meta.summary || '').toLowerCase();
+                    const charges = (meta.charges || '').toLowerCase();
+                    const court = (meta.court || '').toLowerCase();
+                    
+                    return title.includes(term) || 
+                           caseId.includes(term) || 
+                           synopsis.includes(term) ||
+                           charges.includes(term) ||
+                           court.includes(term);
+                });
+            }
+            
+            // Header is already in HTML structure, so we don't add it here
+            let html = '';
+            
+            predictions.forEach((pred, idx) => {
+                const meta = pred.metadata || {};
+                const comp = pred.comparison || {};
+                const accuracy = calculateAccuracy(comp);
+                const releaseDate = meta.release_date || 'N/A';
+                const resolutionType = (pred.ground_truth?.resolution_type || 'unknown').toUpperCase();
+                const complaintUrl = meta.complaint_url || '';
+                const caseUrl = meta.case_url || '';
+                
+                // Get predictions from all providers
+                const gptPred = getPredictionForProvider(pred.case_id, 'openai');
+                const claudePred = getPredictionForProvider(pred.case_id, 'anthropic');
+                const geminiPred = getPredictionForProvider(pred.case_id, 'google');
+                
+                // Calculate accuracies for each model
+                const gptAccuracy = gptPred ? calculateAccuracy(gptPred.comparison || {}) : null;
+                const claudeAccuracy = claudePred ? calculateAccuracy(claudePred.comparison || {}) : null;
+                const geminiAccuracy = geminiPred ? calculateAccuracy(geminiPred.comparison || {}) : null;
+                
+                html += `
+                    <div class="case-row" id="row-${idx}" onclick="toggleCase(${idx})">
+                        <div class="case-title">${meta.title || pred.case_id || 'Unknown'}</div>
+                        <div class="case-subtitle"><span class="agency-badge sec">SEC</span></div>
+                        <div class="case-status"><span class="status-badge ${resolutionType.toLowerCase().includes('settled') ? 'settled' : resolutionType.toLowerCase().includes('litigated') ? 'litigated' : ''}">${resolutionType}</span></div>
+                        <div class="case-date">${releaseDate}</div>
+                        <div class="case-resolution"><span class="status-badge ${resolutionType.toLowerCase().includes('settled') ? 'settled' : resolutionType.toLowerCase().includes('litigated') ? 'litigated' : ''}">${resolutionType}</span></div>
+                        <div class="case-accuracy ${accuracy >= 80 ? 'good' : accuracy >= 50 ? 'medium' : 'poor'}">${accuracy}%</div>
+                    </div>
+                    <div class="case-detail" id="detail-${idx}">
+                        ${renderCaseDetail(pred, gptPred, claudePred, geminiPred, gptAccuracy, claudeAccuracy, geminiAccuracy)}
                     </div>
                 `;
             });
@@ -1345,6 +1871,101 @@
             if (row) {
                 row.classList.toggle('expanded');
             }
+        }
+
+        // Load data
+        fetch('data/processed/combined_results.json')
+            .then(res => {
+                if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+                return res.json();
+            })
+            .then(data => {
+                resultsData = data;
+                const count = data.predictions?.length || 0;
+                console.log('✓ Loaded', count, 'predictions');
+                
+                if (count === 0) {
+                    console.warn('No predictions found in data');
+                    document.getElementById('cases-container').innerHTML = '<div style="padding: 40px; text-align: center; color: #666;">No cases found in data.</div>';
+                    return;
+                }
+                
+                // Always render cases from local data first (ensures they show)
+                console.log('Rendering cases...');
+                renderCases();
+                console.log('✓ Cases rendered from local data');
+                
+                // Try to initialize Algolia search first
+                setTimeout(() => {
+                    if (initAlgoliaSearch()) {
+                        console.log('✓ Algolia search initialized and working');
+                    } else {
+                        console.log('ℹ Algolia not available, using fallback search');
+                        // Only create fallback if Algolia fails
+                        const searchbox = document.getElementById('searchbox');
+                        if (searchbox && searchbox.children.length === 0) {
+                            searchbox.innerHTML = '<input type="text" id="search-input" class="search-input" placeholder="Search cases by title, synopsis, charges, court...">';
+                            const searchInput = document.getElementById('search-input');
+                            if (searchInput) {
+                                searchInput.addEventListener('input', function(e) {
+                                    renderCases(e.target.value);
+                                });
+                            }
+                        }
+                    }
+                }, 100);
+            })
+            .catch(err => {
+                console.error('✗ Failed to load data:', err);
+                const container = document.getElementById('cases-container');
+                if (container) {
+                    container.innerHTML = '<div style="padding: 40px; text-align: center; color: #d32f2f;"><strong>Error loading case data</strong><br><br>Please ensure combined_results.json exists and is accessible.<br><br><small>' + err.message + '</small></div>';
+                }
+            });
+
+        function formatMoney(amount) {
+            if (amount === null || amount === undefined) return 'N/A';
+            return '$' + amount.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+        }
+
+        function formatBoolean(val) {
+            if (val === null || val === undefined) return 'N/A';
+            return val ? 'Yes' : 'No';
+        }
+
+        function calculateAccuracy(comp) {
+            const fields = [
+                comp.resolution_type_correct,
+                comp.disgorgement_correct,
+                comp.penalty_correct,
+                comp.interest_correct,
+                comp.injunction_correct,
+                comp.officer_bar_correct
+            ];
+            const correct = fields.filter(f => f === true).length;
+            const total = fields.filter(f => f !== null).length;
+            return total > 0 ? Math.round((correct / total) * 100) : 0;
+        }
+
+        function getPredictionForProvider(caseId, provider) {
+            if (!resultsData || !resultsData.all_providers || !resultsData.all_providers[provider]) {
+                return null;
+            }
+            
+            const providerData = resultsData.all_providers[provider];
+            
+            // Handle both structures: direct array or object with predictions key
+            let predictions = null;
+            if (Array.isArray(providerData)) {
+                predictions = providerData;
+            } else if (providerData && providerData.predictions && Array.isArray(providerData.predictions)) {
+                predictions = providerData.predictions;
+            } else {
+                console.warn(`Invalid structure for provider ${provider}:`, providerData);
+                return null;
+            }
+            
+            return predictions.find(p => p.case_id === caseId && p.success) || null;
         }
 
         // Model selection
@@ -1378,15 +1999,42 @@
             }
         }
         
-        // Search functionality
+        // Search functionality (fallback for basic search)
         document.addEventListener('DOMContentLoaded', function() {
+            // If Algolia is not configured, set up basic search input
+            if (!ALGOLIA_APP_ID || ALGOLIA_APP_ID === 'YOUR_ALGOLIA_APP_ID') {
+                const searchbox = document.getElementById('searchbox');
+                if (searchbox) {
+                    searchbox.innerHTML = '<input type="text" id="search-input" class="search-input" placeholder="Search cases...">';
             const searchInput = document.getElementById('search-input');
             if (searchInput) {
                 searchInput.addEventListener('input', function(e) {
                     renderCases(e.target.value);
                 });
+                    }
+                }
             }
         });
+    </script>
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+        
+        if (menuToggle && navLinks) {
+            menuToggle.addEventListener('click', function() {
+                menuToggle.classList.toggle('active');
+                navLinks.classList.toggle('active');
+            });
+            
+            // Close menu when clicking a link
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function() {
+                    menuToggle.classList.remove('active');
+                    navLinks.classList.remove('active');
+                });
+            });
+        }
     </script>
 </body>
 </html>

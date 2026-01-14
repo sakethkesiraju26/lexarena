@@ -17,6 +17,9 @@ flask-cors>=4.0.0
 # anthropic>=0.18.0  # Required for Anthropic/Claude evaluations
 google-genai>=0.1.0  # Required for Google/Gemini evaluations
 
+# Search
+algoliasearch>=4,<5  # Required for Algolia search indexing
+
 # Note: The API server (api_server.py) works without any LLM provider dependencies
 # API keys are only needed when running evaluations (run_evaluation.py) or generating synopses
 

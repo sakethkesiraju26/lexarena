@@ -68,6 +68,40 @@ export ANTHROPIC_API_KEY=your_key_here
 export GOOGLE_API_KEY=your_key_here
 ```
 
+### Algolia Search Setup (Optional)
+
+The cases search page (`cases.html`) supports Algolia InstantSearch for fast, typo-tolerant search. If Algolia is not configured, the page falls back to basic client-side search.
+
+**To enable Algolia search:**
+
+1. **Create an Algolia account** at [algolia.com](https://www.algolia.com) (free tier available)
+
+2. **Get your credentials** from the Algolia dashboard:
+   - Application ID
+   - Search-Only API Key (safe for client-side use)
+   - Write API Key (for indexing only, keep server-side)
+
+3. **Index your cases data:**
+   ```bash
+   export ALGOLIA_APP_ID=your_app_id
+   export ALGOLIA_WRITE_KEY=your_write_key
+   python index_algolia.py
+   ```
+
+4. **Update cases.html** with your Algolia credentials:
+   - Open `cases.html`
+   - Find the `ALGOLIA_APP_ID` and `ALGOLIA_SEARCH_KEY` constants
+   - Replace `'YOUR_ALGOLIA_APP_ID'` and `'YOUR_ALGOLIA_SEARCH_KEY'` with your actual credentials
+
+**Benefits of Algolia:**
+- Typo-tolerant search (finds "fraud" even if you type "fraud")
+- Fast, instant search results
+- Search across title, synopsis, charges, and court fields
+- Relevance-based ranking
+- Search highlighting in results
+
+**Note:** The Search-Only API Key is safe to expose in client-side code. Never commit the Write API Key to your repository.
+
 ### Run Evaluation
 
 ```bash
