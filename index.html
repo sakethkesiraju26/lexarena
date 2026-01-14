@@ -6,6 +6,7 @@
     <title>LexArena — SEC Case Outcome Prediction</title>
     <link rel="icon" type="image/png" href="lexlogo.png?v=4">
     <link rel="apple-touch-icon" href="lexlogo.png?v=4">
+    <link rel="preload" href="lexlogo.png?v=4" as="image">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
                                 :root {
@@ -67,13 +68,21 @@
             align-items: center;
             gap: 12px;
             letter-spacing: -0.02em;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .logo:hover {
+            opacity: 0.8;
         }
 
         .logo-img {
             height: 40px;
-            width: auto;
+            width: 40px;
             object-fit: contain;
             display: block;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
         }
 
         .nav-links {
@@ -989,7 +998,6 @@
                 <span></span>
             </button>
             <ul class="nav-links" id="nav-links">
-                <li><a href="cases.html">Leaderboard</a></li>
                 <li><a href="methodology.html">Methodology</a></li>
             </ul>
             <a href="cases.html" class="nav-cta">View Leaderboard →</a>
