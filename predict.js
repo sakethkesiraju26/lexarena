@@ -401,16 +401,93 @@ async function showResults() {
     const totalPredictions = await getTotalPredictionCount();
     document.getElementById('total-prediction-count').textContent = totalPredictions;
     
-    // Build detailed breakdown
-    let detailHtml = '<div class="results-breakdown"><h3>Your Predictions</h3>';
+    // Build detailed breakdown with actual outcomes
+    let detailHtml = '<div class="results-breakdown"><h3>Your Predictions vs Actual Outcomes</h3>';
     predictionCases.forEach((caseData, idx) => {
         const prediction = userPredictions[caseData.case_id];
         if (prediction) {
-            const accuracy = calculateAccuracy(prediction, caseData.ground_truth);
+            const gt = caseData.ground_truth || {};
+            const accuracy = calculateAccuracy(prediction, gt);
+            
+            // Determine correct/incorrect for each metric
+            const userResolution = prediction.resolutionPct >= 50 ? 'Settled' : 'Litigated';
+            const actualResolution = gt.resolution_type ? (gt.resolution_type.toLowerCase().includes('settled') ? 'Settled' : 'Litigated') : '—';
+            const resCorrect = userResolution === actualResolution;
+            
+            const userInjunction = prediction.injunctionPct >= 50 ? 'Yes' : 'No';
+            const actualInjunction = gt.has_injunction !== null ? (gt.has_injunction ? 'Yes' : 'No') : '—';
+            const injCorrect = gt.has_injunction !== null && (prediction.injunctionPct >= 50) === gt.has_injunction;
+            
+            const userBar = prediction.officerBarPct >= 50 ? 'Yes' : 'No';
+            const actualBar = gt.has_officer_director_bar !== null ? (gt.has_officer_director_bar ? 'Yes' : 'No') : '—';
+            const barCorrect = gt.has_officer_director_bar !== null && (prediction.officerBarPct >= 50) === gt.has_officer_director_bar;
+            
+            // Format monetary values
+            const formatMoney = (val) => val !== null && val !== undefined ? '$' + val.toLocaleString() : '—';
+            const checkMoney = (pred, actual) => {
+                if (actual === null || actual === undefined || pred === null) return null;
+                const tolerance = actual * 0.1;
+                return Math.abs(pred - actual) <= tolerance;
+            };
+            
+            const disgCorrect = checkMoney(prediction.disgorgement, gt.disgorgement_amount);
+            const penCorrect = checkMoney(prediction.penalty, gt.penalty_amount);
+            const intCorrect = checkMoney(prediction.interest, gt.prejudgment_interest);
+            
             detailHtml += `
-                <div class="result-case">
-                    <strong>Case ${idx + 1}:</strong> ${caseData.metadata?.title || caseData.case_id}
-                    <span class="result-accuracy ${accuracy >= 50 ? 'good' : 'poor'}">${accuracy}%</span>
+                <div class="result-case-card">
+                    <div class="result-case-header">
+                        <strong>Case ${idx + 1}: SEC v. ${caseData.metadata?.title || caseData.case_id}</strong>
+                        <span class="result-accuracy ${accuracy >= 50 ? 'good' : 'poor'}">${accuracy}% correct</span>
+                    </div>
+                    <table class="outcome-table">
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th>You</th>
+                                <th>Actual</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Resolution</td>
+                                <td>${userResolution}</td>
+                                <td>${actualResolution}</td>
+                                <td class="${resCorrect ? 'correct' : 'incorrect'}">${resCorrect ? '✓' : '✗'}</td>
+                            </tr>
+                            <tr>
+                                <td>Disgorgement</td>
+                                <td>${prediction.disgorgement ? formatMoney(prediction.disgorgement) : '—'}</td>
+                                <td>${formatMoney(gt.disgorgement_amount)}</td>
+                                <td class="${disgCorrect === null ? '' : (disgCorrect ? 'correct' : 'incorrect')}">${disgCorrect === null ? '—' : (disgCorrect ? '✓' : '✗')}</td>
+                            </tr>
+                            <tr>
+                                <td>Penalty</td>
+                                <td>${prediction.penalty ? formatMoney(prediction.penalty) : '—'}</td>
+                                <td>${formatMoney(gt.penalty_amount)}</td>
+                                <td class="${penCorrect === null ? '' : (penCorrect ? 'correct' : 'incorrect')}">${penCorrect === null ? '—' : (penCorrect ? '✓' : '✗')}</td>
+                            </tr>
+                            <tr>
+                                <td>Interest</td>
+                                <td>${prediction.interest ? formatMoney(prediction.interest) : '—'}</td>
+                                <td>${formatMoney(gt.prejudgment_interest)}</td>
+                                <td class="${intCorrect === null ? '' : (intCorrect ? 'correct' : 'incorrect')}">${intCorrect === null ? '—' : (intCorrect ? '✓' : '✗')}</td>
+                            </tr>
+                            <tr>
+                                <td>Injunction</td>
+                                <td>${userInjunction}</td>
+                                <td>${actualInjunction}</td>
+                                <td class="${gt.has_injunction === null ? '' : (injCorrect ? 'correct' : 'incorrect')}">${gt.has_injunction === null ? '—' : (injCorrect ? '✓' : '✗')}</td>
+                            </tr>
+                            <tr>
+                                <td>Officer Bar</td>
+                                <td>${userBar}</td>
+                                <td>${actualBar}</td>
+                                <td class="${gt.has_officer_director_bar === null ? '' : (barCorrect ? 'correct' : 'incorrect')}">${gt.has_officer_director_bar === null ? '—' : (barCorrect ? '✓' : '✗')}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             `;
         }

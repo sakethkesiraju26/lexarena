@@ -1174,6 +1174,19 @@
             color: #333;
         }
         
+        .tooltip-icon {
+            display: inline-block;
+            margin-left: 6px;
+            color: #999;
+            cursor: help;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        
+        .tooltip-icon:hover {
+            color: #0066ff;
+        }
+        
         .slider-container {
             display: flex;
             align-items: center;
@@ -1397,6 +1410,129 @@
             margin-top: 24px;
             font-size: 14px;
             color: #666;
+        }
+        
+        /* Results Breakdown Styles */
+        .results-breakdown {
+            margin-top: 24px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .results-breakdown h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #333;
+        }
+        
+        .result-case-card {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 1px solid #e5e5e5;
+        }
+        
+        .result-case-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .result-case-header strong {
+            font-size: 14px;
+            color: #000;
+        }
+        
+        .result-accuracy {
+            font-size: 13px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+        
+        .result-accuracy.good {
+            background: #dcfce7;
+            color: #15803d;
+        }
+        
+        .result-accuracy.poor {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+        
+        .outcome-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        
+        .outcome-table th,
+        .outcome-table td {
+            padding: 8px 10px;
+            text-align: left;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        
+        .outcome-table th {
+            font-weight: 600;
+            color: #666;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .outcome-table td:last-child {
+            text-align: center;
+            font-weight: 600;
+            width: 40px;
+        }
+        
+        .outcome-table td.correct {
+            color: #15803d;
+        }
+        
+        .outcome-table td.incorrect {
+            color: #dc2626;
+        }
+        
+        /* Results Explanation */
+        .results-explanation {
+            margin-top: 24px;
+            padding: 16px;
+            background: #f0f9ff;
+            border-radius: 8px;
+            border-left: 3px solid #0066ff;
+        }
+        
+        .results-explanation h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #000;
+        }
+        
+        .results-explanation p {
+            font-size: 13px;
+            color: #444;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .results-explanation ul {
+            margin: 0;
+            padding-left: 20px;
+            font-size: 13px;
+            color: #444;
+        }
+        
+        .results-explanation li {
+            margin-bottom: 4px;
+            line-height: 1.5;
         }
         
         /* Start Screen Styles */
@@ -1848,7 +1984,7 @@
                         </div>
                     
                     <div class="prediction-question">
-                        <label>Expected <strong>Disgorgement</strong> amount</label>
+                        <label>Expected <strong>Disgorgement</strong> amount <span class="tooltip-icon" title="Money the defendant must return — their illegal profits from the scheme">ⓘ</span></label>
                         <div class="input-with-prefix">
                             <span class="input-prefix">$</span>
                             <input type="number" id="disgorgement-input" placeholder="0" min="0">
@@ -1856,7 +1992,7 @@
                     </div>
                     
                     <div class="prediction-question">
-                        <label>Expected <strong>Civil Penalty</strong> amount</label>
+                        <label>Expected <strong>Civil Penalty</strong> amount <span class="tooltip-icon" title="A fine imposed as punishment — separate from returning profits">ⓘ</span></label>
                         <div class="input-with-prefix">
                             <span class="input-prefix">$</span>
                             <input type="number" id="penalty-input" placeholder="0" min="0">
@@ -1864,7 +2000,7 @@
                     </div>
                     
                     <div class="prediction-question">
-                        <label>Expected <strong>Prejudgment Interest</strong></label>
+                        <label>Expected <strong>Prejudgment Interest</strong> <span class="tooltip-icon" title="Interest charged on disgorgement from violation date to judgment — like interest on unpaid debt">ⓘ</span></label>
                         <div class="input-with-prefix">
                             <span class="input-prefix">$</span>
                             <input type="number" id="interest-input" placeholder="0" min="0">
@@ -1872,7 +2008,7 @@
                     </div>
                     
                     <div class="prediction-question">
-                        <label>Will there be an <strong>Injunction</strong>?</label>
+                        <label>Will there be an <strong>Injunction</strong>? <span class="tooltip-icon" title="A court order barring the defendant from committing similar violations in the future">ⓘ</span></label>
                         <div class="slider-container">
                             <span class="slider-label">No</span>
                             <input type="range" id="injunction-slider" min="0" max="100" value="50" class="prediction-slider">
@@ -1882,7 +2018,7 @@
                     </div>
                     
                     <div class="prediction-question">
-                        <label>Will there be an <strong>Officer/Director Bar</strong>?</label>
+                        <label>Will there be an <strong>Officer/Director Bar</strong>? <span class="tooltip-icon" title="A ban from serving as executive or board member of any public company">ⓘ</span></label>
                         <div class="slider-container">
                             <span class="slider-label">No</span>
                             <input type="range" id="officer-bar-slider" min="0" max="100" value="50" class="prediction-slider">
@@ -1950,6 +2086,16 @@
             
             <div class="results-detail" id="results-detail">
                 <!-- Detailed breakdown will be inserted here -->
+            </div>
+            
+            <div class="results-explanation">
+                <h4>Why predict on resolved cases?</h4>
+                <p>These cases are already settled, so we can measure your accuracy immediately. Your predictions help us:</p>
+                <ul>
+                    <li>Compare human forecasting vs AI models</li>
+                    <li>Identify which case factors predict outcomes</li>
+                    <li>Build better prediction models for <em>pending</em> cases</li>
+                </ul>
             </div>
             
             <div class="results-actions">
