@@ -1208,16 +1208,25 @@
         }
         
         .tooltip-icon {
-            display: inline-block;
-            margin-left: 6px;
-            color: #999;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 16px;
+            height: 16px;
+            margin-left: 4px;
+            background: #e0e0e0;
+            color: #666;
+            border-radius: 50%;
             cursor: help;
-            font-size: 14px;
-            transition: color 0.2s;
+            font-size: 10px;
+            font-weight: 600;
+            transition: all 0.2s;
+            vertical-align: middle;
         }
         
         .tooltip-icon:hover {
-            color: #0066ff;
+            background: #0066ff;
+            color: #fff;
         }
         
         .slider-container {
@@ -1998,7 +2007,7 @@
                     
                         <div class="prediction-row">
                             <div class="prediction-question half">
-                                <label><strong>Injunction</strong>? <span class="tooltip-icon" title="A court order barring the defendant from future violations">(?) </span></label>
+                                <label><strong>Injunction</strong>? <span class="tooltip-icon" title="A court order barring the defendant from future violations">?</span></label>
                                 <div class="slider-container">
                                     <span class="slider-label">No</span>
                                     <input type="range" id="injunction-slider" min="0" max="100" value="50" class="prediction-slider">
@@ -2006,7 +2015,7 @@
                                 </div>
                             </div>
                             <div class="prediction-question half">
-                                <label><strong>Officer Bar</strong>? <span class="tooltip-icon" title="A ban from serving as executive or board member of any public company">(?) </span></label>
+                                <label><strong>Officer Bar</strong>? <span class="tooltip-icon" title="A ban from serving as officer or director of any public company">?</span></label>
                                 <div class="slider-container">
                                     <span class="slider-label">No</span>
                                     <input type="range" id="officer-bar-slider" min="0" max="100" value="50" class="prediction-slider">
