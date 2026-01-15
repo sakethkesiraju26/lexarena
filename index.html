@@ -1241,6 +1241,40 @@
             gap: 12px;
         }
         
+        .money-input-container {
+            display: flex;
+            align-items: center;
+            background: #f8f9fa;
+            border: 2px solid #e5e5e5;
+            border-radius: 8px;
+            padding: 0 12px;
+            transition: border-color 0.2s;
+        }
+        
+        .money-input-container:focus-within {
+            border-color: #0066ff;
+        }
+        
+        .money-prefix {
+            font-size: 16px;
+            font-weight: 600;
+            color: #666;
+        }
+        
+        .money-input {
+            border: none;
+            background: transparent;
+            padding: 12px 8px;
+            font-size: 18px;
+            font-weight: 500;
+            width: 150px;
+            outline: none;
+        }
+        
+        .money-input::placeholder {
+            color: #bbb;
+        }
+        
         .slider-label {
             font-size: 13px;
             color: #666;
@@ -1951,7 +1985,7 @@
                             <span class="step-num">2</span>
                             <div>
                                 <strong>Make 3 predictions</strong>
-                                <p>Settled or litigated? Injunction? Officer bar?</p>
+                                <p>Disgorgement amount? Injunction? Officer bar?</p>
                             </div>
                         </div>
                         <div class="instruction-step">
@@ -2003,11 +2037,10 @@
                     
                     <div class="prediction-questions">
                         <div class="prediction-question">
-                            <label><strong>Settled</strong> or <strong>Litigated</strong>? <span class="tooltip-icon" title="Settled = resolved without trial (~90% of cases). Litigated = went to court trial (~10%)">?</span></label>
-                            <div class="slider-container">
-                                <span class="slider-label">Settled</span>
-                                <input type="range" id="resolution-slider" min="0" max="100" value="50" class="prediction-slider">
-                                <span class="slider-label">Litigated</span>
+                            <label><strong>Disgorgement</strong> <span class="tooltip-icon" title="Amount defendant must return in ill-gotten gains ($)">?</span></label>
+                            <div class="money-input-container">
+                                <span class="money-prefix">$</span>
+                                <input type="number" id="disgorgement-input" placeholder="0" min="0" step="1000" class="money-input">
                             </div>
                         </div>
                     

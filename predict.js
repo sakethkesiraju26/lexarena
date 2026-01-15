@@ -202,8 +202,7 @@ function renderCurrentCase() {
     document.getElementById('allegations-text').textContent = blindSynopsis;
     
     // Reset inputs
-    document.getElementById('resolution-slider').value = 50;
-    document.getElementById('resolution-value').textContent = 50;
+    document.getElementById('disgorgement-input').value = '';
     document.getElementById('injunction-slider').value = 50;
     document.getElementById('injunction-value').textContent = 50;
     document.getElementById('officer-bar-slider').value = 50;
@@ -212,8 +211,7 @@ function renderCurrentCase() {
     // Load existing prediction if any
     const existing = userPredictions[caseData.case_id];
     if (existing) {
-        document.getElementById('resolution-slider').value = existing.resolutionPct;
-        document.getElementById('resolution-value').textContent = existing.resolutionPct;
+        document.getElementById('disgorgement-input').value = existing.disgorgement || '';
         document.getElementById('injunction-slider').value = existing.injunctionPct;
         document.getElementById('injunction-value').textContent = existing.injunctionPct;
         document.getElementById('officer-bar-slider').value = existing.officerBarPct;
@@ -232,7 +230,6 @@ function renderCurrentCase() {
 // Slider value updates
 document.addEventListener('DOMContentLoaded', function() {
     const sliders = [
-        { id: 'resolution-slider', valueId: 'resolution-value' },
         { id: 'injunction-slider', valueId: 'injunction-value' },
         { id: 'officer-bar-slider', valueId: 'officer-bar-value' }
     ];
@@ -307,9 +304,11 @@ function saveCurrent() {
     const caseData = predictionCases[currentCaseIndex];
     if (!caseData) return;
     
+    const disgorgementVal = document.getElementById('disgorgement-input').value;
+    
     userPredictions[caseData.case_id] = {
         caseId: caseData.case_id,
-        resolutionPct: parseInt(document.getElementById('resolution-slider').value),
+        disgorgement: disgorgementVal ? parseFloat(disgorgementVal) : 0,
         injunctionPct: parseInt(document.getElementById('injunction-slider').value),
         officerBarPct: parseInt(document.getElementById('officer-bar-slider').value),
         timestamp: new Date().toISOString()
@@ -378,30 +377,32 @@ async function submitPrediction() {
 function calculateAccuracy(prediction, groundTruth) {
     if (!groundTruth) return 0;
     
-    let correct = 0;
-    let total = 0;
+    let scores = [];
     
-    // Resolution type (50% threshold for settled)
-    const predictedSettled = prediction.resolutionPct >= 50;
-    const actualSettled = groundTruth.resolution_type?.toLowerCase().includes('settled');
-    if (predictedSettled === actualSettled) correct++;
-    total++;
+    // Disgorgement accuracy (percentage error, capped)
+    if (groundTruth.disgorgement_amount != null && groundTruth.disgorgement_amount > 0) {
+        const actual = groundTruth.disgorgement_amount;
+        const predicted = prediction.disgorgement || 0;
+        const percentError = Math.abs(predicted - actual) / actual;
+        // Score: 100% if exact, 0% if off by 100%+
+        const disgorgementScore = Math.max(0, 100 - (percentError * 100));
+        scores.push(disgorgementScore);
+    }
     
     // Injunction (50% threshold)
     if (groundTruth.has_injunction !== null) {
         const predictedInjunction = prediction.injunctionPct >= 50;
-        if (predictedInjunction === groundTruth.has_injunction) correct++;
-        total++;
+        scores.push(predictedInjunction === groundTruth.has_injunction ? 100 : 0);
     }
     
     // Officer bar (50% threshold)
     if (groundTruth.has_officer_director_bar !== null) {
         const predictedBar = prediction.officerBarPct >= 50;
-        if (predictedBar === groundTruth.has_officer_director_bar) correct++;
-        total++;
+        scores.push(predictedBar === groundTruth.has_officer_director_bar ? 100 : 0);
     }
     
-    return total > 0 ? Math.round((correct / total) * 100) : 0;
+    if (scores.length === 0) return 0;
+    return Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
 }
 
 // Show results
@@ -457,10 +458,11 @@ async function showResults() {
             const gt = caseData.ground_truth || {};
             const accuracy = calculateAccuracy(prediction, gt);
             
-            // Determine correct/incorrect for each metric
-            const userResolution = prediction.resolutionPct >= 50 ? 'Settled' : 'Litigated';
-            const actualResolution = gt.resolution_type ? (gt.resolution_type.toLowerCase().includes('settled') ? 'Settled' : 'Litigated') : '—';
-            const resCorrect = userResolution === actualResolution;
+            // Disgorgement comparison
+            const userDisgorgement = prediction.disgorgement || 0;
+            const actualDisgorgement = gt.disgorgement_amount || 0;
+            const disgorgementError = actualDisgorgement > 0 ? Math.abs(userDisgorgement - actualDisgorgement) / actualDisgorgement : 0;
+            const disgorgementClose = disgorgementError <= 0.25; // within 25%
             
             const userInjunction = prediction.injunctionPct >= 50 ? 'Yes' : 'No';
             const actualInjunction = gt.has_injunction !== null ? (gt.has_injunction ? 'Yes' : 'No') : '—';
@@ -469,6 +471,8 @@ async function showResults() {
             const userBar = prediction.officerBarPct >= 50 ? 'Yes' : 'No';
             const actualBar = gt.has_officer_director_bar !== null ? (gt.has_officer_director_bar ? 'Yes' : 'No') : '—';
             const barCorrect = gt.has_officer_director_bar !== null && (prediction.officerBarPct >= 50) === gt.has_officer_director_bar;
+            
+            const formatMoney = (val) => val > 0 ? '$' + val.toLocaleString() : '$0';
             
             detailHtml += `
                 <div class="result-case-card">
@@ -487,10 +491,10 @@ async function showResults() {
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Resolution</td>
-                                <td>${userResolution}</td>
-                                <td>${actualResolution}</td>
-                                <td class="${resCorrect ? 'correct' : 'incorrect'}">${resCorrect ? '✓' : '✗'}</td>
+                                <td>Disgorgement</td>
+                                <td>${formatMoney(userDisgorgement)}</td>
+                                <td>${formatMoney(actualDisgorgement)}</td>
+                                <td class="${disgorgementClose ? 'correct' : 'incorrect'}">${disgorgementClose ? '✓' : '✗'}</td>
                             </tr>
                             <tr>
                                 <td>Injunction</td>
@@ -554,15 +558,13 @@ async function loadCommunityPredictions() {
     
     let html = '';
     predictions.forEach(p => {
-        const resolutionText = p.resolutionPct >= 50 ? 'Settled' : 'Litigated';
+        const disgorgementText = p.disgorgement ? `$${p.disgorgement.toLocaleString()}` : '$0';
         html += `
             <div class="community-comment">
                 <span class="comment-user">Forecaster</span>
                 <div class="comment-prediction">
-                    ${resolutionText} (${p.resolutionPct}%)
-                    ${p.disgorgement ? `, $${p.disgorgement.toLocaleString()} disgorgement` : ''}
+                    Disgorgement: ${disgorgementText}
                 </div>
-                ${p.reasoning ? `<div class="comment-reasoning">"${p.reasoning}"</div>` : ''}
             </div>
         `;
     });
