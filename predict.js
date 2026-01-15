@@ -353,6 +353,9 @@ async function submitPrediction() {
     
     // Move to next case
     nextCase();
+    
+    // Ensure scroll to top after submit
+    scrollModalToTop();
 }
 
 // Calculate accuracy for a prediction
