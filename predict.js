@@ -235,6 +235,7 @@ function prevCase() {
         saveCurrent();
         currentCaseIndex--;
         renderCurrentCase();
+        scrollModalToTop();
     }
 }
 
@@ -245,9 +246,18 @@ function nextCase() {
     if (currentCaseIndex < predictionCases.length - 1) {
         currentCaseIndex++;
         renderCurrentCase();
+        scrollModalToTop();
     } else {
         // Finish - show results
         showResults();
+    }
+}
+
+// Scroll modal content to top
+function scrollModalToTop() {
+    const modalContent = document.querySelector('#prediction-modal .prediction-modal-content');
+    if (modalContent) {
+        modalContent.scrollTop = 0;
     }
 }
 
@@ -256,6 +266,7 @@ function skipCase() {
     if (currentCaseIndex < predictionCases.length - 1) {
         currentCaseIndex++;
         renderCurrentCase();
+        scrollModalToTop();
     } else {
         showResults();
     }
