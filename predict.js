@@ -8,14 +8,15 @@
 // reCAPTCHA v3 Site Key
 const RECAPTCHA_SITE_KEY = '6LedAUwsAAAAANi0RBfXLM074heqcW6wK57g6wBP';
 
-// Firebase Configuration - Replace with your own Firebase project credentials
+// Firebase Configuration
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyCb9ZY9I5w5YjEXkxOR_EBHLesxCXFXUPo",
+    authDomain: "lexarena-99c05.firebaseapp.com",
+    projectId: "lexarena-99c05",
+    storageBucket: "lexarena-99c05.firebasestorage.app",
+    messagingSenderId: "301349897682",
+    appId: "1:301349897682:web:f6d343522e3ccd10f3740b",
+    measurementId: "G-NCX9L1QXZ0"
 };
 
 // Initialize Firebase (only if config is set)
