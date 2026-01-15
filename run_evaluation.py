@@ -193,7 +193,7 @@ def run_llm_evaluation(args):
         )
     else:
         # Original behavior - save at end
-    result = runner.run_evaluation(cases, verbose=True)
+        result = runner.run_evaluation(cases, verbose=True)
     
     # Display results
     print("\n" + "=" * 60)

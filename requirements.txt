@@ -13,7 +13,7 @@ flask-cors>=4.0.0
 
 # Optional: LLM Providers
 # Uncomment the providers you want to use for evaluations:
-# openai>=1.0.0      # Required for OpenAI/GPT-4o evaluations and synopsis generation
+openai>=1.0.0      # Required for OpenAI/GPT evaluations (Responses API)
 # anthropic>=0.18.0  # Required for Anthropic/Claude evaluations
 google-genai>=0.1.0  # Required for Google/Gemini evaluations
 

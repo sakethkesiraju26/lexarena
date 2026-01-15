@@ -101,38 +101,16 @@ class OpenAIProvider(LLMProvider):
             raise ImportError("openai library required. Install with: pip install openai")
     
     def generate(self, prompt: str) -> str:
-        response = self.client.chat.completions.create(
+        # Combine system instruction with user prompt for Responses API
+        full_input = f"""{SYSTEM_INSTRUCTION}
+
+{prompt}"""
+        
+        response = self.client.responses.create(
             model=self.model,
-            messages=[
-                {"role": "system", "content": """You are a legal analyst evaluating SEC enforcement cases.
-
-Read the following SEC complaint and predict the likely outcome.
-
-Predict the following outcomes for this case:
-
-1. Resolution Type: Choose one of:
-   - settled (defendant will agree to terms - includes consent judgments and settled actions)
-   - litigated (case will go to trial/judgment - court makes final decision)
-
-2. Disgorgement Amount: The amount in dollars the defendant must return (ill-gotten gains). Enter a number or null if none expected.
-
-3. Civil Penalty Amount: The civil penalty in dollars. Enter a number or null if none expected.
-
-4. Prejudgment Interest: Interest on disgorgement in dollars. Enter a number or null if none expected.
-
-5. Has Injunction: Will there be injunctive relief? (yes/no)
-
-6. Has Officer/Director Bar: Will the defendant be barred from serving as an officer or director? (yes/no)
-
-7. Has Conduct Restriction: Will there be conduct-based restrictions (e.g., trading restrictions, industry bar)? (yes/no)
-
-Respond in the following JSON format with reasoning. Provide your prediction based solely on the complaint text provided."""},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=self.temperature,
-            max_tokens=self.max_tokens
+            input=full_input,
         )
-        return response.choices[0].message.content
+        return response.output_text
     
     def get_model_name(self) -> str:
         return f"OpenAI/{self.model}"

@@ -325,6 +325,7 @@
         .model-rank-1 { color: var(--green); }
         .model-rank-2 { color: var(--blue); }
         .model-rank-3 { color: #666666; }
+        .model-rank-4 { color: #999999; }
 
         .model-name-table {
             font-weight: 500;
@@ -1469,9 +1470,18 @@
                     <div>Injunction</div>
                     <div>Officer Bar</div>
                     </div>
-                <div class="model-leaderboard-row gpt active" onclick="selectModel('gpt')">
+                <div class="model-leaderboard-row gpt active" onclick="selectModel('gpt52')">
                     <div class="model-rank model-rank-1">#1</div>
-                    <div class="model-name-table">GPT-4o <span class="model-best-badge">Best</span></div>
+                    <div class="model-name-table">GPT-5.2 <span class="model-best-badge">Best</span></div>
+                    <div class="model-score-table good">66.4%</div>
+                    <div class="model-score-table medium">40.1%</div>
+                    <div class="model-score-table medium">53.1%</div>
+                    <div class="model-score-table good">79.6%</div>
+                    <div class="model-score-table good">92.8%</div>
+                        </div>
+                <div class="model-leaderboard-row gpt" onclick="selectModel('gpt')">
+                    <div class="model-rank model-rank-2">#2</div>
+                    <div class="model-name-table">GPT-4o</div>
                     <div class="model-score-table good">64.9%</div>
                     <div class="model-score-table medium">38.6%</div>
                     <div class="model-score-table medium">53.0%</div>
@@ -1479,7 +1489,7 @@
                     <div class="model-score-table good">89.2%</div>
                         </div>
                 <div class="model-leaderboard-row gemini" onclick="selectModel('gemini')">
-                    <div class="model-rank model-rank-2">#2</div>
+                    <div class="model-rank model-rank-3">#3</div>
                     <div class="model-name-table">Gemini 2.0</div>
                     <div class="model-score-table good">62.8%</div>
                     <div class="model-score-table medium">38.9%</div>
@@ -1488,16 +1498,16 @@
                     <div class="model-score-table good">85.7%</div>
                         </div>
                 <div class="model-leaderboard-row claude" onclick="selectModel('claude')">
-                    <div class="model-rank model-rank-3">#3</div>
+                    <div class="model-rank model-rank-4">#4</div>
                     <div class="model-name-table">Claude Opus 4</div>
                     <div class="model-score-table medium">46.8%</div>
                     <div class="model-score-table medium">32.4%</div>
                     <div class="model-score-table medium">41.2%</div>
                     <div class="model-score-table good">68.4%</div>
                     <div class="model-score-table good">75.6%</div>
-                </div>
-            </div>
-            <p class="comparison-note">Showing <strong id="active-model-name">GPT-4o</strong> predictions on <strong id="case-count">500</strong> evaluated cases below.</p>
+                        </div>
+                    </div>
+            <p class="comparison-note">Showing <strong id="active-model-name">GPT-5.2</strong> predictions on <strong id="case-count">500</strong> evaluated cases below.</p>
         </div>
 
         <div class="search-box">
@@ -1528,7 +1538,7 @@
     </main>
 
     <script>
-        let activeModel = 'gpt';
+        let activeModel = 'gpt52';
         let resultsData = null;
         let algoliaSearch = null;
         let algoliaHits = [];
@@ -2056,11 +2066,18 @@
         }
 
         function getPredictionForProvider(caseId, provider) {
-            if (!resultsData || !resultsData.all_providers || !resultsData.all_providers[provider]) {
+            if (!resultsData || !resultsData.all_providers) {
                 return null;
             }
             
-            const providerData = resultsData.all_providers[provider];
+            // Map provider keys to combined_results keys
+            const providerKey = provider === 'openai_gpt52' ? 'openai_gpt52' : provider;
+            
+            if (!resultsData.all_providers[providerKey]) {
+                return null;
+            }
+            
+            const providerData = resultsData.all_providers[providerKey];
             
             // Handle both structures: direct array or object with predictions key
             let predictions = null;
@@ -2073,11 +2090,16 @@
                 return null;
             }
             
-            return predictions.find(p => p.case_id === caseId && p.success) || null;
+            // Handle case_id with potential suffix (from batch API)
+            return predictions.find(p => {
+                const baseCaseId = p.case_id?.split('_')[0] || p.case_id;
+                return (p.case_id === caseId || baseCaseId === caseId) && p.success;
+            }) || null;
         }
 
         // Model selection
         const modelData = {
+            gpt52: { name: 'GPT-5.2', cases: 500, available: true },
             gpt: { name: 'GPT-4o', cases: 500, available: true },
             claude: { name: 'Claude Opus 4', cases: 500, available: true },
             gemini: { name: 'Gemini 2.0', cases: 499, available: true }
