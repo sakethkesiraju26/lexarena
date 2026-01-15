@@ -1601,10 +1601,12 @@
                                 const releaseDate = meta.release_date || 'N/A';
                                 const resolutionType = (pred.ground_truth?.resolution_type || 'unknown').toUpperCase();
                                 
+                                const gpt52Pred = getPredictionForProvider(pred.case_id, 'openai_gpt52');
                                 const gptPred = getPredictionForProvider(pred.case_id, 'openai');
                                 const claudePred = getPredictionForProvider(pred.case_id, 'anthropic');
                                 const geminiPred = getPredictionForProvider(pred.case_id, 'google');
                                 
+                                const gpt52Accuracy = gpt52Pred ? calculateAccuracy(gpt52Pred.comparison || {}) : null;
                                 const gptAccuracy = gptPred ? calculateAccuracy(gptPred.comparison || {}) : null;
                                 const claudeAccuracy = claudePred ? calculateAccuracy(claudePred.comparison || {}) : null;
                                 const geminiAccuracy = geminiPred ? calculateAccuracy(geminiPred.comparison || {}) : null;
@@ -1626,7 +1628,7 @@
                                         <div class="case-accuracy ${accuracy >= 80 ? 'good' : accuracy >= 50 ? 'medium' : 'poor'}">${accuracy}%</div>
                                     </div>
                                     <div class="case-detail" id="detail-${idx}">
-                                        ${renderCaseDetail(pred, gptPred, claudePred, geminiPred, gptAccuracy, claudeAccuracy, geminiAccuracy)}
+                                        ${renderCaseDetail(pred, gpt52Pred, gptPred, claudePred, geminiPred, gpt52Accuracy, gptAccuracy, claudeAccuracy, geminiAccuracy)}
                                     </div>
                                 `;
                             }
@@ -1749,10 +1751,12 @@
             const detail = document.getElementById(`detail-hit-${caseId}`);
             if (!detail) return;
             
+            const gpt52Pred = getPredictionForProvider(caseId, 'openai_gpt52');
             const gptPred = getPredictionForProvider(caseId, 'openai');
             const claudePred = getPredictionForProvider(caseId, 'anthropic');
             const geminiPred = getPredictionForProvider(caseId, 'google');
             
+            const gpt52Accuracy = gpt52Pred ? calculateAccuracy(gpt52Pred.comparison || {}) : null;
             const gptAccuracy = gptPred ? calculateAccuracy(gptPred.comparison || {}) : null;
             const claudeAccuracy = claudePred ? calculateAccuracy(claudePred.comparison || {}) : null;
             const geminiAccuracy = geminiPred ? calculateAccuracy(geminiPred.comparison || {}) : null;
@@ -1767,7 +1771,7 @@
                         </div>
                         </div>
                 <div class="comparison-table">
-                    ${renderCaseDetail(pred, gptPred, claudePred, geminiPred, gptAccuracy, claudeAccuracy, geminiAccuracy)}
+                    ${renderCaseDetail(pred, gpt52Pred, gptPred, claudePred, geminiPred, gpt52Accuracy, gptAccuracy, claudeAccuracy, geminiAccuracy)}
                         </div>
             `;
         }
@@ -1783,11 +1787,13 @@
                 const caseUrl = meta.case_url || '';
                 
                 // Get predictions from all providers
+                const gpt52Pred = getPredictionForProvider(pred.case_id, 'openai_gpt52');
                 const gptPred = getPredictionForProvider(pred.case_id, 'openai');
                 const claudePred = getPredictionForProvider(pred.case_id, 'anthropic');
                 const geminiPred = getPredictionForProvider(pred.case_id, 'google');
                 
             // Calculate accuracies
+                const gpt52Accuracy = gpt52Pred ? calculateAccuracy(gpt52Pred.comparison || {}) : null;
                 const gptAccuracy = gptPred ? calculateAccuracy(gptPred.comparison || {}) : null;
                 const claudeAccuracy = claudePred ? calculateAccuracy(claudePred.comparison || {}) : null;
                 const geminiAccuracy = geminiPred ? calculateAccuracy(geminiPred.comparison || {}) : null;
@@ -1805,13 +1811,13 @@
                         <div class="case-accuracy ${accuracy >= 80 ? 'good' : accuracy >= 50 ? 'medium' : 'poor'}">${accuracy}%</div>
                     </div>
                 <div class="case-detail" id="detail-${pred.case_id}" style="display: none;">
-                    ${renderCaseDetail(pred, gptPred, claudePred, geminiPred, gptAccuracy, claudeAccuracy, geminiAccuracy)}
+                    ${renderCaseDetail(pred, gpt52Pred, gptPred, claudePred, geminiPred, gpt52Accuracy, gptAccuracy, claudeAccuracy, geminiAccuracy)}
                     </div>
             `;
         }
 
         // Render case detail (extracted from renderCases)
-        function renderCaseDetail(pred, gptPred, claudePred, geminiPred, gptAccuracy, claudeAccuracy, geminiAccuracy) {
+        function renderCaseDetail(pred, gpt52Pred, gptPred, claudePred, geminiPred, gpt52Accuracy, gptAccuracy, claudeAccuracy, geminiAccuracy) {
             const meta = pred.metadata || {};
             const complaintUrl = meta.complaint_url || '';
             const caseUrl = meta.case_url || '';
@@ -1831,60 +1837,68 @@
                                     <tr>
                                         <th>Metric</th>
                                         <th class="ground-truth-header">Ground Truth</th>
-                                        <th class="model-header"><span class="model-badge gpt ${activeModel === 'gpt' ? 'active' : ''}" onclick="event.stopPropagation(); selectModel('gpt')">GPT</span></th>
-                                        <th class="model-header"><span class="model-badge claude ${activeModel === 'claude' ? 'active' : ''}" onclick="event.stopPropagation(); selectModel('claude')">Claude</span></th>
+                                        <th class="model-header"><span class="model-badge gpt ${activeModel === 'gpt52' ? 'active' : ''}" onclick="event.stopPropagation(); selectModel('gpt52')">GPT-5.2</span></th>
+                                        <th class="model-header"><span class="model-badge gpt ${activeModel === 'gpt' ? 'active' : ''}" onclick="event.stopPropagation(); selectModel('gpt')">GPT-4o</span></th>
                                         <th class="model-header"><span class="model-badge gemini ${activeModel === 'gemini' ? 'active' : ''}" onclick="event.stopPropagation(); selectModel('gemini')">Gemini</span></th>
+                                        <th class="model-header"><span class="model-badge claude ${activeModel === 'claude' ? 'active' : ''}" onclick="event.stopPropagation(); selectModel('claude')">Claude</span></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>Resolution</td>
                                         <td class="ground-truth">${pred.ground_truth?.resolution_type || '—'}</td>
+                                        <td class="model-cell">${gpt52Pred ? `<span class="cell-value ${gpt52Pred.comparison?.resolution_type_correct === true ? 'correct' : gpt52Pred.comparison?.resolution_type_correct === false ? 'incorrect' : 'na'}">${gpt52Pred.predicted?.resolution_type || '—'}</span>` : '<span class="cell-value na">—</span>'}</td>
                                         <td class="model-cell">${gptPred ? `<span class="cell-value ${gptPred.comparison?.resolution_type_correct === true ? 'correct' : gptPred.comparison?.resolution_type_correct === false ? 'incorrect' : 'na'}">${gptPred.predicted?.resolution_type || '—'}</span>` : '<span class="cell-value na">—</span>'}</td>
-                                        <td class="model-cell">${claudePred ? `<span class="cell-value ${claudePred.comparison?.resolution_type_correct === true ? 'correct' : claudePred.comparison?.resolution_type_correct === false ? 'incorrect' : 'na'}">${claudePred.predicted?.resolution_type || '—'}</span>` : '<span class="cell-value na">—</span>'}</td>
                                         <td class="model-cell">${geminiPred ? `<span class="cell-value ${geminiPred.comparison?.resolution_type_correct === true ? 'correct' : geminiPred.comparison?.resolution_type_correct === false ? 'incorrect' : 'na'}">${geminiPred.predicted?.resolution_type || '—'}</span>` : '<span class="cell-value na">—</span>'}</td>
+                                        <td class="model-cell">${claudePred ? `<span class="cell-value ${claudePred.comparison?.resolution_type_correct === true ? 'correct' : claudePred.comparison?.resolution_type_correct === false ? 'incorrect' : 'na'}">${claudePred.predicted?.resolution_type || '—'}</span>` : '<span class="cell-value na">—</span>'}</td>
                                     </tr>
                                     <tr>
                                         <td>Disgorgement</td>
                                         <td class="ground-truth">${formatMoney(pred.ground_truth?.disgorgement_amount)}</td>
+                                        <td class="model-cell">${gpt52Pred ? `<span class="cell-value ${gpt52Pred.comparison?.disgorgement_correct === true ? 'correct' : gpt52Pred.comparison?.disgorgement_correct === false ? 'incorrect' : 'na'}">${formatMoney(gpt52Pred.predicted?.disgorgement_amount)}</span>` : '<span class="cell-value na">—</span>'}</td>
                                         <td class="model-cell">${gptPred ? `<span class="cell-value ${gptPred.comparison?.disgorgement_correct === true ? 'correct' : gptPred.comparison?.disgorgement_correct === false ? 'incorrect' : 'na'}">${formatMoney(gptPred.predicted?.disgorgement_amount)}</span>` : '<span class="cell-value na">—</span>'}</td>
-                                        <td class="model-cell">${claudePred ? `<span class="cell-value ${claudePred.comparison?.disgorgement_correct === true ? 'correct' : claudePred.comparison?.disgorgement_correct === false ? 'incorrect' : 'na'}">${formatMoney(claudePred.predicted?.disgorgement_amount)}</span>` : '<span class="cell-value na">—</span>'}</td>
                                         <td class="model-cell">${geminiPred ? `<span class="cell-value ${geminiPred.comparison?.disgorgement_correct === true ? 'correct' : geminiPred.comparison?.disgorgement_correct === false ? 'incorrect' : 'na'}">${formatMoney(geminiPred.predicted?.disgorgement_amount)}</span>` : '<span class="cell-value na">—</span>'}</td>
+                                        <td class="model-cell">${claudePred ? `<span class="cell-value ${claudePred.comparison?.disgorgement_correct === true ? 'correct' : claudePred.comparison?.disgorgement_correct === false ? 'incorrect' : 'na'}">${formatMoney(claudePred.predicted?.disgorgement_amount)}</span>` : '<span class="cell-value na">—</span>'}</td>
                                     </tr>
                                     <tr>
                                         <td>Penalty</td>
                                         <td class="ground-truth">${formatMoney(pred.ground_truth?.penalty_amount)}</td>
+                                        <td class="model-cell">${gpt52Pred ? `<span class="cell-value ${gpt52Pred.comparison?.penalty_correct === true ? 'correct' : gpt52Pred.comparison?.penalty_correct === false ? 'incorrect' : 'na'}">${formatMoney(gpt52Pred.predicted?.penalty_amount)}</span>` : '<span class="cell-value na">—</span>'}</td>
                                         <td class="model-cell">${gptPred ? `<span class="cell-value ${gptPred.comparison?.penalty_correct === true ? 'correct' : gptPred.comparison?.penalty_correct === false ? 'incorrect' : 'na'}">${formatMoney(gptPred.predicted?.penalty_amount)}</span>` : '<span class="cell-value na">—</span>'}</td>
-                                        <td class="model-cell">${claudePred ? `<span class="cell-value ${claudePred.comparison?.penalty_correct === true ? 'correct' : claudePred.comparison?.penalty_correct === false ? 'incorrect' : 'na'}">${formatMoney(claudePred.predicted?.penalty_amount)}</span>` : '<span class="cell-value na">—</span>'}</td>
                                         <td class="model-cell">${geminiPred ? `<span class="cell-value ${geminiPred.comparison?.penalty_correct === true ? 'correct' : geminiPred.comparison?.penalty_correct === false ? 'incorrect' : 'na'}">${formatMoney(geminiPred.predicted?.penalty_amount)}</span>` : '<span class="cell-value na">—</span>'}</td>
+                                        <td class="model-cell">${claudePred ? `<span class="cell-value ${claudePred.comparison?.penalty_correct === true ? 'correct' : claudePred.comparison?.penalty_correct === false ? 'incorrect' : 'na'}">${formatMoney(claudePred.predicted?.penalty_amount)}</span>` : '<span class="cell-value na">—</span>'}</td>
                                     </tr>
                                     <tr>
                                         <td>Interest</td>
                                         <td class="ground-truth">${formatMoney(pred.ground_truth?.prejudgment_interest)}</td>
+                                        <td class="model-cell">${gpt52Pred ? `<span class="cell-value ${gpt52Pred.comparison?.interest_correct === true ? 'correct' : gpt52Pred.comparison?.interest_correct === false ? 'incorrect' : 'na'}">${formatMoney(gpt52Pred.predicted?.prejudgment_interest)}</span>` : '<span class="cell-value na">—</span>'}</td>
                                         <td class="model-cell">${gptPred ? `<span class="cell-value ${gptPred.comparison?.interest_correct === true ? 'correct' : gptPred.comparison?.interest_correct === false ? 'incorrect' : 'na'}">${formatMoney(gptPred.predicted?.prejudgment_interest)}</span>` : '<span class="cell-value na">—</span>'}</td>
-                                        <td class="model-cell">${claudePred ? `<span class="cell-value ${claudePred.comparison?.interest_correct === true ? 'correct' : claudePred.comparison?.interest_correct === false ? 'incorrect' : 'na'}">${formatMoney(claudePred.predicted?.prejudgment_interest)}</span>` : '<span class="cell-value na">—</span>'}</td>
                                         <td class="model-cell">${geminiPred ? `<span class="cell-value ${geminiPred.comparison?.interest_correct === true ? 'correct' : geminiPred.comparison?.interest_correct === false ? 'incorrect' : 'na'}">${formatMoney(geminiPred.predicted?.prejudgment_interest)}</span>` : '<span class="cell-value na">—</span>'}</td>
+                                        <td class="model-cell">${claudePred ? `<span class="cell-value ${claudePred.comparison?.interest_correct === true ? 'correct' : claudePred.comparison?.interest_correct === false ? 'incorrect' : 'na'}">${formatMoney(claudePred.predicted?.prejudgment_interest)}</span>` : '<span class="cell-value na">—</span>'}</td>
                                     </tr>
                                     <tr>
                                         <td>Injunction</td>
                                         <td class="ground-truth">${formatBoolean(pred.ground_truth?.has_injunction)}</td>
+                                        <td class="model-cell">${gpt52Pred ? `<span class="cell-value ${gpt52Pred.comparison?.injunction_correct === true ? 'correct' : gpt52Pred.comparison?.injunction_correct === false ? 'incorrect' : 'na'}">${formatBoolean(gpt52Pred.predicted?.has_injunction)}</span>` : '<span class="cell-value na">—</span>'}</td>
                                         <td class="model-cell">${gptPred ? `<span class="cell-value ${gptPred.comparison?.injunction_correct === true ? 'correct' : gptPred.comparison?.injunction_correct === false ? 'incorrect' : 'na'}">${formatBoolean(gptPred.predicted?.has_injunction)}</span>` : '<span class="cell-value na">—</span>'}</td>
-                                        <td class="model-cell">${claudePred ? `<span class="cell-value ${claudePred.comparison?.injunction_correct === true ? 'correct' : claudePred.comparison?.injunction_correct === false ? 'incorrect' : 'na'}">${formatBoolean(claudePred.predicted?.has_injunction)}</span>` : '<span class="cell-value na">—</span>'}</td>
                                         <td class="model-cell">${geminiPred ? `<span class="cell-value ${geminiPred.comparison?.injunction_correct === true ? 'correct' : geminiPred.comparison?.injunction_correct === false ? 'incorrect' : 'na'}">${formatBoolean(geminiPred.predicted?.has_injunction)}</span>` : '<span class="cell-value na">—</span>'}</td>
+                                        <td class="model-cell">${claudePred ? `<span class="cell-value ${claudePred.comparison?.injunction_correct === true ? 'correct' : claudePred.comparison?.injunction_correct === false ? 'incorrect' : 'na'}">${formatBoolean(claudePred.predicted?.has_injunction)}</span>` : '<span class="cell-value na">—</span>'}</td>
                                     </tr>
                                     <tr>
                                         <td>Officer Bar</td>
                                         <td class="ground-truth">${formatBoolean(pred.ground_truth?.has_officer_director_bar)}</td>
+                                        <td class="model-cell">${gpt52Pred ? `<span class="cell-value ${gpt52Pred.comparison?.officer_bar_correct === true ? 'correct' : gpt52Pred.comparison?.officer_bar_correct === false ? 'incorrect' : 'na'}">${formatBoolean(gpt52Pred.predicted?.has_officer_director_bar)}</span>` : '<span class="cell-value na">—</span>'}</td>
                                         <td class="model-cell">${gptPred ? `<span class="cell-value ${gptPred.comparison?.officer_bar_correct === true ? 'correct' : gptPred.comparison?.officer_bar_correct === false ? 'incorrect' : 'na'}">${formatBoolean(gptPred.predicted?.has_officer_director_bar)}</span>` : '<span class="cell-value na">—</span>'}</td>
-                                        <td class="model-cell">${claudePred ? `<span class="cell-value ${claudePred.comparison?.officer_bar_correct === true ? 'correct' : claudePred.comparison?.officer_bar_correct === false ? 'incorrect' : 'na'}">${formatBoolean(claudePred.predicted?.has_officer_director_bar)}</span>` : '<span class="cell-value na">—</span>'}</td>
                                         <td class="model-cell">${geminiPred ? `<span class="cell-value ${geminiPred.comparison?.officer_bar_correct === true ? 'correct' : geminiPred.comparison?.officer_bar_correct === false ? 'incorrect' : 'na'}">${formatBoolean(geminiPred.predicted?.has_officer_director_bar)}</span>` : '<span class="cell-value na">—</span>'}</td>
+                                        <td class="model-cell">${claudePred ? `<span class="cell-value ${claudePred.comparison?.officer_bar_correct === true ? 'correct' : claudePred.comparison?.officer_bar_correct === false ? 'incorrect' : 'na'}">${formatBoolean(claudePred.predicted?.has_officer_director_bar)}</span>` : '<span class="cell-value na">—</span>'}</td>
                                     </tr>
                                     <tr>
                                         <td>Accuracy</td>
                                         <td class="ground-truth">—</td>
+                                        <td class="model-cell"><span class="cell-value">${gpt52Accuracy !== null ? gpt52Accuracy + '%' : '—'}</span></td>
                                         <td class="model-cell"><span class="cell-value">${gptAccuracy !== null ? gptAccuracy + '%' : '—'}</span></td>
-                                        <td class="model-cell"><span class="cell-value">${claudeAccuracy !== null ? claudeAccuracy + '%' : '—'}</span></td>
                                         <td class="model-cell"><span class="cell-value">${geminiAccuracy !== null ? geminiAccuracy + '%' : '—'}</span></td>
+                                        <td class="model-cell"><span class="cell-value">${claudeAccuracy !== null ? claudeAccuracy + '%' : '—'}</span></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -1948,11 +1962,13 @@
                 const caseUrl = meta.case_url || '';
                 
                 // Get predictions from all providers
+                const gpt52Pred = getPredictionForProvider(pred.case_id, 'openai_gpt52');
                 const gptPred = getPredictionForProvider(pred.case_id, 'openai');
                 const claudePred = getPredictionForProvider(pred.case_id, 'anthropic');
                 const geminiPred = getPredictionForProvider(pred.case_id, 'google');
                 
                 // Calculate accuracies for each model
+                const gpt52Accuracy = gpt52Pred ? calculateAccuracy(gpt52Pred.comparison || {}) : null;
                 const gptAccuracy = gptPred ? calculateAccuracy(gptPred.comparison || {}) : null;
                 const claudeAccuracy = claudePred ? calculateAccuracy(claudePred.comparison || {}) : null;
                 const geminiAccuracy = geminiPred ? calculateAccuracy(geminiPred.comparison || {}) : null;
@@ -1967,7 +1983,7 @@
                         <div class="case-accuracy ${accuracy >= 80 ? 'good' : accuracy >= 50 ? 'medium' : 'poor'}">${accuracy}%</div>
                     </div>
                     <div class="case-detail" id="detail-${idx}">
-                        ${renderCaseDetail(pred, gptPred, claudePred, geminiPred, gptAccuracy, claudeAccuracy, geminiAccuracy)}
+                        ${renderCaseDetail(pred, gpt52Pred, gptPred, claudePred, geminiPred, gpt52Accuracy, gptAccuracy, claudeAccuracy, geminiAccuracy)}
                     </div>
                 `;
             });
