@@ -90,19 +90,26 @@ async function loadPredictionCases() {
         const response = await fetch('data/processed/combined_results.json');
         const data = await response.json();
         
-        // Get 5 cases with ALL metrics populated (complete ground truth data)
+        // Get 5 cases with most metrics populated (prefer complete data)
         const completeCases = data.predictions
             .filter(p => {
                 if (!p.success || !p.ground_truth) return false;
                 const gt = p.ground_truth;
-                // Require all 5 metrics to have non-null values
-                return (
-                    gt.disgorgement_amount !== null && gt.disgorgement_amount !== undefined &&
-                    gt.penalty_amount !== null && gt.penalty_amount !== undefined &&
-                    gt.prejudgment_interest !== null && gt.prejudgment_interest !== undefined &&
-                    gt.has_injunction !== null && gt.has_injunction !== undefined &&
-                    gt.has_officer_director_bar !== null && gt.has_officer_director_bar !== undefined
-                );
+                // Require at least resolution type and one monetary value
+                return gt.resolution_type !== null && gt.resolution_type !== undefined;
+            })
+            .sort((a, b) => {
+                // Sort by completeness - cases with more metrics first
+                const countMetrics = (gt) => {
+                    let count = 0;
+                    if (gt.disgorgement_amount != null) count++;
+                    if (gt.penalty_amount != null) count++;
+                    if (gt.prejudgment_interest != null) count++;
+                    if (gt.has_injunction != null) count++;
+                    if (gt.has_officer_director_bar != null) count++;
+                    return count;
+                };
+                return countMetrics(b.ground_truth) - countMetrics(a.ground_truth);
             })
             .slice(0, 5);
         
