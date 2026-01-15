@@ -1055,25 +1055,31 @@
         .prediction-nav {
             display: flex;
             gap: 8px;
+            flex-shrink: 0;
         }
         
         .btn-nav {
-            background: #f5f5f5;
-            border: 1px solid #e5e5e5;
+            background: #fff;
+            border: 2px solid #333;
             padding: 8px 16px;
             border-radius: 6px;
             font-size: 13px;
+            font-weight: 500;
+            color: #333;
             cursor: pointer;
             transition: all 0.2s;
         }
         
         .btn-nav:hover:not(:disabled) {
-            background: #e5e5e5;
+            background: #333;
+            color: #fff;
         }
         
         .btn-nav:disabled {
-            opacity: 0.5;
+            opacity: 0.3;
             cursor: not-allowed;
+            border-color: #999;
+            color: #999;
         }
         
         .prediction-case h2 {
