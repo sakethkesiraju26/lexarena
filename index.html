@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" href="lexlogo.png?v=4">
     <link rel="apple-touch-icon" href="lexlogo.png?v=4">
     <link rel="preload" href="lexlogo.png?v=4" as="image">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
                                 :root {
             --bg: #fafafa;
@@ -60,14 +60,15 @@
         }
 
         .logo {
+            font-family: 'Crimson Text', Georgia, serif;
             font-weight: 700;
-            font-size: 20px;
+            font-size: 22px;
             color: #000000;
             text-decoration: none;
             display: flex;
             align-items: center;
             gap: 12px;
-            letter-spacing: -0.02em;
+            letter-spacing: 0;
             transition: opacity 0.2s ease, transform 0.2s ease;
         }
 
@@ -173,9 +174,10 @@
         }
 
                 h1 {
-            font-size: 48px;
-            font-weight: 400;
-            letter-spacing: -0.02em;
+            font-family: 'Crimson Text', Georgia, serif;
+            font-size: 52px;
+            font-weight: 700;
+            letter-spacing: 0;
             margin-bottom: 20px;
             color: #000000;
             line-height: 1.2;
@@ -1937,7 +1939,6 @@
                     <div class="prediction-nav">
                         <button class="btn-nav" onclick="prevCase()" id="btn-prev" disabled>← Previous</button>
                         <button class="btn-nav" onclick="skipCase()">Skip</button>
-                        <button class="btn-nav" onclick="nextCase()" id="btn-next">Next →</button>
                     </div>
                 </div>
                 
