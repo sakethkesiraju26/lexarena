@@ -277,9 +277,17 @@ function nextCase() {
 
 // Scroll modal content to top
 function scrollModalToTop() {
+    // Try multiple approaches to ensure scroll works
     const modalContent = document.querySelector('#prediction-modal .prediction-modal-content');
     if (modalContent) {
         modalContent.scrollTop = 0;
+        modalContent.scrollTo({ top: 0, behavior: 'instant' });
+    }
+    
+    // Also scroll to case title element
+    const caseTitle = document.getElementById('case-title');
+    if (caseTitle) {
+        caseTitle.scrollIntoView({ behavior: 'instant', block: 'start' });
     }
 }
 
