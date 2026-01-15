@@ -983,6 +983,374 @@
             opacity: 1;
         }
         
+        /* Prediction Modal Styles */
+        .prediction-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .prediction-modal-content {
+            background: #ffffff;
+            border-radius: 16px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            padding: 32px;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #666;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+        
+        .modal-close:hover {
+            background: #f0f0f0;
+        }
+        
+        .prediction-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        
+        .prediction-progress {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .prediction-nav {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .btn-nav {
+            background: #f5f5f5;
+            border: 1px solid #e5e5e5;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-nav:hover:not(:disabled) {
+            background: #e5e5e5;
+        }
+        
+        .btn-nav:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .prediction-case h2 {
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: #000;
+        }
+        
+        .case-synopsis {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            padding: 16px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        
+        .prediction-questions {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        
+        .prediction-question {
+            padding: 16px;
+            background: #fafafa;
+            border-radius: 8px;
+            border: 1px solid #e5e5e5;
+        }
+        
+        .prediction-question label {
+            display: block;
+            font-size: 15px;
+            margin-bottom: 12px;
+            color: #333;
+        }
+        
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .slider-label {
+            font-size: 13px;
+            color: #666;
+            min-width: 60px;
+        }
+        
+        .prediction-slider {
+            flex: 1;
+            -webkit-appearance: none;
+            height: 8px;
+            background: linear-gradient(to right, var(--green), var(--blue));
+            border-radius: 4px;
+            outline: none;
+        }
+        
+        .prediction-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            background: #fff;
+            border: 2px solid #000;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        
+        .slider-value {
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 8px;
+            color: #000;
+        }
+        
+        .input-with-prefix {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .input-prefix {
+            padding: 12px 16px;
+            background: #f5f5f5;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .input-with-prefix input {
+            flex: 1;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            outline: none;
+        }
+        
+        .prediction-reasoning textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            resize: vertical;
+            font-family: inherit;
+        }
+        
+        .btn-submit-prediction {
+            width: 100%;
+            padding: 16px;
+            background: var(--green);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 24px;
+            transition: all 0.2s;
+        }
+        
+        .btn-submit-prediction:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+        
+        .resolution-criteria {
+            margin-top: 24px;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .resolution-criteria summary {
+            padding: 12px 16px;
+            background: #f9f9f9;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .criteria-content {
+            padding: 16px;
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .criteria-content p {
+            margin-bottom: 8px;
+        }
+        
+        .community-predictions {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid #e5e5e5;
+        }
+        
+        .community-predictions h3 {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+        
+        #community-comments {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .community-comment {
+            padding: 12px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .community-comment .comment-user {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .community-comment .comment-prediction {
+            color: #666;
+            margin-top: 4px;
+        }
+        
+        .community-comment .comment-reasoning {
+            font-style: italic;
+            margin-top: 8px;
+            color: #888;
+        }
+        
+        /* Results Modal */
+        .results-content {
+            text-align: center;
+        }
+        
+        .results-content h2 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+        
+        .results-subtitle {
+            color: #666;
+            margin-bottom: 32px;
+        }
+        
+        .results-comparison {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        
+        .result-card {
+            padding: 24px 16px;
+            background: #f9f9f9;
+            border-radius: 12px;
+            border: 2px solid transparent;
+        }
+        
+        .result-card.user-result {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border-color: var(--green);
+        }
+        
+        .result-card.ai-result {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-color: var(--blue);
+        }
+        
+        .result-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .result-score {
+            font-size: 28px;
+            font-weight: 600;
+            color: #000;
+        }
+        
+        .results-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 24px;
+        }
+        
+        .total-predictions {
+            margin-top: 24px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .prediction-modal-content {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .prediction-header {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .results-comparison {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
     </style>
 </head>
 <body>
@@ -1008,11 +1376,17 @@
         <div class="container">
             <h1>LexArena</h1>
             <p class="hero-subtitle">
-                Can AI predict legal outcomes? We benchmark frontier models on real SEC enforcement cases—before they resolve.
+                Can we forecast legal outcomes? We benchmark frontier models and human forecasts on real SEC enforcement cases—before they resolve.
             </p>
-            <div style="margin-top: 24px;">
-                <a href="https://github.com/sakethkesiraju26/newlex" class="btn-primary" target="_blank" style="text-decoration: none;">View on GitHub</a>
+            <div class="hero-ctas" style="margin-top: 24px; display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;">
+                <button class="btn-primary btn-predict" onclick="openPredictionModal()" style="cursor: pointer; border: none;">
+                    Make Your Predictions
+                </button>
+                <a href="https://github.com/sakethkesiraju26/lexarena" class="btn-secondary" target="_blank" style="text-decoration: none;">View on GitHub</a>
             </div>
+            <p class="hero-subtext" style="margin-top: 12px; font-size: 14px; color: #666;">
+                See how you compare to AI · <span id="prediction-counter">0</span> predictions made
+            </p>
         </div>
     </section>
 
@@ -1175,6 +1549,158 @@
             </div>
         </div>
     </footer>
+    
+    <!-- Prediction Modal -->
+    <div id="prediction-modal" class="prediction-modal" style="display: none;">
+        <div class="prediction-modal-content">
+            <button class="modal-close" onclick="closePredictionModal()">&times;</button>
+            
+            <div class="prediction-header">
+                <div class="prediction-progress">
+                    <span id="current-case-num">1</span> of <span id="total-cases">5</span>
+                </div>
+                <div class="prediction-nav">
+                    <button class="btn-nav" onclick="prevCase()" id="btn-prev" disabled>← Previous</button>
+                    <button class="btn-nav" onclick="skipCase()">Skip</button>
+                    <button class="btn-nav" onclick="nextCase()" id="btn-next">Next →</button>
+                </div>
+            </div>
+            
+            <div class="prediction-case">
+                <h2 id="case-title">Loading...</h2>
+                <p id="case-synopsis" class="case-synopsis">Loading case details...</p>
+                
+                <div class="prediction-questions">
+                    <div class="prediction-question">
+                        <label>Will this case be <strong>settled</strong> or <strong>litigated</strong>?</label>
+                        <div class="slider-container">
+                            <span class="slider-label">Settled</span>
+                            <input type="range" id="resolution-slider" min="0" max="100" value="50" class="prediction-slider">
+                            <span class="slider-label">Litigated</span>
+                        </div>
+                        <div class="slider-value"><span id="resolution-value">50</span>% Settled</div>
+                    </div>
+                    
+                    <div class="prediction-question">
+                        <label>Expected <strong>Disgorgement</strong> amount</label>
+                        <div class="input-with-prefix">
+                            <span class="input-prefix">$</span>
+                            <input type="number" id="disgorgement-input" placeholder="0" min="0">
+                        </div>
+                    </div>
+                    
+                    <div class="prediction-question">
+                        <label>Expected <strong>Civil Penalty</strong> amount</label>
+                        <div class="input-with-prefix">
+                            <span class="input-prefix">$</span>
+                            <input type="number" id="penalty-input" placeholder="0" min="0">
+                        </div>
+                    </div>
+                    
+                    <div class="prediction-question">
+                        <label>Expected <strong>Prejudgment Interest</strong></label>
+                        <div class="input-with-prefix">
+                            <span class="input-prefix">$</span>
+                            <input type="number" id="interest-input" placeholder="0" min="0">
+                        </div>
+                    </div>
+                    
+                    <div class="prediction-question">
+                        <label>Will there be an <strong>Injunction</strong>?</label>
+                        <div class="slider-container">
+                            <span class="slider-label">No</span>
+                            <input type="range" id="injunction-slider" min="0" max="100" value="50" class="prediction-slider">
+                            <span class="slider-label">Yes</span>
+                        </div>
+                        <div class="slider-value"><span id="injunction-value">50</span>% Yes</div>
+                    </div>
+                    
+                    <div class="prediction-question">
+                        <label>Will there be an <strong>Officer/Director Bar</strong>?</label>
+                        <div class="slider-container">
+                            <span class="slider-label">No</span>
+                            <input type="range" id="officer-bar-slider" min="0" max="100" value="50" class="prediction-slider">
+                            <span class="slider-label">Yes</span>
+                        </div>
+                        <div class="slider-value"><span id="officer-bar-value">50</span>% Yes</div>
+                    </div>
+                    
+                    <div class="prediction-reasoning">
+                        <label>Your reasoning (optional)</label>
+                        <textarea id="reasoning-input" placeholder="Why do you think this case will resolve this way?"></textarea>
+                    </div>
+                </div>
+                
+                <button class="btn-submit-prediction" onclick="submitPrediction()">Submit Prediction</button>
+                
+                <details class="resolution-criteria">
+                    <summary>Resolution Criteria</summary>
+                    <div class="criteria-content">
+                        <p><strong>Settled:</strong> Defendant consented to terms, consent judgment, or settled action.</p>
+                        <p><strong>Litigated:</strong> Case went to trial, final judgment by court.</p>
+                        <p><strong>Monetary:</strong> Correct if within 10% of actual amount.</p>
+                        <p><strong>Injunction/Bar:</strong> Exact match required (Yes/No).</p>
+                    </div>
+                </details>
+            </div>
+            
+            <div class="community-predictions">
+                <h3>Community Predictions</h3>
+                <div id="community-comments">
+                    <p class="loading-comments">Loading predictions...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Results Modal -->
+    <div id="results-modal" class="prediction-modal" style="display: none;">
+        <div class="prediction-modal-content results-content">
+            <button class="modal-close" onclick="closeResultsModal()">&times;</button>
+            
+            <h2>Your Results</h2>
+            <p class="results-subtitle">See how you compare to AI models and other humans</p>
+            
+            <div class="results-comparison">
+                <div class="result-card user-result">
+                    <div class="result-label">You</div>
+                    <div class="result-score" id="user-score">—%</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Community Avg</div>
+                    <div class="result-score" id="community-score">—%</div>
+                </div>
+                <div class="result-card ai-result">
+                    <div class="result-label">GPT-5.2</div>
+                    <div class="result-score">66.4%</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">GPT-4o</div>
+                    <div class="result-score">64.9%</div>
+                </div>
+            </div>
+            
+            <div class="results-detail" id="results-detail">
+                <!-- Detailed breakdown will be inserted here -->
+            </div>
+            
+            <div class="results-actions">
+                <button class="btn-primary" onclick="shareResults()">Share Results</button>
+                <button class="btn-secondary" onclick="closeResultsModal()">Close</button>
+            </div>
+            
+            <p class="total-predictions">
+                <span id="total-prediction-count">0</span> total predictions made by the community
+            </p>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Prediction Logic -->
+    <script src="predict.js"></script>
     
     <script>
         // Mobile menu toggle
