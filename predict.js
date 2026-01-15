@@ -426,6 +426,7 @@ function calculateAccuracy(prediction, groundTruth) {
 
 // Show results
 async function showResults() {
+    console.log('Showing results...');
     closePredictionModal();
     
     // Calculate overall accuracy
@@ -443,16 +444,30 @@ async function showResults() {
     
     const userAvgAccuracy = predictionCount > 0 ? Math.round(totalAccuracy / predictionCount) : 0;
     
-    // Update results modal
+    // Update results modal immediately with user score
     document.getElementById('user-score').textContent = userAvgAccuracy + '%';
     
-    // Get community average (from Firebase or localStorage)
-    const communityAvg = await getCommunityAverage();
-    document.getElementById('community-score').textContent = communityAvg + '%';
+    // Show placeholder for community data (load in background)
+    document.getElementById('community-score').textContent = '—%';
+    document.getElementById('total-prediction-count').textContent = '...';
     
-    // Get total prediction count
-    const totalPredictions = await getTotalPredictionCount();
-    document.getElementById('total-prediction-count').textContent = totalPredictions;
+    // Show results modal immediately
+    document.getElementById('results-modal').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    console.log('Results modal opened');
+    
+    // Load community data in background (non-blocking)
+    getCommunityAverage().then(avg => {
+        document.getElementById('community-score').textContent = avg + '%';
+    }).catch(() => {
+        document.getElementById('community-score').textContent = '50%';
+    });
+    
+    getTotalPredictionCount().then(count => {
+        document.getElementById('total-prediction-count').textContent = count;
+    }).catch(() => {
+        document.getElementById('total-prediction-count').textContent = '—';
+    });
     
     // Build detailed breakdown with actual outcomes
     let detailHtml = '<div class="results-breakdown"><h3>Your Predictions vs Actual Outcomes</h3>';
@@ -547,10 +562,6 @@ async function showResults() {
     });
     detailHtml += '</div>';
     document.getElementById('results-detail').innerHTML = detailHtml;
-    
-    // Show results modal
-    document.getElementById('results-modal').style.display = 'flex';
-    document.body.style.overflow = 'hidden';
 }
 
 // Load community predictions for current case
