@@ -67,15 +67,23 @@ function truncateBeforeOutcome(synopsis) {
     
     for (const indicator of outcomeIndicators) {
         const index = lowerSynopsis.indexOf(indicator);
-        if (index > 150 && index < earliestIndex) {
+        if (index > 100 && index < earliestIndex) {
             earliestIndex = index;
         }
     }
     
-    if (earliestIndex < synopsis.length) {
-        return synopsis.substring(0, earliestIndex).trim() + '...';
+    // Truncate to max 400 chars for conciseness
+    let truncated = synopsis.substring(0, Math.min(earliestIndex, 400)).trim();
+    
+    // End at sentence boundary if possible
+    const lastPeriod = truncated.lastIndexOf('.');
+    if (lastPeriod > 200) {
+        truncated = truncated.substring(0, lastPeriod + 1);
+    } else {
+        truncated += '...';
     }
-    return synopsis;
+    
+    return truncated;
 }
 
 // Generate anonymous user ID if not exists
