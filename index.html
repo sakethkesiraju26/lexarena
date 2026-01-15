@@ -1110,6 +1110,33 @@
             gap: 4px;
         }
         
+        .case-facts-compact {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 16px 0;
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .case-facts-compact li {
+            margin-bottom: 6px;
+        }
+        
+        .case-facts-compact strong {
+            color: #333;
+        }
+        
+        .allegations-compact {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #444;
+            padding: 12px 14px;
+            background: #f8f9fa;
+            border-left: 3px solid #0066ff;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        
         .fact-label {
             font-size: 12px;
             font-weight: 600;
@@ -1942,30 +1969,15 @@
                 <div class="prediction-case">
                     <h2 id="case-title">Loading...</h2>
                     
-                    <!-- Structured Case Facts (No Outcome Info) -->
-                    <div class="case-facts">
-                        <div class="fact-row">
-                            <span class="fact-label">Defendant:</span>
-                            <span class="fact-value" id="fact-defendant">—</span>
-                        </div>
-                        <div class="fact-row">
-                            <span class="fact-label">Charges:</span>
-                            <span class="fact-value" id="fact-charges">—</span>
-                        </div>
-                        <div class="fact-row">
-                            <span class="fact-label">Court:</span>
-                            <span class="fact-value" id="fact-court">—</span>
-                        </div>
-                        <div class="fact-row">
-                            <span class="fact-label">Filed:</span>
-                            <span class="fact-value" id="fact-filed">—</span>
-                        </div>
-                    </div>
+                    <!-- Case Facts (Compact) -->
+                    <ul class="case-facts-compact">
+                        <li><strong>Charges:</strong> <span id="fact-charges">—</span></li>
+                        <li><strong>Court:</strong> <span id="fact-court">—</span></li>
+                        <li id="fact-defendant" style="display:none;"></li>
+                        <li id="fact-filed" style="display:none;"></li>
+                    </ul>
                     
-                    <div class="allegations-summary">
-                        <h4>Allegations</h4>
-                        <p id="allegations-text">Loading...</p>
-                    </div>
+                    <p class="allegations-compact" id="allegations-text">Loading...</p>
                     
                     <div class="prediction-questions">
                         <div class="prediction-question">
@@ -1977,30 +1989,6 @@
                             </div>
                             <div class="slider-value"><span id="resolution-value">50</span>% Settled</div>
                         </div>
-                    
-                    <div class="prediction-question">
-                        <label>Expected <strong>Disgorgement</strong> amount <span class="tooltip-icon" title="Money the defendant must return — their illegal profits from the scheme">ⓘ</span></label>
-                        <div class="input-with-prefix">
-                            <span class="input-prefix">$</span>
-                            <input type="number" id="disgorgement-input" placeholder="0" min="0">
-                        </div>
-                    </div>
-                    
-                    <div class="prediction-question">
-                        <label>Expected <strong>Civil Penalty</strong> amount <span class="tooltip-icon" title="A fine imposed as punishment — separate from returning profits">ⓘ</span></label>
-                        <div class="input-with-prefix">
-                            <span class="input-prefix">$</span>
-                            <input type="number" id="penalty-input" placeholder="0" min="0">
-                        </div>
-                    </div>
-                    
-                    <div class="prediction-question">
-                        <label>Expected <strong>Prejudgment Interest</strong> <span class="tooltip-icon" title="Interest charged on disgorgement from violation date to judgment — like interest on unpaid debt">ⓘ</span></label>
-                        <div class="input-with-prefix">
-                            <span class="input-prefix">$</span>
-                            <input type="number" id="interest-input" placeholder="0" min="0">
-                        </div>
-                    </div>
                     
                     <div class="prediction-question">
                         <label>Will there be an <strong>Injunction</strong>? <span class="tooltip-icon" title="A court order barring the defendant from committing similar violations in the future">ⓘ</span></label>
@@ -2022,23 +2010,9 @@
                         <div class="slider-value"><span id="officer-bar-value">50</span>% Yes</div>
                     </div>
                     
-                    <div class="prediction-reasoning">
-                        <label>Your reasoning (optional)</label>
-                        <textarea id="reasoning-input" placeholder="Why do you think this case will resolve this way?"></textarea>
-                    </div>
                 </div>
                 
                 <button class="btn-submit-prediction" onclick="submitPrediction()">Submit Prediction</button>
-                
-                <details class="resolution-criteria">
-                    <summary>Resolution Criteria</summary>
-                    <div class="criteria-content">
-                        <p><strong>Settled:</strong> Defendant consented to terms, consent judgment, or settled action.</p>
-                        <p><strong>Litigated:</strong> Case went to trial, final judgment by court.</p>
-                        <p><strong>Monetary:</strong> Correct if within 10% of actual amount.</p>
-                        <p><strong>Injunction/Bar:</strong> Exact match required (Yes/No).</p>
-                    </div>
-                </details>
             </div>
             
             <div class="community-predictions">

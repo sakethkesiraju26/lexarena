@@ -196,28 +196,20 @@ function renderCurrentCase() {
     // Reset inputs
     document.getElementById('resolution-slider').value = 50;
     document.getElementById('resolution-value').textContent = 50;
-    document.getElementById('disgorgement-input').value = '';
-    document.getElementById('penalty-input').value = '';
-    document.getElementById('interest-input').value = '';
     document.getElementById('injunction-slider').value = 50;
     document.getElementById('injunction-value').textContent = 50;
     document.getElementById('officer-bar-slider').value = 50;
     document.getElementById('officer-bar-value').textContent = 50;
-    document.getElementById('reasoning-input').value = '';
     
     // Load existing prediction if any
     const existing = userPredictions[caseData.case_id];
     if (existing) {
         document.getElementById('resolution-slider').value = existing.resolutionPct;
         document.getElementById('resolution-value').textContent = existing.resolutionPct;
-        document.getElementById('disgorgement-input').value = existing.disgorgement || '';
-        document.getElementById('penalty-input').value = existing.penalty || '';
-        document.getElementById('interest-input').value = existing.interest || '';
         document.getElementById('injunction-slider').value = existing.injunctionPct;
         document.getElementById('injunction-value').textContent = existing.injunctionPct;
         document.getElementById('officer-bar-slider').value = existing.officerBarPct;
         document.getElementById('officer-bar-value').textContent = existing.officerBarPct;
-        document.getElementById('reasoning-input').value = existing.reasoning || '';
     }
     
     // Update nav buttons
@@ -302,12 +294,8 @@ function saveCurrent() {
     userPredictions[caseData.case_id] = {
         caseId: caseData.case_id,
         resolutionPct: parseInt(document.getElementById('resolution-slider').value),
-        disgorgement: parseFloat(document.getElementById('disgorgement-input').value) || null,
-        penalty: parseFloat(document.getElementById('penalty-input').value) || null,
-        interest: parseFloat(document.getElementById('interest-input').value) || null,
         injunctionPct: parseInt(document.getElementById('injunction-slider').value),
         officerBarPct: parseInt(document.getElementById('officer-bar-slider').value),
-        reasoning: document.getElementById('reasoning-input').value,
         timestamp: new Date().toISOString()
     };
 }
@@ -379,33 +367,6 @@ function calculateAccuracy(prediction, groundTruth) {
     const actualSettled = groundTruth.resolution_type?.toLowerCase().includes('settled');
     if (predictedSettled === actualSettled) correct++;
     total++;
-    
-    // Disgorgement (10% tolerance)
-    if (groundTruth.disgorgement_amount !== null && prediction.disgorgement !== null) {
-        const tolerance = groundTruth.disgorgement_amount * 0.1;
-        if (Math.abs(prediction.disgorgement - groundTruth.disgorgement_amount) <= tolerance) {
-            correct++;
-        }
-        total++;
-    }
-    
-    // Penalty (10% tolerance)
-    if (groundTruth.penalty_amount !== null && prediction.penalty !== null) {
-        const tolerance = groundTruth.penalty_amount * 0.1;
-        if (Math.abs(prediction.penalty - groundTruth.penalty_amount) <= tolerance) {
-            correct++;
-        }
-        total++;
-    }
-    
-    // Interest (10% tolerance)
-    if (groundTruth.prejudgment_interest !== null && prediction.interest !== null) {
-        const tolerance = groundTruth.prejudgment_interest * 0.1;
-        if (Math.abs(prediction.interest - groundTruth.prejudgment_interest) <= tolerance) {
-            correct++;
-        }
-        total++;
-    }
     
     // Injunction (50% threshold)
     if (groundTruth.has_injunction !== null) {
@@ -490,18 +451,6 @@ async function showResults() {
             const actualBar = gt.has_officer_director_bar !== null ? (gt.has_officer_director_bar ? 'Yes' : 'No') : '—';
             const barCorrect = gt.has_officer_director_bar !== null && (prediction.officerBarPct >= 50) === gt.has_officer_director_bar;
             
-            // Format monetary values
-            const formatMoney = (val) => val !== null && val !== undefined ? '$' + val.toLocaleString() : '—';
-            const checkMoney = (pred, actual) => {
-                if (actual === null || actual === undefined || pred === null) return null;
-                const tolerance = actual * 0.1;
-                return Math.abs(pred - actual) <= tolerance;
-            };
-            
-            const disgCorrect = checkMoney(prediction.disgorgement, gt.disgorgement_amount);
-            const penCorrect = checkMoney(prediction.penalty, gt.penalty_amount);
-            const intCorrect = checkMoney(prediction.interest, gt.prejudgment_interest);
-            
             detailHtml += `
                 <div class="result-case-card">
                     <div class="result-case-header">
@@ -523,24 +472,6 @@ async function showResults() {
                                 <td>${userResolution}</td>
                                 <td>${actualResolution}</td>
                                 <td class="${resCorrect ? 'correct' : 'incorrect'}">${resCorrect ? '✓' : '✗'}</td>
-                            </tr>
-                            <tr>
-                                <td>Disgorgement</td>
-                                <td>${prediction.disgorgement ? formatMoney(prediction.disgorgement) : '—'}</td>
-                                <td>${formatMoney(gt.disgorgement_amount)}</td>
-                                <td class="${disgCorrect === null ? '' : (disgCorrect ? 'correct' : 'incorrect')}">${disgCorrect === null ? '—' : (disgCorrect ? '✓' : '✗')}</td>
-                            </tr>
-                            <tr>
-                                <td>Penalty</td>
-                                <td>${prediction.penalty ? formatMoney(prediction.penalty) : '—'}</td>
-                                <td>${formatMoney(gt.penalty_amount)}</td>
-                                <td class="${penCorrect === null ? '' : (penCorrect ? 'correct' : 'incorrect')}">${penCorrect === null ? '—' : (penCorrect ? '✓' : '✗')}</td>
-                            </tr>
-                            <tr>
-                                <td>Interest</td>
-                                <td>${prediction.interest ? formatMoney(prediction.interest) : '—'}</td>
-                                <td>${formatMoney(gt.prejudgment_interest)}</td>
-                                <td class="${intCorrect === null ? '' : (intCorrect ? 'correct' : 'incorrect')}">${intCorrect === null ? '—' : (intCorrect ? '✓' : '✗')}</td>
                             </tr>
                             <tr>
                                 <td>Injunction</td>
