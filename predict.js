@@ -65,7 +65,7 @@ async function loadPredictionCases() {
     }
 }
 
-// Open prediction modal
+// Open prediction modal (show start screen first)
 async function openPredictionModal() {
     if (predictionCases.length === 0) {
         await loadPredictionCases();
@@ -79,8 +79,25 @@ async function openPredictionModal() {
     currentCaseIndex = 0;
     userPredictions = {};
     
+    // Show start screen, hide questions
+    document.getElementById('prediction-start').style.display = 'block';
+    document.getElementById('prediction-questions-screen').style.display = 'none';
+    
+    // Update prediction count on start screen
+    getTotalPredictionCount().then(count => {
+        const counter = document.getElementById('start-prediction-count');
+        if (counter) counter.textContent = count;
+    });
+    
     document.getElementById('prediction-modal').style.display = 'flex';
     document.body.style.overflow = 'hidden';
+}
+
+// Start predictions (from start screen)
+function startPredictions() {
+    // Hide start screen, show questions
+    document.getElementById('prediction-start').style.display = 'none';
+    document.getElementById('prediction-questions-screen').style.display = 'block';
     
     renderCurrentCase();
     loadCommunityPredictions();
