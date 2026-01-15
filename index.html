@@ -1113,28 +1113,19 @@
             gap: 4px;
         }
         
-        .case-facts-compact {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 16px 0;
-            font-size: 14px;
-            color: #555;
-        }
-        
-        .case-facts-compact li {
-            margin-bottom: 6px;
-        }
-        
-        .case-facts-compact strong {
-            color: #333;
+        .case-charges {
+            font-size: 12px;
+            color: #666;
+            margin: 0 0 8px 0;
+            font-style: italic;
         }
         
         .allegations-compact {
             font-size: 12px;
-            line-height: 1.45;
-            color: #555;
+            line-height: 1.4;
+            color: #444;
             margin-bottom: 12px;
-            max-height: 80px;
+            max-height: 60px;
             overflow-y: auto;
         }
         
@@ -1189,10 +1180,19 @@
         }
         
         .prediction-question {
-            padding: 12px;
+            padding: 10px;
             background: #fafafa;
             border-radius: 6px;
             border: 1px solid #e5e5e5;
+        }
+        
+        .prediction-row {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .prediction-question.half {
+            flex: 1;
         }
         
         .prediction-question label {
@@ -1971,47 +1971,40 @@
                 <div class="prediction-case">
                     <h2 id="case-title">Loading...</h2>
                     
-                    <!-- Case Facts (Compact) -->
-                    <ul class="case-facts-compact">
-                        <li><strong>Charges:</strong> <span id="fact-charges">—</span></li>
-                        <li><strong>Court:</strong> <span id="fact-court">—</span></li>
-                        <li id="fact-defendant" style="display:none;"></li>
-                        <li id="fact-filed" style="display:none;"></li>
-                    </ul>
-                    
+                    <p class="case-charges" id="fact-charges">—</p>
                     <p class="allegations-compact" id="allegations-text">Loading...</p>
+                    <span id="fact-court" style="display:none;"></span>
+                    <span id="fact-defendant" style="display:none;"></span>
+                    <span id="fact-filed" style="display:none;"></span>
                     
                     <div class="prediction-questions">
                         <div class="prediction-question">
-                            <label>Will this case be <strong>settled</strong> or <strong>litigated</strong>?</label>
+                            <label><strong>Settled</strong> or <strong>Litigated</strong>?</label>
                             <div class="slider-container">
                                 <span class="slider-label">Settled</span>
                                 <input type="range" id="resolution-slider" min="0" max="100" value="50" class="prediction-slider">
                                 <span class="slider-label">Litigated</span>
                             </div>
-                            <div class="slider-value"><span id="resolution-value">50</span>% Settled</div>
                         </div>
                     
-                    <div class="prediction-question">
-                        <label>Will there be an <strong>Injunction</strong>? <span class="tooltip-icon" title="A court order barring the defendant from committing similar violations in the future">ⓘ</span></label>
-                        <div class="slider-container">
-                            <span class="slider-label">No</span>
-                            <input type="range" id="injunction-slider" min="0" max="100" value="50" class="prediction-slider">
-                            <span class="slider-label">Yes</span>
+                        <div class="prediction-row">
+                            <div class="prediction-question half">
+                                <label><strong>Injunction</strong>?</label>
+                                <div class="slider-container">
+                                    <span class="slider-label">No</span>
+                                    <input type="range" id="injunction-slider" min="0" max="100" value="50" class="prediction-slider">
+                                    <span class="slider-label">Yes</span>
+                                </div>
+                            </div>
+                            <div class="prediction-question half">
+                                <label><strong>Officer Bar</strong>?</label>
+                                <div class="slider-container">
+                                    <span class="slider-label">No</span>
+                                    <input type="range" id="officer-bar-slider" min="0" max="100" value="50" class="prediction-slider">
+                                    <span class="slider-label">Yes</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="slider-value"><span id="injunction-value">50</span>% Yes</div>
-                    </div>
-                    
-                    <div class="prediction-question">
-                        <label>Will there be an <strong>Officer/Director Bar</strong>? <span class="tooltip-icon" title="A ban from serving as executive or board member of any public company">ⓘ</span></label>
-                        <div class="slider-container">
-                            <span class="slider-label">No</span>
-                            <input type="range" id="officer-bar-slider" min="0" max="100" value="50" class="prediction-slider">
-                            <span class="slider-label">Yes</span>
-                        </div>
-                        <div class="slider-value"><span id="officer-bar-value">50</span>% Yes</div>
-                    </div>
-                    
                 </div>
                 
                 <button class="btn-submit-prediction" onclick="submitPrediction()">Submit Prediction</button>
