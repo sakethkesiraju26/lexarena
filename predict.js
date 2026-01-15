@@ -86,13 +86,24 @@ async function loadPredictionCases() {
         const response = await fetch('data/processed/combined_results.json');
         const data = await response.json();
         
-        // Get 5 settled cases with known outcomes
-        const settledCases = data.predictions
-            .filter(p => p.success && p.ground_truth)
+        // Get 5 cases with ALL metrics populated (complete ground truth data)
+        const completeCases = data.predictions
+            .filter(p => {
+                if (!p.success || !p.ground_truth) return false;
+                const gt = p.ground_truth;
+                // Require all 5 metrics to have non-null values
+                return (
+                    gt.disgorgement_amount !== null && gt.disgorgement_amount !== undefined &&
+                    gt.penalty_amount !== null && gt.penalty_amount !== undefined &&
+                    gt.prejudgment_interest !== null && gt.prejudgment_interest !== undefined &&
+                    gt.has_injunction !== null && gt.has_injunction !== undefined &&
+                    gt.has_officer_director_bar !== null && gt.has_officer_director_bar !== undefined
+                );
+            })
             .slice(0, 5);
         
-        predictionCases = settledCases;
-        console.log(`Loaded ${predictionCases.length} cases for prediction`);
+        predictionCases = completeCases;
+        console.log(`Loaded ${predictionCases.length} complete cases for prediction`);
         
         return predictionCases;
     } catch (e) {
