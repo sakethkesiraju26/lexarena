@@ -314,48 +314,54 @@ function saveCurrent() {
 
 // Submit current prediction
 async function submitPrediction() {
+    console.log('Submit prediction clicked');
     saveCurrent();
     
     const caseData = predictionCases[currentCaseIndex];
     const prediction = userPredictions[caseData.case_id];
     
-    if (!prediction) return;
+    if (!prediction) {
+        console.warn('No prediction to submit');
+        return;
+    }
     
-    // Verify human with reCAPTCHA v3
+    // Verify human with reCAPTCHA v3 (non-blocking)
     let recaptchaToken = null;
     try {
-        if (typeof grecaptcha !== 'undefined') {
+        if (typeof grecaptcha !== 'undefined' && grecaptcha.execute) {
+            await new Promise((resolve) => grecaptcha.ready(resolve));
             recaptchaToken = await grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'submit_prediction' });
             prediction.recaptchaToken = recaptchaToken;
             console.log('reCAPTCHA token obtained');
         }
     } catch (e) {
-        console.warn('reCAPTCHA failed:', e);
+        console.warn('reCAPTCHA failed (continuing anyway):', e);
     }
     
     // Calculate accuracy for this prediction
     prediction.accuracy = calculateAccuracy(prediction, caseData.ground_truth);
     
-    // Save to Firebase if available
+    // Save to Firebase if available (don't block on failure)
     if (firebaseInitialized && db) {
-        try {
-            await db.collection('predictions').add({
-                ...prediction,
-                odId: userId,
-                caseId: caseData.case_id,
-                recaptchaToken: recaptchaToken,
-                isHumanVerified: recaptchaToken !== null
-            });
+        db.collection('predictions').add({
+            ...prediction,
+            odId: userId,
+            caseId: caseData.case_id,
+            recaptchaToken: recaptchaToken,
+            isHumanVerified: recaptchaToken !== null
+        }).then(() => {
             console.log('Prediction saved to Firebase');
-        } catch (e) {
+        }).catch(e => {
             console.warn('Failed to save to Firebase:', e);
-        }
+        });
     }
     
     // Save to localStorage as backup
     const localPredictions = JSON.parse(localStorage.getItem('lexarena_predictions') || '[]');
     localPredictions.push({ ...prediction, odId: userId, isHumanVerified: recaptchaToken !== null });
     localStorage.setItem('lexarena_predictions', JSON.stringify(localPredictions));
+    
+    console.log('Prediction submitted, moving to next case');
     
     // Move to next case
     nextCase();
