@@ -1090,6 +1090,70 @@
             overflow-y: auto;
         }
         
+        /* Structured Case Facts */
+        .case-facts {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px 24px;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .fact-row {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .fact-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .fact-value {
+            font-size: 14px;
+            color: #000;
+            line-height: 1.4;
+        }
+        
+        .allegations-summary {
+            margin-bottom: 24px;
+        }
+        
+        .allegations-summary h4 {
+            font-size: 13px;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        
+        .allegations-summary p {
+            color: #333;
+            font-size: 14px;
+            line-height: 1.65;
+            padding: 14px;
+            background: #fafafa;
+            border-radius: 8px;
+            border-left: 3px solid #0066ff;
+            max-height: 180px;
+            overflow-y: auto;
+        }
+        
+        @media (max-width: 600px) {
+            .case-facts {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+        }
+        
         .prediction-questions {
             display: flex;
             flex-direction: column;
@@ -1746,7 +1810,31 @@
                 
                 <div class="prediction-case">
                     <h2 id="case-title">Loading...</h2>
-                    <p id="case-synopsis" class="case-synopsis">Loading case details...</p>
+                    
+                    <!-- Structured Case Facts (No Outcome Info) -->
+                    <div class="case-facts">
+                        <div class="fact-row">
+                            <span class="fact-label">Defendant:</span>
+                            <span class="fact-value" id="fact-defendant">—</span>
+                        </div>
+                        <div class="fact-row">
+                            <span class="fact-label">Charges:</span>
+                            <span class="fact-value" id="fact-charges">—</span>
+                        </div>
+                        <div class="fact-row">
+                            <span class="fact-label">Court:</span>
+                            <span class="fact-value" id="fact-court">—</span>
+                        </div>
+                        <div class="fact-row">
+                            <span class="fact-label">Filed:</span>
+                            <span class="fact-value" id="fact-filed">—</span>
+                        </div>
+                    </div>
+                    
+                    <div class="allegations-summary">
+                        <h4>Allegations</h4>
+                        <p id="allegations-text">Loading...</p>
+                    </div>
                     
                     <div class="prediction-questions">
                         <div class="prediction-question">

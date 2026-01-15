@@ -38,6 +38,42 @@ let currentCaseIndex = 0;
 let userPredictions = {};
 let userId = localStorage.getItem('lexarena_user_id');
 
+// Truncate synopsis before outcome-revealing phrases
+function truncateBeforeOutcome(synopsis) {
+    if (!synopsis) return 'No details available.';
+    
+    const outcomeIndicators = [
+        "without admitting or denying",
+        "consented to",
+        "agreed to pay",
+        "final judgment",
+        "ordered to pay",
+        "the court ordered",
+        "has agreed",
+        "will pay",
+        "was ordered",
+        "the sec obtained",
+        "defendant agreed",
+        "defendants agreed",
+        "judgment was entered"
+    ];
+    
+    const lowerSynopsis = synopsis.toLowerCase();
+    let earliestIndex = synopsis.length;
+    
+    for (const indicator of outcomeIndicators) {
+        const index = lowerSynopsis.indexOf(indicator);
+        if (index > 150 && index < earliestIndex) {
+            earliestIndex = index;
+        }
+    }
+    
+    if (earliestIndex < synopsis.length) {
+        return synopsis.substring(0, earliestIndex).trim() + '...';
+    }
+    return synopsis;
+}
+
 // Generate anonymous user ID if not exists
 if (!userId) {
     userId = 'user_' + Math.random().toString(36).substr(2, 9);
@@ -121,12 +157,19 @@ function renderCurrentCase() {
     if (!caseData) return;
     
     const meta = caseData.metadata || {};
-    const synopsis = meta.reducto_fields?.case_synopsis || meta.summary || 'No synopsis available.';
+    const rawSynopsis = meta.reducto_fields?.case_synopsis || meta.summary || '';
+    const blindSynopsis = truncateBeforeOutcome(rawSynopsis);
     
     document.getElementById('current-case-num').textContent = currentCaseIndex + 1;
     document.getElementById('total-cases').textContent = predictionCases.length;
     document.getElementById('case-title').textContent = `SEC v. ${meta.title || caseData.case_id}`;
-    document.getElementById('case-synopsis').textContent = synopsis;
+    
+    // Populate structured case facts
+    document.getElementById('fact-defendant').textContent = meta.title || caseData.case_id;
+    document.getElementById('fact-charges').textContent = meta.charges || 'Securities violations';
+    document.getElementById('fact-court').textContent = meta.court || 'Federal Court';
+    document.getElementById('fact-filed').textContent = meta.release_date || 'Unknown';
+    document.getElementById('allegations-text').textContent = blindSynopsis;
     
     // Reset inputs
     document.getElementById('resolution-slider').value = 50;
