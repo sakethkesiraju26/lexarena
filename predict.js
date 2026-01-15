@@ -5,6 +5,9 @@
  * Uses Firebase Firestore for storing community predictions.
  */
 
+// reCAPTCHA v3 Site Key
+const RECAPTCHA_SITE_KEY = '6LedAUwsAAAAANi0RBfXLM074heqcW6wK57g6wBP';
+
 // Firebase Configuration - Replace with your own Firebase project credentials
 const firebaseConfig = {
     apiKey: "YOUR_API_KEY",
@@ -310,6 +313,18 @@ async function submitPrediction() {
     
     if (!prediction) return;
     
+    // Verify human with reCAPTCHA v3
+    let recaptchaToken = null;
+    try {
+        if (typeof grecaptcha !== 'undefined') {
+            recaptchaToken = await grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'submit_prediction' });
+            prediction.recaptchaToken = recaptchaToken;
+            console.log('reCAPTCHA token obtained');
+        }
+    } catch (e) {
+        console.warn('reCAPTCHA failed:', e);
+    }
+    
     // Calculate accuracy for this prediction
     prediction.accuracy = calculateAccuracy(prediction, caseData.ground_truth);
     
@@ -319,7 +334,9 @@ async function submitPrediction() {
             await db.collection('predictions').add({
                 ...prediction,
                 odId: userId,
-                caseId: caseData.case_id
+                caseId: caseData.case_id,
+                recaptchaToken: recaptchaToken,
+                isHumanVerified: recaptchaToken !== null
             });
             console.log('Prediction saved to Firebase');
         } catch (e) {
@@ -329,7 +346,7 @@ async function submitPrediction() {
     
     // Save to localStorage as backup
     const localPredictions = JSON.parse(localStorage.getItem('lexarena_predictions') || '[]');
-    localPredictions.push({ ...prediction, odId: userId });
+    localPredictions.push({ ...prediction, odId: userId, isHumanVerified: recaptchaToken !== null });
     localStorage.setItem('lexarena_predictions', JSON.stringify(localPredictions));
     
     // Move to next case
