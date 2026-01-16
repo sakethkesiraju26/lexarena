@@ -351,8 +351,8 @@
         /* Leaderboard */
         .leaderboard {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
             margin-bottom: 20px;
         }
 
@@ -595,9 +595,16 @@
             letter-spacing: 0;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
+            .leaderboard {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 600px) {
             .leaderboard {
                 grid-template-columns: 1fr;
+                gap: 12px;
             }
         }
 
@@ -873,17 +880,17 @@
             }
             
             /* Leaderboard cards */
-            .leaderboard {
-                gap: 16px;
-            }
             .leaderboard-card {
-                padding: 24px 20px;
+                padding: 20px 16px;
             }
             .card-overall-value {
-                font-size: 28px;
+                font-size: 26px;
             }
             .card-metric-value {
-                font-size: 18px;
+                font-size: 16px;
+            }
+            .card-model-name {
+                font-size: 16px;
             }
             
             /* Cases preview */
@@ -940,9 +947,11 @@
             .container { padding: 0 16px; }
             .nav-inner { padding: 0 16px; }
             .methodology { padding: 24px 16px; }
-            .leaderboard-card { padding: 20px 16px; }
-            .card-overall-value { font-size: 24px; }
-            .card-metric-value { font-size: 16px; }
+            .leaderboard-card { padding: 16px 14px; }
+            .card-overall-value { font-size: 22px; }
+            .card-metric-value { font-size: 14px; }
+            .card-model-name { font-size: 15px; }
+            .card-metrics { gap: 8px; }
             section { padding: 40px 0; }
         }
     
