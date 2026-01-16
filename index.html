@@ -1228,11 +1228,39 @@
             font-weight: 600;
             transition: all 0.2s;
             vertical-align: middle;
+            position: relative;
         }
         
         .tooltip-icon:hover {
             background: #0066ff;
             color: #fff;
+        }
+        
+        .tooltip-icon::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 400;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            z-index: 1000;
+            margin-bottom: 6px;
+            max-width: 200px;
+            white-space: normal;
+            text-align: center;
+        }
+        
+        .tooltip-icon:hover::after {
+            opacity: 1;
         }
         
         .slider-container {
@@ -1269,6 +1297,7 @@
             font-weight: 500;
             width: 150px;
             outline: none;
+            color: #000;
         }
         
         .money-input::placeholder {
@@ -2037,7 +2066,7 @@
                     
                     <div class="prediction-questions">
                         <div class="prediction-question">
-                            <label><strong>Disgorgement</strong> <span class="tooltip-icon" title="Amount defendant must return in ill-gotten gains ($)">?</span></label>
+                            <label><strong>Disgorgement</strong> <span class="tooltip-icon" data-tooltip="Amount defendant must return in ill-gotten gains ($)">?</span></label>
                             <div class="money-input-container">
                                 <span class="money-prefix">$</span>
                                 <input type="number" id="disgorgement-input" placeholder="0" min="0" step="1000" class="money-input">
@@ -2046,7 +2075,7 @@
                     
                         <div class="prediction-row">
                             <div class="prediction-question half">
-                                <label><strong>Injunction</strong>? <span class="tooltip-icon" title="A court order barring the defendant from future violations">?</span></label>
+                                <label><strong>Injunction</strong>? <span class="tooltip-icon" data-tooltip="Court order barring future violations">?</span></label>
                                 <div class="slider-container">
                                     <span class="slider-label">No</span>
                                     <input type="range" id="injunction-slider" min="0" max="100" value="50" class="prediction-slider">
@@ -2054,7 +2083,7 @@
                                 </div>
                             </div>
                             <div class="prediction-question half">
-                                <label><strong>Officer Bar</strong>? <span class="tooltip-icon" title="A ban from serving as officer or director of any public company">?</span></label>
+                                <label><strong>Officer Bar</strong>? <span class="tooltip-icon" data-tooltip="Ban from serving as officer/director">?</span></label>
                                 <div class="slider-container">
                                     <span class="slider-label">No</span>
                                     <input type="range" id="officer-bar-slider" min="0" max="100" value="50" class="prediction-slider">
