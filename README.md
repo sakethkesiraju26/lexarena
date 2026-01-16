@@ -2,7 +2,7 @@
 
 **A live benchmark for evaluating AI models on SEC enforcement case predictions.**
 
-LexArena tests whether AI systems can correctly predict real SEC enforcement outcomes before they happen. Models are given complaint text and must forecast resolution type, monetary penalties, and remedial measures.
+LexArena tests whether AI systems can correctly predict real SEC enforcement outcomes. Models are given complaint text and must forecast disgorgement amounts, injunctions, officer bars, and other remedial measures.
 
 ## 🎯 Overview
 
@@ -12,15 +12,19 @@ Legal prediction is a challenging domain requiring both factual extraction and p
 - **Blind evaluation** — Models see only the original complaint, never the outcome
 - **Standardized metrics** — 6 prediction targets with consistent scoring
 - **Open leaderboard** — Compare models on the same benchmark
+- **Human vs AI Challenge** — Test your own prediction skills against frontier models
 - **API access** — Programmatic access to all cases via REST API
 
 ## 📊 Current Results
 
-| Model | Overall | Resolution | Monetary | Injunction | Officer Bar |
-|-------|---------|------------|----------|------------|-------------|
-| GPT-4o | **64.9%** | 38.6% | 53.0% | 78.8% | 89.2% |
-| Gemini 3 Flash | **62.8%** | 38.9% | 46.9% | 79.6% | 85.7% |
-| Claude Opus 4 | **46.8%** | 32.4% | 41.2% | 68.4% | 75.6% |
+| Rank | Model | Overall | Disgorgement | Penalty | Injunction | Officer Bar |
+|------|-------|---------|--------------|---------|------------|-------------|
+| 🥇 | **GPT-5.2** | **66.4%** | 57.6% | 59.5% | 79.6% | 92.8% |
+| 🥈 | GPT-4o | 64.9% | 53.0% | 52.1% | 78.8% | 89.2% |
+| 🥉 | Gemini 2.5 Flash | 62.8% | 46.9% | 48.2% | 79.6% | 85.7% |
+| 4 | Claude Opus 4 | 46.8% | 41.2% | 39.8% | 68.4% | 75.6% |
+
+*Results based on 500 SEC enforcement cases evaluated January 2026.*
 
 ## 🔮 Prediction Metrics
 
@@ -28,12 +32,12 @@ Models predict 6 outcome metrics for each case:
 
 | Metric | Description | Scoring |
 |--------|-------------|---------|
-| **Resolution Type** | Settled vs. litigated | Exact match |
-| **Disgorgement** | Amount of ill-gotten gains returned | ±10% tolerance |
-| **Civil Penalty** | Fine amount imposed | ±10% tolerance |
-| **Prejudgment Interest** | Interest on disgorgement | ±10% tolerance |
-| **Injunction** | Court order preventing future violations | Exact match |
-| **Officer/Director Bar** | Ban from serving as company officer | Exact match |
+| **Disgorgement** | Amount of ill-gotten gains defendant must return | ±10% tolerance |
+| **Civil Penalty** | Fine amount imposed by the SEC | ±10% tolerance |
+| **Prejudgment Interest** | Interest accrued on disgorgement | ±10% tolerance |
+| **Injunction** | Court order barring future securities violations | Exact match |
+| **Officer/Director Bar** | Ban from serving as executive of any public company | Exact match |
+| **Resolution Type** | Whether case was settled or litigated | Exact match |
 
 ## 🏗️ How It Works
 
@@ -166,13 +170,24 @@ See `api_example.py` for more detailed examples.
 python generate_viewer.py
 ```
 
+## 🧠 Human vs AI Challenge
+
+Test your legal prediction skills against frontier AI models:
+
+1. **Read real SEC cases** — See the allegations and charges before the outcome is known
+2. **Make predictions** — Estimate disgorgement amount, injunction likelihood, and officer bar
+3. **Compare results** — See how your accuracy stacks up against GPT-5.2, Claude, and community averages
+
+The challenge uses resolved cases to provide immediate feedback while simulating the blind prediction experience.
+
 ## 🌐 Website Features
 
 The LexArena website includes:
 
-- **Interactive Leaderboard** — Real-time model rankings with detailed tooltips
+- **Interactive Leaderboard** — Real-time model rankings with detailed metrics
+- **Human Prediction Challenge** — Make your own predictions on 5 real cases
 - **Case Browser** — Search and filter 500+ evaluated cases with:
-  - Side-by-side comparison of GPT, Claude, and Gemini predictions
+  - Side-by-side comparison of GPT-5.2, GPT-4o, Claude, and Gemini predictions
   - Ground Truth displayed first for easy comparison
   - Expandable case details with synopsis and source links
   - Model-specific accuracy metrics
@@ -180,7 +195,7 @@ The LexArena website includes:
   - Evaluation methodology and metrics
   - Complete API documentation with examples
   - Quick start guide for developers
-- **Consistent Design** — Modern, clean UI with responsive navigation
+- **Mobile Responsive** — Full functionality on all device sizes
 
 ## 📁 Project Structure
 
@@ -198,11 +213,12 @@ newlex/
 ├── sec-cases.json          # Filtered cases with complaints (4,155 cases)
 ├── data/
 │   └── processed/
-│       ├── evaluation_results_openai.json
-│       ├── evaluation_results_anthropic.json
-│       ├── evaluation_results_google.json
-│       ├── combined_results.json
-│       └── evaluation_dataset.json
+│       ├── evaluation_results_openai.json      # GPT-4o results
+│       ├── evaluation_results_gpt52.json       # GPT-5.2 results (latest)
+│       ├── evaluation_results_anthropic.json   # Claude Opus 4 results
+│       ├── evaluation_results_google.json      # Gemini 2.5 Flash results
+│       ├── combined_results.json               # All models combined
+│       └── evaluation_dataset.json             # 500 evaluation cases
 └── src/
     ├── evaluation/
     │   ├── llm_prompt_formatter.py
@@ -274,7 +290,7 @@ For adding a new model:
 
 ### Pre-Open Source Security Checklist
 
-Security audit completed (January 2025):
+Security audit completed (January 2026):
 
 - [x] **Audited Git History**: Scanned for accidentally committed secrets using tools like `git-secrets`, `truffleHog`, or `gitleaks`
 - [x] **Verified .gitignore Coverage**: Confirmed all sensitive files and patterns are excluded
@@ -347,7 +363,7 @@ If secrets are found in history, you have two options:
 
 ### Dependency Security
 
-**Last audit**: January 2025
+**Last audit**: January 2026
 
 Regularly audit dependencies for known vulnerabilities:
 
