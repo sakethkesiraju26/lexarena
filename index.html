@@ -1126,6 +1126,29 @@
             font-style: italic;
         }
         
+        .alleged-amount-box {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 6px;
+            padding: 8px 12px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .alleged-label {
+            font-size: 12px;
+            color: #856404;
+            font-weight: 500;
+        }
+        
+        .alleged-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: #856404;
+        }
+        
         .allegations-compact {
             font-size: 11px;
             line-height: 1.35;
@@ -2060,6 +2083,10 @@
                     <h2 id="case-title">Loading...</h2>
                     
                     <p class="case-charges" id="fact-charges">—</p>
+                    <div class="alleged-amount-box">
+                        <span class="alleged-label">Alleged Amount:</span>
+                        <span class="alleged-value" id="fact-alleged-amount">—</span>
+                    </div>
                     <p class="allegations-compact" id="allegations-text">Loading...</p>
                     <span id="fact-court" style="display:none;"></span>
                     <span id="fact-defendant" style="display:none;"></span>

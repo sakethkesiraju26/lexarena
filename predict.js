@@ -42,6 +42,29 @@ let currentCaseIndex = 0;
 let userPredictions = {};
 let userId = localStorage.getItem('lexarena_user_id');
 
+// Extract dollar amounts from synopsis
+function extractAllegedAmount(synopsis) {
+    if (!synopsis) return null;
+    
+    // Match patterns like "$373,885", "$1.5 million", "$2.3 billion"
+    const patterns = [
+        /\$[\d,]+(?:\.\d+)?\s*(?:million|billion)/gi,
+        /\$[\d,]+(?:\.\d+)?/g,
+        /approximately\s+\$[\d,]+(?:\.\d+)?/gi,
+        /more than\s+\$[\d,]+(?:\.\d+)?/gi,
+        /at least\s+\$[\d,]+(?:\.\d+)?/gi
+    ];
+    
+    for (const pattern of patterns) {
+        const matches = synopsis.match(pattern);
+        if (matches && matches.length > 0) {
+            // Return the first significant amount found
+            return matches[0];
+        }
+    }
+    return null;
+}
+
 // Truncate synopsis before outcome-revealing phrases
 function truncateBeforeOutcome(synopsis) {
     if (!synopsis) return 'No details available.';
@@ -59,7 +82,8 @@ function truncateBeforeOutcome(synopsis) {
         "the sec obtained",
         "defendant agreed",
         "defendants agreed",
-        "judgment was entered"
+        "judgment was entered",
+        "the sec charged"
     ];
     
     const lowerSynopsis = synopsis.toLowerCase();
@@ -72,8 +96,8 @@ function truncateBeforeOutcome(synopsis) {
         }
     }
     
-    // Truncate to max 400 chars for conciseness
-    let truncated = synopsis.substring(0, Math.min(earliestIndex, 400)).trim();
+    // Truncate to max 600 chars to include more context
+    let truncated = synopsis.substring(0, Math.min(earliestIndex, 600)).trim();
     
     // End at sentence boundary if possible
     const lastPeriod = truncated.lastIndexOf('.');
@@ -189,6 +213,7 @@ function renderCurrentCase() {
     const meta = caseData.metadata || {};
     const rawSynopsis = meta.reducto_fields?.case_synopsis || meta.summary || '';
     const blindSynopsis = truncateBeforeOutcome(rawSynopsis);
+    const allegedAmount = extractAllegedAmount(rawSynopsis);
     
     document.getElementById('current-case-num').textContent = currentCaseIndex + 1;
     document.getElementById('total-cases').textContent = predictionCases.length;
@@ -199,6 +224,18 @@ function renderCurrentCase() {
     document.getElementById('fact-charges').textContent = meta.charges || 'Securities violations';
     document.getElementById('fact-court').textContent = meta.court || 'Federal Court';
     document.getElementById('fact-filed').textContent = meta.release_date || 'Unknown';
+    
+    // Show alleged amount if found
+    const allegedAmountEl = document.getElementById('fact-alleged-amount');
+    if (allegedAmountEl) {
+        if (allegedAmount) {
+            allegedAmountEl.textContent = allegedAmount;
+            allegedAmountEl.parentElement.style.display = 'block';
+        } else {
+            allegedAmountEl.parentElement.style.display = 'none';
+        }
+    }
+    
     document.getElementById('allegations-text').textContent = blindSynopsis;
     
     // Reset inputs
