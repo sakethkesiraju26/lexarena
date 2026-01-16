@@ -1803,13 +1803,33 @@
         
         @media (max-width: 768px) {
             .prediction-modal-content {
-                padding: 20px;
+                padding: 16px;
                 margin: 10px;
+                max-width: calc(100vw - 20px);
+                overflow-x: hidden;
             }
             
             .prediction-header {
                 flex-direction: column;
                 gap: 12px;
+            }
+            
+            .prediction-row {
+                flex-direction: column;
+                gap: 16px;
+            }
+            
+            .prediction-question.half {
+                width: 100%;
+            }
+            
+            .slider-container {
+                gap: 8px;
+            }
+            
+            .prediction-slider {
+                width: 100%;
+                min-width: 0;
             }
             
             .results-comparison {
