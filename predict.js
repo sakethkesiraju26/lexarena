@@ -65,6 +65,68 @@ function extractAllegedAmount(synopsis) {
     return null;
 }
 
+// Convert synopsis to bullet points
+function synopsisToBullets(synopsis) {
+    if (!synopsis) return '<ul><li>No details available</li></ul>';
+    
+    // Split into sentences
+    const sentences = synopsis.split(/(?<=[.!?])\s+/).filter(s => s.length > 20);
+    
+    // Extract key facts (limit to 3-4 bullets)
+    const bullets = [];
+    
+    // Look for defendant info
+    const defendantMatch = synopsis.match(/against\s+([^,]+),?\s*(?:a\s+)?([^.]+)/i);
+    if (defendantMatch) {
+        bullets.push(`<strong>Defendant:</strong> ${defendantMatch[1].trim()}`);
+    }
+    
+    // Look for scheme/violation type
+    const schemePatterns = [
+        /(?:involvement in|engaged in|perpetrated|operated)\s+(?:a\s+)?([^.]+(?:scheme|fraud|manipulation|practice)[^.]*)/i,
+        /(?:for|charged with)\s+([^.]*(?:fraud|violation|scheme|manipulation)[^.]*)/i
+    ];
+    for (const pattern of schemePatterns) {
+        const match = synopsis.match(pattern);
+        if (match) {
+            bullets.push(`<strong>Scheme:</strong> ${match[1].trim()}`);
+            break;
+        }
+    }
+    
+    // Look for amount/profits
+    const amountMatch = synopsis.match(/(?:generating|raised|obtained|stole|defrauded|misappropriated)[^.]*(\$[\d,]+(?:\.\d+)?(?:\s*(?:million|billion))?)[^.]*/i);
+    if (amountMatch) {
+        bullets.push(`<strong>Amount:</strong> ${amountMatch[0].trim()}`);
+    }
+    
+    // Look for method/how
+    const methodMatch = synopsis.match(/(?:by|through|using|via)\s+([^.]+(?:placing|creating|making|issuing|selling)[^.]*)/i);
+    if (methodMatch && bullets.length < 4) {
+        bullets.push(`<strong>Method:</strong> ${methodMatch[1].trim()}`);
+    }
+    
+    // If we don't have enough bullets, add first 2 sentences
+    if (bullets.length < 2 && sentences.length > 0) {
+        bullets.length = 0; // Reset
+        for (let i = 0; i < Math.min(3, sentences.length); i++) {
+            const sentence = sentences[i].trim();
+            if (sentence.length > 30 && sentence.length < 200) {
+                bullets.push(sentence);
+            }
+        }
+    }
+    
+    // Cap at 4 bullets
+    const finalBullets = bullets.slice(0, 4);
+    
+    if (finalBullets.length === 0) {
+        return `<ul><li>${synopsis.substring(0, 200)}...</li></ul>`;
+    }
+    
+    return '<ul>' + finalBullets.map(b => `<li>${b}</li>`).join('') + '</ul>';
+}
+
 // Truncate synopsis before outcome-revealing phrases
 function truncateBeforeOutcome(synopsis) {
     if (!synopsis) return 'No details available.';
@@ -236,7 +298,7 @@ function renderCurrentCase() {
         }
     }
     
-    document.getElementById('allegations-text').textContent = blindSynopsis;
+    document.getElementById('allegations-text').innerHTML = synopsisToBullets(rawSynopsis);
     
     // Reset inputs
     document.getElementById('disgorgement-input').value = '';
