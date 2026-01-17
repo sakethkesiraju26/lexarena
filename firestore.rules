@@ -1,0 +1,23 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Predictions collection
+    match /predictions/{predictionId} {
+      // Anyone can create a prediction (with validation)
+      allow create: if request.resource.data.keys().hasAll(['caseId', 'timestamp'])
+                    && request.resource.data.caseId is string
+                    && request.resource.data.timestamp is string;
+      
+      // No updates or deletes allowed
+      allow update, delete: if false;
+      
+      // Anyone can read (for community stats)
+      allow read: if true;
+    }
+    
+    // Block all other collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
